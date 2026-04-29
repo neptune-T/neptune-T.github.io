@@ -1,8 +1,8 @@
 ---
-title: ''
+title: 'From RNN to Mamba: The Mathematical Evolution of Sequence Modeling'
 date: '2026-04'
-summary: ''
-tags: ['']
+summary: 'A mathematical walkthrough of sequence modeling, tracing the evolution from recurrent neural networks and LSTM gating mechanisms to self-attention, FlashAttention, KV-cache optimization, RoPE, state space models, Mamba, RWKV, and hybrid long-context architectures.'
+tags: ['sequence-modeling', 'attention']
 ---
 
 
