@@ -21,43 +21,39 @@ const Header: React.FC<HeaderProps> = ({ isDarkMode: isDarkModeProp, setIsDarkMo
 
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  // 定义仅用于 Header 的样式逻辑
+  // Keep the fixed header compact so it does not compete with the hero.
   const glassNavClass = isDarkMode 
-    ? 'bg-black/70 border-white/5 text-white shadow-lg shadow-black/20' 
-    : 'bg-warm-surface/80 border-black/5 text-warm-ink shadow-sm';
+    ? 'bg-[#0b0b0a]/72 border-white/[0.08] text-[#f5f0e8]'
+    : 'bg-warm-surface/72 border-white/70 text-warm-ink';
+  const navLinkStyle = { color: isDarkMode ? '#f5f0e8' : '#242321' };
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 px-6 md:px-12 py-4 transition-all duration-500 border-b backdrop-blur-xl ${glassNavClass}`}>
-      <div className="flex justify-between items-center">
+    <nav className={`fixed top-0 left-0 right-0 z-50 px-4 sm:px-6 lg:px-10 py-2.5 transition-colors duration-500 border-b backdrop-blur-2xl backdrop-saturate-150 ${glassNavClass}`}>
+      <div className="mx-auto flex max-w-[1440px] items-center justify-between">
       {/* Logo */}
-      <Link href="/" className="font-bold text-lg tracking-tight flex items-center gap-2 text-current no-underline">
+      <Link href="/" className="flex items-center gap-2 text-[15px] md:text-base font-bold no-underline" style={navLinkStyle}>
         Plote Motion Field
       </Link>
 
       {/* Navigation Links */}
-      <div className="flex items-center gap-3 md:gap-6 text-sm font-medium">
-         {/* 修改点：
-            在 className 中添加了 'text-current no-underline'
-            text-current: 强制继承父级颜色（即跟随 Header 的黑/白模式）
-            no-underline: 防止出现默认下划线
-         */}
-         <Link href="/" className="hidden md:inline cursor-pointer hover:opacity-70 transition-all text-current no-underline">
+      <div className="flex items-center gap-2.5 md:gap-5 text-[13px] font-medium">
+         <Link href="/" className="hidden md:inline cursor-pointer hover:opacity-60 transition-opacity no-underline" style={navLinkStyle}>
             Home
          </Link>
-         <Link href="/notes" className="hidden md:inline cursor-pointer hover:opacity-70 transition-all text-current no-underline">
+         <Link href="/notes" className="hidden md:inline cursor-pointer hover:opacity-60 transition-opacity no-underline" style={navLinkStyle}>
             Notes
          </Link>
-         <Link href="/papers" className="hidden md:inline cursor-pointer hover:opacity-70 transition-all text-current no-underline">
+         <Link href="/papers" className="hidden md:inline cursor-pointer hover:opacity-60 transition-opacity no-underline" style={navLinkStyle}>
             Papers
          </Link>
-         <Link href="/about" className="hidden md:inline cursor-pointer hover:opacity-70 transition-all text-current no-underline">
+         <Link href="/about" className="hidden md:inline cursor-pointer hover:opacity-60 transition-opacity no-underline" style={navLinkStyle}>
             About
          </Link>
          
          {/* Theme Toggle Button */}
          <button 
            onClick={onToggleTheme}
-           className="p-2 rounded-full border border-current hover:opacity-60 transition-all active:scale-95 text-current"
+           className="flex h-9 w-9 items-center justify-center rounded-full border border-current/20 hover:bg-current/5 transition-colors active:scale-95 text-current"
            aria-label="Toggle Dark Mode"
          >
            {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
@@ -66,7 +62,7 @@ const Header: React.FC<HeaderProps> = ({ isDarkMode: isDarkModeProp, setIsDarkMo
          {/* Mobile Menu Button */}
          <button
            onClick={() => setMobileOpen((v) => !v)}
-           className="md:hidden p-2 rounded-full border border-current hover:opacity-60 transition-all active:scale-95 text-current"
+           className="md:hidden flex h-9 w-9 items-center justify-center rounded-full border border-current/20 hover:bg-current/5 transition-colors active:scale-95 text-current"
            aria-label="Toggle Navigation Menu"
          >
            {mobileOpen ? <X size={18} /> : <Menu size={18} />}
@@ -76,32 +72,36 @@ const Header: React.FC<HeaderProps> = ({ isDarkMode: isDarkModeProp, setIsDarkMo
 
       {/* Mobile dropdown */}
       {mobileOpen && (
-        <div className="md:hidden mt-4 rounded-2xl border border-current/10 overflow-hidden">
-          <div className={`flex flex-col ${isDarkMode ? 'bg-black/60' : 'bg-warm-surface/90'} backdrop-blur-xl`}>
+        <div className="md:hidden mt-2.5 rounded-2xl border border-current/10 overflow-hidden">
+          <div className={`flex flex-col ${isDarkMode ? 'bg-black/65' : 'bg-warm-surface/78'} backdrop-blur-2xl backdrop-saturate-150`}>
             <Link
               href="/"
-              className="px-4 py-3 text-current hover:opacity-80 transition-all"
+              className="px-4 py-3 hover:bg-current/5 transition-colors"
+              style={navLinkStyle}
               onClick={() => setMobileOpen(false)}
             >
               Home
             </Link>
             <Link
               href="/notes"
-              className="px-4 py-3 text-current hover:opacity-80 transition-all"
+              className="px-4 py-3 hover:bg-current/5 transition-colors"
+              style={navLinkStyle}
               onClick={() => setMobileOpen(false)}
             >
               Notes
             </Link>
             <Link
               href="/papers"
-              className="px-4 py-3 text-current hover:opacity-80 transition-all"
+              className="px-4 py-3 hover:bg-current/5 transition-colors"
+              style={navLinkStyle}
               onClick={() => setMobileOpen(false)}
             >
               Papers
             </Link>
             <Link
               href="/about"
-              className="px-4 py-3 text-current hover:opacity-80 transition-all"
+              className="px-4 py-3 hover:bg-current/5 transition-colors"
+              style={navLinkStyle}
               onClick={() => setMobileOpen(false)}
             >
               About

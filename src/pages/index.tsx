@@ -53,13 +53,13 @@ export default function HomePage() {
 
     // --- 大卡片样式 (Academic Profile) ---
     academicProfileCard: isDarkMode
-      ? 'bg-[#1a1a1a]/80 backdrop-blur-md border border-white/5 shadow-2xl rounded-3xl p-10 md:p-16'
-      : 'bg-warm-surface/90 backdrop-blur-md border border-black/5 shadow-xl rounded-3xl p-10 md:p-16',
+      ? 'bg-[#1a1a18]/68 backdrop-blur-2xl backdrop-saturate-150 border border-white/10 ring-1 ring-white/[0.03] rounded-3xl p-10 md:p-16'
+      : 'bg-warm-surface/60 backdrop-blur-2xl backdrop-saturate-150 border border-white/70 ring-1 ring-black/[0.04] rounded-3xl p-10 md:p-16',
 
     // --- Footer ---
     newFooterContainer: isDarkMode
-      ? 'bg-[#1a1a1a]/80 backdrop-blur-md border border-white/5 shadow-lg text-gray-200 rounded-3xl p-8 md:p-10'
-      : 'bg-warm-surface/90 backdrop-blur-md border border-black/5 shadow-lg text-warm-ink rounded-3xl p-8 md:p-10',
+      ? 'bg-[#1a1a18]/68 backdrop-blur-2xl backdrop-saturate-150 border border-white/10 text-gray-200 rounded-3xl p-8 md:p-10'
+      : 'bg-warm-surface/60 backdrop-blur-2xl backdrop-saturate-150 border border-white/70 text-warm-ink rounded-3xl p-8 md:p-10',
     footerDivider: isDarkMode ? 'bg-white/10' : 'bg-black/10',
     footerIcon: isDarkMode ? 'hover:text-white text-gray-400' : 'hover:text-black text-gray-500',
 
@@ -70,8 +70,8 @@ export default function HomePage() {
     
     // --- 学术专栏 (Columns) 样式 ---
     glassCard: isDarkMode 
-      ? 'bg-[#1a1a1a]/80 backdrop-blur-md border border-white/5 hover:bg-[#222] transition-all duration-300 shadow-lg' 
-      : 'bg-warm-surface/90 backdrop-blur-md border border-black/5 hover:bg-warm-surface shadow-md',
+      ? 'bg-[#1a1a18]/64 backdrop-blur-xl backdrop-saturate-150 border border-white/[0.08] hover:bg-[#22221f]/78 transition-colors duration-300'
+      : 'bg-warm-surface/55 backdrop-blur-xl backdrop-saturate-150 border border-white/70 hover:bg-warm-surface/80 transition-colors duration-300',
     
     columnText: isDarkMode ? 'text-gray-400' : 'text-gray-600',
     columnTitle: isDarkMode ? 'text-gray-100' : 'text-gray-900',
@@ -118,16 +118,15 @@ export default function HomePage() {
       {/* HEADER */}
       <Header />
 
-      {/* HERO SECTION (保持不变) */}
-      <section className="relative w-full min-h-screen flex flex-col justify-center p-6 md:p-12">
-        {/* -mt-16 md:-mt-24 保持视觉重心上提 */}
-        <div className="max-w-6xl w-full mx-auto flex flex-col md:flex-row items-center justify-between gap-12 -mt-16 md:-mt-24">
-          <div className="w-full md:w-5/12 flex flex-col space-y-8 z-10 text-left">
+      {/* HERO SECTION */}
+      <section className="relative flex min-h-[100svh] w-full flex-col justify-center px-6 pb-12 pt-24 md:px-10 md:pb-16 md:pt-24 lg:px-12">
+        <div className="mx-auto flex w-full max-w-6xl flex-col items-center justify-between gap-10 md:flex-row lg:gap-14">
+          <div className="z-10 flex w-full flex-col space-y-6 text-left md:w-[43%]">
             <div>
-              <h1 className={`text-5xl md:text-7xl font-bold tracking-tighter mb-6 leading-[1.1] transition-colors duration-500 ${theme.heroTitle}`}>
+              <h1 className={`mb-5 text-5xl font-bold leading-[1.05] tracking-normal transition-colors duration-500 md:text-6xl lg:text-[64px] ${theme.heroTitle}`}>
                 Tianshan Zhang 
               </h1>
-              <p className={`text-xl font-light mb-4 tracking-wide transition-colors duration-500 ${theme.heroSubtitle}`}>
+              <p className={`mb-3 text-lg font-light tracking-normal transition-colors duration-500 md:text-xl ${theme.heroSubtitle}`}>
               B.S. Candidate
               </p>
               <p className={`text-sm md:text-base leading-relaxed max-w-md transition-colors duration-500 ${theme.heroBody}`}>
@@ -136,15 +135,15 @@ export default function HomePage() {
                 A view of computer graphics, expressed through {isDarkMode ? 'physical simulation' : 'generative imaging'}.
               </p>
             </div>
-            <div className="flex flex-wrap gap-4 pt-4">
-              <Link href="/notes" className={`px-8 py-3 rounded-lg text-sm font-bold tracking-wide transition-all flex items-center gap-2 border ${theme.buttonPrimary}`}>
+            <div className="flex flex-wrap gap-3 pt-2">
+              <Link href="/notes" className={`flex items-center gap-2 rounded-lg border px-6 py-2.5 text-sm font-bold tracking-normal transition-all ${theme.buttonPrimary}`}>
                 Explore Notes <ArrowRight size={16} />
               </Link>
-              <Link href="/papers" className={`px-8 py-3 rounded-lg border text-sm font-bold tracking-wide transition-all ${theme.buttonOutline}`}>
+              <Link href="/papers" className={`rounded-lg border px-6 py-2.5 text-sm font-bold tracking-normal transition-all ${theme.buttonOutline}`}>
                 View Papers
               </Link>
             </div>
-              <div className={`grid grid-cols-3 gap-4 pt-8 border-t transition-colors duration-500 ${theme.statsBorder}`}>
+              <div className={`grid grid-cols-3 gap-4 border-t pt-6 transition-colors duration-500 ${theme.statsBorder}`}>
                 <div>
                   <p className={`text-[10px] uppercase tracking-widest mb-1 ${theme.statsLabel}`}>FIELD</p>
                   <p className={`text-lg font-bold ${theme.statsValue}`}>CS & AI</p>
@@ -159,8 +158,8 @@ export default function HomePage() {
                 </div>
             </div>
           </div>
-          <div className="w-full md:w-6/12 flex justify-center md:justify-end">
-            <div className={`relative w-full aspect-square md:max-w-[550px] rounded-[24px] overflow-hidden transition-all duration-700 border ${theme.cardBorder} ${isDarkMode ? 'bg-[#11110f]' : 'bg-warm-canvas'}`}>
+          <div className="flex w-full justify-center md:w-[52%] md:justify-end">
+            <div className={`relative aspect-square w-full overflow-hidden rounded-[24px] border transition-all duration-700 md:max-w-[500px] ${theme.cardBorder} ${isDarkMode ? 'bg-[#11110f]' : 'bg-warm-canvas'}`}>
               <div className={`absolute inset-3 rounded-[18px] border pointer-events-none z-10 ${isDarkMode ? 'border-white/[0.06]' : 'border-black/[0.06]'}`} />
               <div className={`absolute top-7 left-7 z-10 pointer-events-none transition-colors duration-700 ${isDarkMode ? 'text-[#f4f0e8]' : 'text-[#242321]'}`}>
                 <h2 className="text-sm font-semibold uppercase">
@@ -259,12 +258,12 @@ export default function HomePage() {
                 
                 {/* 1. Notes */}
                 <motion.div 
-                  className={`p-8 rounded-2xl border border-transparent ${theme.glassCard}`}
+                  className={`p-8 rounded-2xl ${theme.glassCard}`}
                   initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInVariants}
                 >
                     <div className="flex items-center mb-6">
                         {/* [修改] 使用 iconBgMono 和 iconColor */}
-                        <div className={`w-10 h-10 rounded-full flex items-center justify-center mr-4 shadow-sm ${theme.iconBgMono}`}>
+                        <div className={`w-10 h-10 rounded-full flex items-center justify-center mr-4 ${theme.iconBgMono}`}>
                             <FaFlask className={`w-4 h-4 ${theme.iconColor}`} />
                         </div>
                         <h3 className={`text-xl font-bold tracking-wide ${theme.columnTitle}`}>Notes</h3>
@@ -283,12 +282,12 @@ export default function HomePage() {
                 
                 {/* 2. Papers */}
                 <motion.div 
-                  className={`p-8 rounded-2xl border border-transparent ${theme.glassCard}`}
+                  className={`p-8 rounded-2xl ${theme.glassCard}`}
                   initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.5 }} transition={{delay: 0.1}} variants={fadeInVariants}
                 >
                     <div className="flex items-center mb-6">
                           {/* [修改] 使用 iconBgMono 和 iconColor */}
-                         <div className={`w-10 h-10 rounded-full flex items-center justify-center mr-4 shadow-sm ${theme.iconBgMono}`}>
+                         <div className={`w-10 h-10 rounded-full flex items-center justify-center mr-4 ${theme.iconBgMono}`}>
                             <FaBook className={`w-4 h-4 ${theme.iconColor}`} />
                         </div>
                         <h3 className={`text-xl font-bold tracking-wide ${theme.columnTitle}`}>Papers</h3>
@@ -307,12 +306,12 @@ export default function HomePage() {
 
                 {/* 3. About Me */}
                 <motion.div 
-                  className={`p-8 rounded-2xl border border-transparent ${theme.glassCard}`}
+                  className={`p-8 rounded-2xl ${theme.glassCard}`}
                   initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.5 }} transition={{delay: 0.2}} variants={fadeInVariants}
                 >
                     <div className="flex items-center mb-6">
                         {/* [修改] 使用 iconBgMono 和 iconColor */}
-                        <div className={`w-10 h-10 rounded-full flex items-center justify-center mr-4 shadow-sm ${theme.iconBgMono}`}>
+                        <div className={`w-10 h-10 rounded-full flex items-center justify-center mr-4 ${theme.iconBgMono}`}>
                             <FaUser className={`w-4 h-4 ${theme.iconColor}`} />
                         </div>
                         <h3 className={`text-xl font-bold tracking-wide ${theme.columnTitle}`}>About Me</h3>
