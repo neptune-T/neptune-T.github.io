@@ -24,7 +24,7 @@ const Header: React.FC<HeaderProps> = ({ isDarkMode: isDarkModeProp, setIsDarkMo
   // 定义仅用于 Header 的样式逻辑
   const glassNavClass = isDarkMode 
     ? 'bg-black/70 border-white/5 text-white shadow-lg shadow-black/20' 
-    : 'bg-white/70 border-black/5 text-black shadow-sm';
+    : 'bg-warm-surface/80 border-black/5 text-warm-ink shadow-sm';
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 px-6 md:px-12 py-4 transition-all duration-500 border-b backdrop-blur-xl ${glassNavClass}`}>
@@ -77,7 +77,7 @@ const Header: React.FC<HeaderProps> = ({ isDarkMode: isDarkModeProp, setIsDarkMo
       {/* Mobile dropdown */}
       {mobileOpen && (
         <div className="md:hidden mt-4 rounded-2xl border border-current/10 overflow-hidden">
-          <div className={`flex flex-col ${isDarkMode ? 'bg-black/60' : 'bg-white/60'} backdrop-blur-xl`}>
+          <div className={`flex flex-col ${isDarkMode ? 'bg-black/60' : 'bg-warm-surface/90'} backdrop-blur-xl`}>
             <Link
               href="/"
               className="px-4 py-3 text-current hover:opacity-80 transition-all"

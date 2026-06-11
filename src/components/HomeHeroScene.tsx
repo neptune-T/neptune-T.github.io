@@ -2,7 +2,7 @@
 
 import React, { useRef, useLayoutEffect, useMemo } from 'react';
 import { Canvas, useFrame, useLoader, ThreeEvent } from '@react-three/fiber';
-import { OrbitControls, Center, Html, Line } from '@react-three/drei';
+import { ContactShadows, OrbitControls, Center, Html } from '@react-three/drei';
 import * as THREE from 'three';
 import { PLYLoader } from 'three/examples/jsm/loaders/PLYLoader.js';
 import { withBasePath } from '@/lib/basePath';
@@ -38,8 +38,9 @@ class SceneErrorBoundary extends React.Component<
   }
 }
 
-function InteractiveBunny({ url }: { url: string }) {
+function InteractiveBunny({ url, isDarkMode }: { url: string; isDarkMode: boolean }) {
   const geometry = useLoader(PLYLoader, url) as THREE.BufferGeometry;
+  const groupRef = useRef<THREE.Group>(null);
   const shaderRef = useRef<THREE.ShaderMaterial>(null);
 
   useLayoutEffect(() => {
@@ -67,8 +68,9 @@ function InteractiveBunny({ url }: { url: string }) {
 
   const handlePointerMove = (e: ThreeEvent<PointerEvent>) => {
     e.stopPropagation();
-    if (shaderRef.current) {
-      shaderRef.current.uniforms.uHover.value.copy(e.point);
+    if (shaderRef.current && groupRef.current) {
+      const localPoint = groupRef.current.worldToLocal(e.point.clone());
+      shaderRef.current.uniforms.uHover.value.copy(localPoint);
     }
   };
 
@@ -78,14 +80,16 @@ function InteractiveBunny({ url }: { url: string }) {
     }
   };
 
-  const materialArgs = {
+  const materialArgs = useMemo(() => ({
     uniforms: {
       uTime: { value: 0 },
-      uColor: { value: new THREE.Color('#ffffff') },
+      uColor: { value: new THREE.Color(isDarkMode ? '#f4f0e8' : '#242321') },
+      uAccent: { value: new THREE.Color('#cc785c') },
       uHover: { value: new THREE.Vector3(9999, 9999, 9999) },
-      uInteractionRadius: { value: 0.35 },
-      uInteractionStrength: { value: 0.5 },
+      uInteractionRadius: { value: 0.3 },
+      uInteractionStrength: { value: 0.22 },
       uPixelRatio: { value: 1 },
+      uBaseOpacity: { value: isDarkMode ? 0.72 : 0.58 },
     },
     vertexShader: `
       uniform float uTime;
@@ -99,11 +103,11 @@ function InteractiveBunny({ url }: { url: string }) {
         float dist = distance(position, uHover);
         float influence = smoothstep(uInteractionRadius, 0.0, dist);
         vec3 displacement = normal * influence * uInteractionStrength;
-        float breath = sin(uTime * 2.0 + position.y * 4.0) * 0.02;
+        float breath = sin(uTime * 1.4 + position.y * 5.0) * 0.008;
         newPosition += displacement + (normal * breath);
         vec4 viewPosition = viewMatrix * modelMatrix * vec4(newPosition, 1.0);
         gl_Position = projectionMatrix * viewPosition;
-        gl_PointSize = (3.0 + influence * 12.0) * uPixelRatio;
+        gl_PointSize = (4.0 + influence * 8.0) * uPixelRatio;
         gl_PointSize *= (1.0 / -viewPosition.z);
         vIntensity = influence;
       }
@@ -111,92 +115,61 @@ function InteractiveBunny({ url }: { url: string }) {
     fragmentShader: `
       varying float vIntensity;
       uniform vec3 uColor;
+      uniform vec3 uAccent;
+      uniform float uBaseOpacity;
       void main() {
         float d = distance(gl_PointCoord, vec2(0.5));
         if(d > 0.5) discard;
-        vec3 finalColor = mix(uColor, vec3(0.2, 0.8, 1.0), vIntensity);
-        float alpha = 0.6 + vIntensity * 0.4;
-        alpha *= (1.0 - d * 2.0);
+        vec3 finalColor = mix(uColor, uAccent, vIntensity);
+        float alpha = (uBaseOpacity + vIntensity * 0.28) * smoothstep(0.5, 0.08, d);
         gl_FragColor = vec4(finalColor, alpha);
       }
     `,
-  };
+  }), [isDarkMode]);
 
   return (
-    <group>
-      <mesh visible={false} onPointerMove={handlePointerMove} onPointerLeave={handlePointerLeave}>
+    <group ref={groupRef} position={[0, 0.05, 0]} rotation={[0, -0.18, 0]}>
+      <mesh onPointerMove={handlePointerMove} onPointerLeave={handlePointerLeave}>
         <primitive object={geometry} />
-        <meshBasicMaterial />
+        <meshPhysicalMaterial
+          color={isDarkMode ? '#191917' : '#d8d0c3'}
+          roughness={isDarkMode ? 0.38 : 0.62}
+          metalness={isDarkMode ? 0.25 : 0.04}
+          clearcoat={isDarkMode ? 0.28 : 0.12}
+          clearcoatRoughness={0.7}
+          transparent
+          opacity={isDarkMode ? 0.5 : 0.88}
+        />
       </mesh>
-      <points>
+      <points scale={1.012}>
         <primitive object={geometry} />
         <shaderMaterial
+          key={isDarkMode ? 'bunny-points-dark' : 'bunny-points-light'}
           ref={shaderRef}
           attach="material"
           args={[materialArgs]}
           transparent
           depthWrite={false}
-          blending={THREE.AdditiveBlending}
+          toneMapped={false}
         />
       </points>
     </group>
   );
 }
 
-const PlanetOrbit = ({
-  radius,
-  speed,
-  color,
-  size,
-  offset = 0,
-}: {
-  radius: number;
-  speed: number;
-  color: string;
-  size: number;
-  offset?: number;
-}) => {
-  const groupRef = useRef<THREE.Group>(null);
-  const points = useMemo(() => {
-    const pts: THREE.Vector3[] = [];
-    const segments = 64;
-    for (let i = 0; i <= segments; i++) {
-      const angle = (i / segments) * Math.PI * 2;
-      pts.push(new THREE.Vector3(Math.cos(angle) * radius, Math.sin(angle) * radius, 0));
-    }
-    return pts;
-  }, [radius]);
-
-  useFrame((_, delta) => {
-    if (groupRef.current) {
-      groupRef.current.rotation.z += speed * delta;
-    }
-  });
+function DisplayPlinth({ isDarkMode }: { isDarkMode: boolean }) {
+  const lineColor = isDarkMode ? '#716d66' : '#9c9183';
 
   return (
-    <group>
-      <Line points={points} color="#888888" lineWidth={1} transparent opacity={0.3} />
-      <group ref={groupRef} rotation={[0, 0, offset]}>
-        <mesh position={[radius, 0, 0]}>
-          <circleGeometry args={[size, 32]} />
-          <meshBasicMaterial color={color} />
-        </mesh>
-      </group>
-    </group>
-  );
-};
-
-function SolarSystem() {
-  return (
-    <group rotation={[0, 0, 0]}>
+    <group position={[0, -0.63, 0]} rotation={[-Math.PI / 2, 0, 0]}>
       <mesh>
-        <sphereGeometry args={[0.25, 16, 16]} />
-        <meshBasicMaterial color="#ef4444" wireframe />
+        <ringGeometry args={[0.72, 0.725, 128]} />
+        <meshBasicMaterial color={lineColor} transparent opacity={0.34} />
       </mesh>
-      <PlanetOrbit radius={0.6} speed={0.6} color="#4ade80" size={0.06} offset={1} />
-      <PlanetOrbit radius={0.9} speed={0.4} color="#3b82f6" size={0.05} offset={3} />
-      <PlanetOrbit radius={1.3} speed={0.25} color="#d97706" size={0.04} offset={4} />
-      <PlanetOrbit radius={1.7} speed={0.15} color="#6b7280" size={0.08} offset={0} />
+      <mesh>
+        <ringGeometry args={[0.93, 0.934, 128]} />
+        <meshBasicMaterial color={lineColor} transparent opacity={0.16} />
+      </mesh>
     </group>
   );
 }
@@ -204,8 +177,8 @@ function SolarSystem() {
 function LoadingBunny() {
   return (
     <Html center>
-      <div className="text-white font-mono text-sm bg-black/50 p-2 rounded backdrop-blur-sm whitespace-nowrap">
-        LOADING MODEL...
+      <div className="rounded-full border border-black/10 bg-warm-surface/80 px-4 py-2 font-mono text-xs text-warm-muted backdrop-blur-sm whitespace-nowrap">
+        Loading geometry
       </div>
     </Html>
   );
@@ -215,28 +188,51 @@ export default function HomeHeroScene({ isDarkMode }: { isDarkMode: boolean }) {
   return (
     <Canvas
       style={{ width: '100%', height: '100%' }}
-      camera={{ position: [0, 0, 3], fov: 40 }}
+      camera={{ position: [0, 0.08, 3.15], fov: 35 }}
       dpr={[1, 2]}
-      gl={{ powerPreference: 'high-performance' }}
+      shadows
+      gl={{ powerPreference: 'high-performance', antialias: true }}
     >
-      <color attach="background" args={[isDarkMode ? '#101010' : '#ffffff']} />
-      <OrbitControls enableZoom={false} enablePan={false} minDistance={2} maxDistance={5} rotateSpeed={0.5} />
+      <color attach="background" args={[isDarkMode ? '#11110f' : '#f5f0e8']} />
+      <ambientLight intensity={isDarkMode ? 0.72 : 1.2} />
+      <directionalLight
+        castShadow
+        position={[-2.5, 3.5, 3]}
+        intensity={isDarkMode ? 2.2 : 2.8}
+        color={isDarkMode ? '#fff4e8' : '#fffaf2'}
+      />
+      <directionalLight
+        position={[3, 0.5, -2]}
+        intensity={isDarkMode ? 1.4 : 0.8}
+        color={isDarkMode ? '#cc785c' : '#dba58f'}
+      />
+      <OrbitControls
+        enableZoom={false}
+        enablePan={false}
+        enableDamping
+        dampingFactor={0.07}
+        minPolarAngle={Math.PI * 0.32}
+        maxPolarAngle={Math.PI * 0.68}
+        rotateSpeed={0.42}
+      />
       <React.Suspense fallback={<LoadingBunny />}>
         <Center>
-          {isDarkMode ? (
-            <SceneErrorBoundary url={BUNNY_PLY_URL}>
-              <InteractiveBunny url={BUNNY_PLY_URL} />
-            </SceneErrorBoundary>
-          ) : (
-            <SolarSystem />
-          )}
+          <SceneErrorBoundary url={BUNNY_PLY_URL}>
+            <InteractiveBunny url={BUNNY_PLY_URL} isDarkMode={isDarkMode} />
+          </SceneErrorBoundary>
+          <DisplayPlinth isDarkMode={isDarkMode} />
+          <ContactShadows
+            position={[0, -0.65, 0]}
+            opacity={isDarkMode ? 0.42 : 0.24}
+            scale={2.6}
+            blur={2.8}
+            far={2.2}
+            color={isDarkMode ? '#000000' : '#6d6257'}
+          />
         </Center>
       </React.Suspense>
     </Canvas>
   );
 }
-
-
-
 
 

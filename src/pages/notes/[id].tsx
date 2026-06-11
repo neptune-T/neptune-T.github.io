@@ -44,13 +44,13 @@ export default function Note({ noteData }: { noteData: NoteData }) {
   return (
     <>
       <Head>
-        <title>{noteData.title} | Tianshan Zhang</title>
+        <title>{`${noteData.title} | Tianshan Zhang`}</title>
         <meta key="description" name="description" content={noteData.summary} />
         <meta key="og-type" property="og:type" content="article" />
         <meta key="og-title" property="og:title" content={noteData.title} />
         <meta key="og-description" property="og:description" content={noteData.summary} />
       </Head>
-      <div className={`min-h-screen transition-colors duration-500 font-sans selection:bg-purple-500/30 flex flex-col ${isDarkMode ? 'bg-[#050505] text-white' : 'bg-[#F9F9F9] text-[#1a1a1a]'}`}>
+      <div className={`min-h-screen transition-colors duration-500 font-sans selection:bg-purple-500/30 flex flex-col ${isDarkMode ? 'bg-[#050505] text-white' : 'bg-warm-canvas text-warm-ink'}`}>
         <Header />
 
         <motion.div 
@@ -60,21 +60,15 @@ export default function Note({ noteData }: { noteData: NoteData }) {
           transition={{ duration: 0.8 }}
         >
           <div className="mb-10">
-            <Link href="/notes" legacyBehavior>
-              <a className="inline-flex items-center text-gray-300 hover:text-white transition-colors font-medium">
-                <FiArrowLeft className="mr-2" />
-                Back to all notes
-              </a>
+            <Link href="/notes" className={`inline-flex items-center transition-colors font-medium ${isDarkMode ? 'text-gray-300 hover:text-white' : 'text-warm-muted hover:text-warm-ink'}`}>
+              <FiArrowLeft className="mr-2" />
+              Back to all notes
             </Link>
           </div>
-          <div className="bg-black/30 backdrop-blur-lg p-8 md:p-12 rounded-xl">
-            <article className="prose prose-lg prose-invert max-w-none 
-                            prose-h1:text-4xl prose-h1:font-bold prose-h1:text-old-red 
-                            prose-a:text-klein-blue hover:prose-a:text-opacity-80
-                            prose-strong:text-gray-100
-                            prose-code:text-old-red prose-code:bg-gray-500/20 prose-code:rounded-md prose-code:px-1.5 prose-code:py-1">
+          <div className={`p-8 md:p-12 rounded-2xl border ${isDarkMode ? 'bg-black/30 border-white/10 backdrop-blur-lg' : 'bg-warm-surface border-black/5 shadow-sm'}`}>
+            <article className={`note-prose prose prose-lg max-w-none ${isDarkMode ? 'prose-invert note-prose-dark' : 'note-prose-light'}`}>
               <h1>{noteData.title}</h1>
-              <p className="text-gray-400 text-base -mt-4 mb-8">{noteData.date}</p>
+              <p className={`text-base -mt-4 mb-8 ${isDarkMode ? 'text-gray-400' : 'text-warm-muted'}`}>{noteData.date}</p>
               <div dangerouslySetInnerHTML={{ __html: noteData.contentHtml }} />
             </article>
           </div>

@@ -11,6 +11,12 @@ const config: Config = {
       colors: {
         'peking-red': '#8A0000',
         'klein-blue': '#002FA7',
+        'warm-canvas': '#F5F0E8',
+        'warm-surface': '#FAF7F1',
+        'warm-panel': '#EFE8DC',
+        'warm-ink': '#242321',
+        'warm-muted': '#6C675F',
+        coral: '#CC785C',
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
@@ -22,4 +28,4 @@ const config: Config = {
     require('@tailwindcss/typography'),
   ],
 }
-export default config 
+export default config

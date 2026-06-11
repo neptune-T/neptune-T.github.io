@@ -8,7 +8,7 @@ const Footer = () => {
 
   const newFooterContainer = isDarkMode
     ? 'bg-[#1a1a1a]/80 backdrop-blur-md border border-white/5 shadow-lg text-gray-200 rounded-3xl p-8 md:p-10'
-    : 'bg-white/80 backdrop-blur-md border border-black/5 shadow-lg text-gray-800 rounded-3xl p-8 md:p-10';
+    : 'bg-warm-surface/90 backdrop-blur-md border border-black/5 shadow-lg text-warm-ink rounded-3xl p-8 md:p-10';
 
   const footerDivider = isDarkMode ? 'bg-white/10' : 'bg-black/10';
   const footerIcon = isDarkMode ? 'hover:text-white text-gray-400' : 'hover:text-black text-gray-500';

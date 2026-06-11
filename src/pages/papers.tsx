@@ -72,16 +72,16 @@ export default function Papers({ allPapersData }: { allPapersData: Paper[] }) {
 
   // --- 样式主题 ---
   const theme = {
-    wrapper: isDarkMode ? 'bg-[#050505] text-white' : 'bg-[#F9F9F9] text-[#1a1a1a]',
-    titleColor: isDarkMode ? 'text-white' : 'text-black',
-    textColor: isDarkMode ? 'text-gray-300' : 'text-gray-600',
-    metaColor: isDarkMode ? 'text-gray-400' : 'text-gray-500',
+    wrapper: isDarkMode ? 'bg-[#050505] text-white' : 'bg-warm-canvas text-warm-ink',
+    titleColor: isDarkMode ? 'text-white' : 'text-warm-ink',
+    textColor: isDarkMode ? 'text-gray-300' : 'text-warm-muted',
+    metaColor: isDarkMode ? 'text-gray-400' : 'text-warm-muted',
     accentColor: isDarkMode ? 'text-blue-300' : 'text-blue-600',
 
     // 卡片：深灰玻璃 vs 白玻璃
     card: isDarkMode
       ? 'bg-[#141414] border border-white/10 hover:border-white/30 shadow-xl overflow-hidden'
-      : 'bg-white border border-black/5 hover:border-black/10 shadow-sm hover:shadow-md overflow-hidden',
+      : 'bg-warm-surface border border-black/5 hover:border-black/10 shadow-sm hover:shadow-md overflow-hidden',
     
     // 链接按钮 (Small Pills)
     linkBtn: isDarkMode
@@ -95,17 +95,17 @@ export default function Papers({ allPapersData }: { allPapersData: Paper[] }) {
     if (type === 'huggingface') {
       return isDarkMode
         ? 'bg-yellow-400/15 hover:bg-yellow-400/25 text-yellow-200 border border-yellow-400/30'
-        : 'bg-yellow-50 hover:bg-yellow-100 text-yellow-700 border border-yellow-200';
+        : 'bg-[#f2e7c8] hover:bg-[#ebddb4] text-[#725913] border border-[#ddca8c]';
     }
     if (type === 'paper') {
       return isDarkMode
         ? 'bg-[#B31B1B]/15 hover:bg-[#B31B1B]/25 text-[#ffb4b4] border border-[#B31B1B]/35'
-        : 'bg-red-50 hover:bg-red-100 text-red-700 border border-red-200';
+        : 'bg-[#f4e1da] hover:bg-[#edd2c8] text-[#9f4f3b] border border-[#dfb8aa]';
     }
     if (type === 'website') {
       return isDarkMode
         ? 'bg-blue-400/15 hover:bg-blue-400/25 text-blue-200 border border-blue-400/30'
-        : 'bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200';
+        : 'bg-[#e5ece7] hover:bg-[#d9e4dc] text-[#376453] border border-[#bfd1c6]';
     }
     // code
     return theme.linkBtn;

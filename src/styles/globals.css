@@ -25,67 +25,70 @@
   --old-red: #8A0000;
 }
 
-/* 自定义 prose 样式 */
-.prose {
-  color: var(--primary-text);
+/* Note typography has explicit light/dark contrast. */
+.note-prose-light {
+  --tw-prose-body: #242321;
+  --tw-prose-headings: #141413;
+  --tw-prose-lead: #4f4b45;
+  --tw-prose-links: #9f4f3b;
+  --tw-prose-bold: #141413;
+  --tw-prose-counters: #6c675f;
+  --tw-prose-bullets: #8b8176;
+  --tw-prose-hr: #d8cfc3;
+  --tw-prose-quotes: #3d3934;
+  --tw-prose-quote-borders: #cc785c;
+  --tw-prose-captions: #6c675f;
+  --tw-prose-code: #242321;
+  --tw-prose-pre-code: #f5f0e8;
+  --tw-prose-pre-bg: #242321;
+  --tw-prose-th-borders: #cfc4b7;
+  --tw-prose-td-borders: #ded5ca;
 }
 
-.prose h1 {
-  color: var(--old-red); 
+.note-prose-dark {
+  --tw-prose-invert-links: #ffb49d;
+  --tw-prose-invert-quote-borders: #cc785c;
 }
 
-.prose h2 {
-  color: var(--secondary-text);
+.note-prose :where(h1, h2, h3, h4) {
+  letter-spacing: 0;
 }
 
-.prose code {
-  background-color: var(--code-bg);
-  color: var(--code-text);
-  padding: 0.2em 0.4em;
-  border-radius: 3px;
+.note-prose :where(code):not(:where(pre code)) {
+  border-radius: 0.35rem;
+  padding: 0.18em 0.4em;
+  font-weight: 500;
 }
 
-.prose pre {
-  background-color: var(--code-bg);
-  padding: 1em;
-  border-radius: 5px;
-  overflow-x: auto;
+.note-prose-light :where(code):not(:where(pre code)) {
+  background: #e9dfd2;
 }
 
-.prose pre code {
-  background: none;
-  padding: 0;
-  color: var(--code-text);
+.note-prose-dark :where(code):not(:where(pre code)) {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffb49d;
 }
 
-.prose kbd, .prose samp {
-  color: var(--formula-color);
-}
-
-.prose blockquote {
-  border-left: 4px solid var(--border);
-  color: var(--secondary-text);
-  font-style: italic;
-  padding-left: 1em;
-  margin: 1em 0;
-}
-
-/* 数学公式 */
-.prose .katex {
-  color: var(--formula-color);
+.note-prose :where(.katex) {
+  color: inherit;
 }
 
 /* 苹果风格全局设置 */
 :root {
-  --background: #ffffff; /* 白色背景 */
-  --foreground: #000000; /* 黑色文字 */
-  --accent: #007aff; /* 苹果蓝 */
-  --gray: #6e6e73; /* 灰色 */
+  --background: #F5F0E8;
+  --foreground: #242321;
+  --accent: #CC785C;
+  --gray: #6C675F;
+}
+
+html.dark {
+  --background: #050505;
+  --foreground: #F5F0E8;
 }
 
 body {
   background: var(--background);
-  color: #000000; /* 黑字 */
+  color: var(--foreground);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   line-height: 1.6;
   letter-spacing: 0.01em;
@@ -104,13 +107,13 @@ h1, h2, h3 {
 }
 
 a {
-  color: #007aff;
+  color: #9f4f3b;
   text-decoration: none;
   transition: color 0.2s ease;
 }
 
 a:hover {
-  color: #0040dd;
+  color: #7f3e2e;
 }
 
 .container {

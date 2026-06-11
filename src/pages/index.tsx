@@ -39,7 +39,7 @@ export default function HomePage() {
   };
 
   const theme = {
-    bg: isDarkMode ? 'bg-[#050505]' : 'bg-[#F9F9F9]',
+    bg: isDarkMode ? 'bg-[#050505]' : 'bg-warm-canvas',
     
     // --- 字体颜色 ---
     heroTitle: isDarkMode ? 'text-white drop-shadow-md' : 'text-black',
@@ -54,37 +54,37 @@ export default function HomePage() {
     // --- 大卡片样式 (Academic Profile) ---
     academicProfileCard: isDarkMode
       ? 'bg-[#1a1a1a]/80 backdrop-blur-md border border-white/5 shadow-2xl rounded-3xl p-10 md:p-16'
-      : 'bg-white/80 backdrop-blur-md border border-black/5 shadow-2xl rounded-3xl p-10 md:p-16',
+      : 'bg-warm-surface/90 backdrop-blur-md border border-black/5 shadow-xl rounded-3xl p-10 md:p-16',
 
     // --- Footer ---
     newFooterContainer: isDarkMode
       ? 'bg-[#1a1a1a]/80 backdrop-blur-md border border-white/5 shadow-lg text-gray-200 rounded-3xl p-8 md:p-10'
-      : 'bg-white/80 backdrop-blur-md border border-black/5 shadow-lg text-gray-800 rounded-3xl p-8 md:p-10',
+      : 'bg-warm-surface/90 backdrop-blur-md border border-black/5 shadow-lg text-warm-ink rounded-3xl p-8 md:p-10',
     footerDivider: isDarkMode ? 'bg-white/10' : 'bg-black/10',
     footerIcon: isDarkMode ? 'hover:text-white text-gray-400' : 'hover:text-black text-gray-500',
 
     cardBorder: isDarkMode ? 'border-white/10' : 'border-black/5',
-    cardBg: isDarkMode ? 'bg-[#101010]' : 'bg-white', 
+    cardBg: isDarkMode ? 'bg-[#101010]' : 'bg-warm-surface',
     buttonPrimary: isDarkMode ? 'bg-white text-black hover:bg-gray-200 border-transparent' : 'bg-black text-white hover:bg-gray-800 border-transparent',
     buttonOutline: isDarkMode ? 'border-white/30 hover:bg-white/10 text-white' : 'border-black/20 hover:bg-black/5 text-black',
     
     // --- 学术专栏 (Columns) 样式 ---
     glassCard: isDarkMode 
       ? 'bg-[#1a1a1a]/80 backdrop-blur-md border border-white/5 hover:bg-[#222] transition-all duration-300 shadow-lg' 
-      : 'bg-white/80 backdrop-blur-md border border-black/5 hover:bg-white shadow-lg',
+      : 'bg-warm-surface/90 backdrop-blur-md border border-black/5 hover:bg-warm-surface shadow-md',
     
     columnText: isDarkMode ? 'text-gray-400' : 'text-gray-600',
     columnTitle: isDarkMode ? 'text-gray-100' : 'text-gray-900',
     
     // --- [修改] 图标背景 - 统一为单色调 ---
-    iconBgMono: isDarkMode ? 'bg-white/10' : 'bg-gray-100',
+    iconBgMono: isDarkMode ? 'bg-white/10' : 'bg-warm-panel',
     // --- [修改] 图标颜色 - 自适应 ---
     iconColor: isDarkMode ? 'text-white' : 'text-gray-900',
 
     // --- [修改] 标签条样式 - 统一为单色调 ---
     tagMono: isDarkMode 
       ? 'bg-white/5 text-gray-300 hover:bg-white/10 border border-white/10' 
-      : 'bg-gray-100 text-gray-700 hover:bg-gray-200 border border-black/5',
+      : 'bg-warm-panel text-warm-ink hover:bg-[#e7ddcf] border border-black/5',
   };
 
   return (
@@ -160,16 +160,20 @@ export default function HomePage() {
             </div>
           </div>
           <div className="w-full md:w-6/12 flex justify-center md:justify-end">
-            <div className={`relative w-full aspect-square md:max-w-[550px] rounded-3xl overflow-hidden shadow-2xl transition-all duration-700 border ${theme.cardBorder} ${theme.cardBg}`}>
-              <div className={`absolute top-6 left-6 z-10 pointer-events-none transition-colors duration-700 ${isDarkMode ? 'text-white' : 'text-black'}`}>
-                <h2 className="text-lg font-bold uppercase tracking-widest">
-                  {isDarkMode ? 'INTERACTIVE_MESH' : 'ORBITAL_SYSTEM'}
+            <div className={`relative w-full aspect-square md:max-w-[550px] rounded-[24px] overflow-hidden transition-all duration-700 border ${theme.cardBorder} ${isDarkMode ? 'bg-[#11110f]' : 'bg-warm-canvas'}`}>
+              <div className={`absolute inset-3 rounded-[18px] border pointer-events-none z-10 ${isDarkMode ? 'border-white/[0.06]' : 'border-black/[0.06]'}`} />
+              <div className={`absolute top-7 left-7 z-10 pointer-events-none transition-colors duration-700 ${isDarkMode ? 'text-[#f4f0e8]' : 'text-[#242321]'}`}>
+                <h2 className="text-sm font-semibold uppercase">
+                  Stanford Bunny
                 </h2>
-                <div className={`h-px w-12 my-2 ${isDarkMode ? 'bg-white/30' : 'bg-black/30'}`} />
-                <p className="font-mono text-[10px] opacity-70">
-                  STATUS: 60 FPS LOCKED<br/>
-                  MODE: {isDarkMode ? 'PARTICLE_FLOW' : 'GRAVITY_SIM'}
+                <div className={`h-px w-10 my-2.5 ${isDarkMode ? 'bg-white/25' : 'bg-black/20'}`} />
+                <p className="font-mono text-[10px] leading-relaxed opacity-60">
+                  PLY / INTERACTIVE SURFACE<br/>
+                  DRAG TO ROTATE · HOVER TO DEFORM
                 </p>
+              </div>
+              <div className={`absolute right-7 bottom-7 z-10 pointer-events-none rounded-full border px-3 py-1.5 font-mono text-[9px] uppercase ${isDarkMode ? 'border-white/10 bg-black/20 text-white/55' : 'border-black/10 bg-warm-surface/60 text-black/50'}`}>
+                {isDarkMode ? 'Night study' : 'Day study'}
               </div>
               <HomeHeroScene isDarkMode={isDarkMode} />
             </div>

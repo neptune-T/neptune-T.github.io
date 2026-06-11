@@ -64,13 +64,13 @@ export default function About({ travelData, honorsData }: AboutProps) {
   }, []);
 
   const theme = {
-    wrapper: isDarkMode ? 'bg-[#050505] text-white' : 'bg-[#F9F9F9] text-[#1a1a1a]',
-    titleColor: isDarkMode ? 'text-white' : 'text-black',
-    textColor: isDarkMode ? 'text-gray-300' : 'text-gray-600',
-    subText: isDarkMode ? 'text-gray-500' : 'text-gray-400',
+    wrapper: isDarkMode ? 'bg-[#050505] text-white' : 'bg-warm-canvas text-warm-ink',
+    titleColor: isDarkMode ? 'text-white' : 'text-warm-ink',
+    textColor: isDarkMode ? 'text-gray-300' : 'text-warm-muted',
+    subText: isDarkMode ? 'text-gray-500' : 'text-warm-muted/70',
     card: isDarkMode
       ? 'bg-[#1a1a1a]/80 backdrop-blur-md border border-white/5 shadow-xl'
-      : 'bg-white/80 backdrop-blur-md border border-black/5 shadow-sm hover:shadow-md',
+      : 'bg-warm-surface/90 backdrop-blur-md border border-black/5 shadow-sm hover:shadow-md',
     pillActive: isDarkMode 
       ? 'bg-white text-black shadow-[0_0_15px_rgba(255,255,255,0.4)]'
       : 'bg-black text-white shadow-lg',
@@ -79,8 +79,8 @@ export default function About({ travelData, honorsData }: AboutProps) {
       : 'bg-black/5 text-gray-600 hover:bg-black/10 hover:text-black',
     divider: isDarkMode ? 'border-white/10' : 'border-black/10',
     mapBg: 'transparent',
-    mapAreaColor: isDarkMode ? '#222' : '#e0e0e0',
-    mapBorderColor: isDarkMode ? '#333' : '#fff',
+    mapAreaColor: isDarkMode ? '#222' : '#ded5ca',
+    mapBorderColor: isDarkMode ? '#333' : '#faf7f1',
     mapHighlight: isDarkMode ? '#ffffff' : '#111111',
     mapHighlightShadow: isDarkMode ? 'rgba(255, 255, 255, 0.6)' : 'rgba(0, 0, 0, 0.3)',
   };

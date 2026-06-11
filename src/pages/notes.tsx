@@ -40,17 +40,17 @@ export default function Notes({ allNotesData }: { allNotesData: Note[] }) {
   // --- 样式主题 (强制高对比度) ---
   const theme = {
     // 全局背景
-    wrapper: isDarkMode ? 'bg-[#050505] text-white' : 'bg-[#F9F9F9] text-[#1a1a1a]',
+    wrapper: isDarkMode ? 'bg-[#050505] text-white' : 'bg-warm-canvas text-warm-ink',
     
     // 文字颜色 (强制指定，防止继承错误)
     titleColor: isDarkMode ? 'text-white' : 'text-black',
-    textColor: isDarkMode ? 'text-gray-300' : 'text-gray-600',
-    metaColor: isDarkMode ? 'text-gray-500' : 'text-gray-400',
+    textColor: isDarkMode ? 'text-gray-300' : 'text-warm-muted',
+    metaColor: isDarkMode ? 'text-gray-500' : 'text-warm-muted/70',
 
     // 卡片样式：黑夜模式用深灰底+白边框，白天用白底
     card: isDarkMode
       ? 'bg-[#141414] border border-white/10 hover:border-white/30 hover:bg-[#1a1a1a] shadow-xl'
-      : 'bg-white border border-black/5 hover:border-black/10 shadow-sm hover:shadow-md',
+      : 'bg-warm-surface border border-black/5 hover:border-black/10 shadow-sm hover:shadow-md',
     
     // 标签筛选按钮
     // 选中：黑夜(白底黑字)，白天(黑底白字) -> 确保最醒目
