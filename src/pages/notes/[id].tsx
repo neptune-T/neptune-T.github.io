@@ -50,7 +50,7 @@ export default function Note({ noteData }: { noteData: NoteData }) {
         <meta key="og-title" property="og:title" content={noteData.title} />
         <meta key="og-description" property="og:description" content={noteData.summary} />
       </Head>
-      <div className={`min-h-screen transition-colors duration-500 font-sans selection:bg-purple-500/30 flex flex-col ${isDarkMode ? 'bg-[#050505] text-white' : 'bg-warm-canvas text-warm-ink'}`}>
+      <div className={`min-h-screen transition-colors duration-500 font-sans selection:bg-coral/30 flex flex-col ${isDarkMode ? 'bg-[#161310] text-[#eee4d8]' : 'bg-warm-canvas text-warm-ink'}`}>
         <Header />
 
         <motion.div 
@@ -60,15 +60,15 @@ export default function Note({ noteData }: { noteData: NoteData }) {
           transition={{ duration: 0.8 }}
         >
           <div className="mb-10">
-            <Link href="/notes" className={`inline-flex items-center transition-colors font-medium ${isDarkMode ? 'text-gray-300 hover:text-white' : 'text-warm-muted hover:text-warm-ink'}`}>
+            <Link href="/notes" className={`inline-flex items-center transition-colors font-medium ${isDarkMode ? 'text-[#aaa096] hover:text-[#eee4d8]' : 'text-warm-muted hover:text-warm-ink'}`}>
               <FiArrowLeft className="mr-2" />
               Back to all notes
             </Link>
           </div>
-          <div className={`p-8 md:p-12 rounded-2xl border ${isDarkMode ? 'bg-black/30 border-white/10 backdrop-blur-lg' : 'bg-warm-surface border-black/5 shadow-sm'}`}>
+          <div className={`p-8 md:p-12 rounded-2xl border ${isDarkMode ? 'bg-[#241f1b]/66 border-[#f3e8dc]/[0.08] backdrop-blur-xl backdrop-saturate-150' : 'bg-warm-surface border-black/5 shadow-sm'}`}>
             <article className={`note-prose prose prose-lg max-w-none ${isDarkMode ? 'prose-invert note-prose-dark' : 'note-prose-light'}`}>
               <h1>{noteData.title}</h1>
-              <p className={`text-base -mt-4 mb-8 ${isDarkMode ? 'text-gray-400' : 'text-warm-muted'}`}>{noteData.date}</p>
+              <p className={`text-base -mt-4 mb-8 ${isDarkMode ? 'text-[#82786f]' : 'text-warm-muted'}`}>{noteData.date}</p>
               <div dangerouslySetInnerHTML={{ __html: noteData.contentHtml }} />
             </article>
           </div>

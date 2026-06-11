@@ -58,7 +58,7 @@ export default function Papers({ allPapersData }: { allPapersData: Paper[] }) {
             {idx < parts.length - 1 && (
               <span
                 className={`not-italic font-extrabold ${
-                  isDarkMode ? 'text-white drop-shadow-sm' : 'text-black'
+                  isDarkMode ? 'text-[#eee4d8]' : 'text-black'
                 }`}
               >
                 {MY_NAME}
@@ -72,39 +72,38 @@ export default function Papers({ allPapersData }: { allPapersData: Paper[] }) {
 
   // --- 样式主题 ---
   const theme = {
-    wrapper: isDarkMode ? 'bg-[#050505] text-white' : 'bg-warm-canvas text-warm-ink',
-    titleColor: isDarkMode ? 'text-white' : 'text-warm-ink',
-    textColor: isDarkMode ? 'text-gray-300' : 'text-warm-muted',
-    metaColor: isDarkMode ? 'text-gray-400' : 'text-warm-muted',
-    accentColor: isDarkMode ? 'text-blue-300' : 'text-blue-600',
+    wrapper: isDarkMode ? 'bg-[#161310] text-[#eee4d8]' : 'bg-warm-canvas text-warm-ink',
+    titleColor: isDarkMode ? 'text-[#eee4d8]' : 'text-warm-ink',
+    textColor: isDarkMode ? 'text-[#aaa096]' : 'text-warm-muted',
+    metaColor: isDarkMode ? 'text-[#9f958b]' : 'text-warm-muted',
+    accentColor: isDarkMode ? 'text-[#dfa089]' : 'text-[#9f4f3b]',
 
-    // 卡片：深灰玻璃 vs 白玻璃
     card: isDarkMode
-      ? 'bg-[#141414] border border-white/10 hover:border-white/30 shadow-xl overflow-hidden'
+      ? 'bg-[#241f1b]/66 backdrop-blur-xl backdrop-saturate-150 border border-[#f3e8dc]/[0.08] hover:border-[#cc785c]/25 overflow-hidden'
       : 'bg-warm-surface border border-black/5 hover:border-black/10 shadow-sm hover:shadow-md overflow-hidden',
     
     // 链接按钮 (Small Pills)
     linkBtn: isDarkMode
-      ? 'bg-white/10 hover:bg-white/20 text-white border border-white/10'
+      ? 'bg-[#2b2520]/80 hover:bg-[#342c26] text-[#d8ccc0] border border-[#f3e8dc]/[0.08]'
       : 'bg-black/5 hover:bg-black/10 text-black border border-black/5',
       
-    divider: isDarkMode ? 'border-white/10' : 'border-black/10',
+    divider: isDarkMode ? 'border-[#f3e8dc]/10' : 'border-black/10',
   };
 
   const linkBtnByType = (type: 'paper' | 'code' | 'website' | 'huggingface') => {
     if (type === 'huggingface') {
       return isDarkMode
-        ? 'bg-yellow-400/15 hover:bg-yellow-400/25 text-yellow-200 border border-yellow-400/30'
+        ? 'bg-[#b7923f]/15 hover:bg-[#b7923f]/25 text-[#e6cf8a] border border-[#b7923f]/30'
         : 'bg-[#f2e7c8] hover:bg-[#ebddb4] text-[#725913] border border-[#ddca8c]';
     }
     if (type === 'paper') {
       return isDarkMode
-        ? 'bg-[#B31B1B]/15 hover:bg-[#B31B1B]/25 text-[#ffb4b4] border border-[#B31B1B]/35'
+        ? 'bg-coral/15 hover:bg-coral/25 text-[#efb29d] border border-coral/30'
         : 'bg-[#f4e1da] hover:bg-[#edd2c8] text-[#9f4f3b] border border-[#dfb8aa]';
     }
     if (type === 'website') {
       return isDarkMode
-        ? 'bg-blue-400/15 hover:bg-blue-400/25 text-blue-200 border border-blue-400/30'
+        ? 'bg-[#6f9482]/15 hover:bg-[#6f9482]/25 text-[#a9c9b9] border border-[#6f9482]/30'
         : 'bg-[#e5ece7] hover:bg-[#d9e4dc] text-[#376453] border border-[#bfd1c6]';
     }
     // code
@@ -118,7 +117,7 @@ export default function Papers({ allPapersData }: { allPapersData: Paper[] }) {
         <meta key="description" name="description" content="Publications and research projects by Tianshan Zhang in 3D vision, generative AI, and physically plausible interaction." />
       </Head>
 
-      <div className={`min-h-screen transition-colors duration-500 font-sans selection:bg-purple-500/30 flex flex-col ${theme.wrapper}`}>
+      <div className={`min-h-screen transition-colors duration-500 font-sans selection:bg-coral/30 flex flex-col ${theme.wrapper}`}>
         
         <Header />
 

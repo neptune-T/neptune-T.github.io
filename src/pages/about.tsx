@@ -64,25 +64,25 @@ export default function About({ travelData, honorsData }: AboutProps) {
   }, []);
 
   const theme = {
-    wrapper: isDarkMode ? 'bg-[#050505] text-white' : 'bg-warm-canvas text-warm-ink',
-    titleColor: isDarkMode ? 'text-white' : 'text-warm-ink',
-    textColor: isDarkMode ? 'text-gray-300' : 'text-warm-muted',
-    subText: isDarkMode ? 'text-gray-500' : 'text-warm-muted/70',
+    wrapper: isDarkMode ? 'bg-[#161310] text-[#eee4d8]' : 'bg-warm-canvas text-warm-ink',
+    titleColor: isDarkMode ? 'text-[#eee4d8]' : 'text-warm-ink',
+    textColor: isDarkMode ? 'text-[#aaa096]' : 'text-warm-muted',
+    subText: isDarkMode ? 'text-[#82786f]' : 'text-warm-muted/70',
     card: isDarkMode
-      ? 'bg-[#1a1a1a]/80 backdrop-blur-md border border-white/5 shadow-xl'
+      ? 'bg-[#241f1b]/66 backdrop-blur-xl backdrop-saturate-150 border border-[#f3e8dc]/[0.08]'
       : 'bg-warm-surface/90 backdrop-blur-md border border-black/5 shadow-sm hover:shadow-md',
     pillActive: isDarkMode 
-      ? 'bg-white text-black shadow-[0_0_15px_rgba(255,255,255,0.4)]'
+      ? 'bg-[#e7dacb] text-[#1b1714]'
       : 'bg-black text-white shadow-lg',
     pillInactive: isDarkMode
-      ? 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white'
+      ? 'bg-[#2b2520]/75 text-[#aaa096] hover:bg-[#342c26] hover:text-[#eee4d8]'
       : 'bg-black/5 text-gray-600 hover:bg-black/10 hover:text-black',
-    divider: isDarkMode ? 'border-white/10' : 'border-black/10',
+    divider: isDarkMode ? 'border-[#f3e8dc]/10' : 'border-black/10',
     mapBg: 'transparent',
-    mapAreaColor: isDarkMode ? '#222' : '#ded5ca',
-    mapBorderColor: isDarkMode ? '#333' : '#faf7f1',
-    mapHighlight: isDarkMode ? '#ffffff' : '#111111',
-    mapHighlightShadow: isDarkMode ? 'rgba(255, 255, 255, 0.6)' : 'rgba(0, 0, 0, 0.3)',
+    mapAreaColor: isDarkMode ? '#342c26' : '#ded5ca',
+    mapBorderColor: isDarkMode ? '#594b41' : '#faf7f1',
+    mapHighlight: isDarkMode ? '#cc785c' : '#111111',
+    mapHighlightShadow: isDarkMode ? 'rgba(204, 120, 92, 0.35)' : 'rgba(0, 0, 0, 0.3)',
   };
 
   const getOption = () => {
@@ -134,9 +134,9 @@ export default function About({ travelData, honorsData }: AboutProps) {
       backgroundColor: theme.mapBg,
       tooltip: {
         trigger: 'item',
-        backgroundColor: isDarkMode ? 'rgba(0,0,0,0.8)' : 'rgba(255,255,255,0.9)',
-        borderColor: isDarkMode ? '#333' : '#ddd',
-        textStyle: { color: isDarkMode ? '#fff' : '#000' },
+        backgroundColor: isDarkMode ? 'rgba(36,31,27,0.94)' : 'rgba(255,255,255,0.9)',
+        borderColor: isDarkMode ? '#594b41' : '#ddd',
+        textStyle: { color: isDarkMode ? '#eee4d8' : '#000' },
         // [修改2] 添加了 eslint-disable-line 来忽略 any 类型检查
         formatter: (params: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any
           if (!params.data) return params.name;
@@ -195,7 +195,7 @@ export default function About({ travelData, honorsData }: AboutProps) {
         <meta key="description" name="description" content="Biography, academic interests, honors, and travel history of Tianshan Zhang." />
       </Head>
 
-      <div className={`min-h-screen transition-colors duration-500 font-sans selection:bg-purple-500/30 flex flex-col ${theme.wrapper}`}>
+      <div className={`min-h-screen transition-colors duration-500 font-sans selection:bg-coral/30 flex flex-col ${theme.wrapper}`}>
         <Header />
 
         <main className="flex-grow pt-32 md:pt-40 px-4 md:px-10 lg:px-20 pb-20 max-w-7xl mx-auto w-full">
@@ -297,7 +297,7 @@ export default function About({ travelData, honorsData }: AboutProps) {
                   className={`p-6 rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-4 transition-all ${theme.card}`}
                 >
                   <div className="flex items-start gap-4">
-                    <div className={`mt-1 p-2 rounded-full ${isDarkMode ? 'bg-white/10' : 'bg-black/5'}`}>
+                    <div className={`mt-1 p-2 rounded-full ${isDarkMode ? 'bg-coral/15' : 'bg-black/5'}`}>
                       <Award size={20} className={theme.textColor} />
                     </div>
                     <div>
@@ -305,7 +305,7 @@ export default function About({ travelData, honorsData }: AboutProps) {
                       <p className={`text-sm ${theme.subText}`}>{honor.description}</p>
                     </div>
                   </div>
-                  <div className={`text-xs font-mono px-4 py-1.5 rounded-full border ${isDarkMode ? 'border-white/10 text-gray-400 bg-white/5' : 'border-black/10 text-gray-500 bg-black/5'}`}>
+                  <div className={`text-xs font-mono px-4 py-1.5 rounded-full border ${isDarkMode ? 'border-[#f3e8dc]/[0.08] text-[#aaa096] bg-[#2b2520]/75' : 'border-black/10 text-gray-500 bg-black/5'}`}>
                     {honor.date || 'Award'} 
                   </div>
                 </motion.div>

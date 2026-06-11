@@ -37,43 +37,35 @@ export default function Notes({ allNotesData }: { allNotesData: Note[] }) {
     ? allNotesData 
     : allNotesData.filter(note => note.tags?.includes(selectedTag));
 
-  // --- 样式主题 (强制高对比度) ---
+  // --- Theme ---
   const theme = {
-    // 全局背景
-    wrapper: isDarkMode ? 'bg-[#050505] text-white' : 'bg-warm-canvas text-warm-ink',
+    wrapper: isDarkMode ? 'bg-[#161310] text-[#eee4d8]' : 'bg-warm-canvas text-warm-ink',
     
-    // 文字颜色 (强制指定，防止继承错误)
-    titleColor: isDarkMode ? 'text-white' : 'text-black',
-    textColor: isDarkMode ? 'text-gray-300' : 'text-warm-muted',
-    metaColor: isDarkMode ? 'text-gray-500' : 'text-warm-muted/70',
+    titleColor: isDarkMode ? 'text-[#eee4d8]' : 'text-black',
+    textColor: isDarkMode ? 'text-[#aaa096]' : 'text-warm-muted',
+    metaColor: isDarkMode ? 'text-[#82786f]' : 'text-warm-muted/70',
 
-    // 卡片样式：黑夜模式用深灰底+白边框，白天用白底
     card: isDarkMode
-      ? 'bg-[#141414] border border-white/10 hover:border-white/30 hover:bg-[#1a1a1a] shadow-xl'
+      ? 'bg-[#241f1b]/66 backdrop-blur-xl backdrop-saturate-150 border border-[#f3e8dc]/[0.08] hover:border-[#cc785c]/30 hover:bg-[#2b2520]/78'
       : 'bg-warm-surface border border-black/5 hover:border-black/10 shadow-sm hover:shadow-md',
     
-    // 标签筛选按钮
-    // 选中：黑夜(白底黑字)，白天(黑底白字) -> 确保最醒目
     filterBtnActive: isDarkMode 
-      ? 'bg-white text-black font-bold shadow-[0_0_15px_rgba(255,255,255,0.3)]' 
+      ? 'bg-[#e7dacb] text-[#1b1714] font-bold'
       : 'bg-black text-white font-bold shadow-lg',
     
-    // 未选中：黑夜(深灰底白字)，白天(浅灰底黑字)
     filterBtnInactive: isDarkMode
-      ? 'bg-white/5 text-gray-400 border border-white/10 hover:bg-white/10 hover:text-white'
+      ? 'bg-[#2b2520]/75 text-[#aaa096] border border-[#f3e8dc]/[0.08] hover:bg-[#342c26] hover:text-[#eee4d8]'
       : 'bg-black/5 text-gray-600 border border-black/5 hover:bg-black/10 hover:text-black',
       
-    // 卡片内部小标签
     tagPill: isDarkMode 
-      ? 'bg-white/5 text-gray-400 border border-white/10' 
+      ? 'bg-[#2b2520]/75 text-[#aaa096] border border-[#f3e8dc]/[0.08]'
       : 'bg-black/5 text-gray-600 border border-black/5',
     
-    // 箭头圆圈背景
     arrowBg: isDarkMode 
-      ? 'bg-white text-black' // 黑夜模式下箭头背景是白色，箭头是黑色
-      : 'bg-black text-white', // 白天模式下箭头背景是黑色，箭头是白色
+      ? 'bg-[#e7dacb] text-[#1b1714]'
+      : 'bg-black text-white',
 
-    divider: isDarkMode ? 'border-white/10' : 'border-black/10',
+    divider: isDarkMode ? 'border-[#f3e8dc]/10' : 'border-black/10',
   };
 
   return (
@@ -83,7 +75,7 @@ export default function Notes({ allNotesData }: { allNotesData: Note[] }) {
         <meta key="description" name="description" content="Technical notes by Tianshan Zhang on 3D vision, generative modeling, computer graphics, mathematics, and physics." />
       </Head>
 
-      <div className={`min-h-screen transition-colors duration-500 font-sans selection:bg-purple-500/30 flex flex-col ${theme.wrapper}`}>
+      <div className={`min-h-screen transition-colors duration-500 font-sans selection:bg-coral/30 flex flex-col ${theme.wrapper}`}>
         
         <Header />
 

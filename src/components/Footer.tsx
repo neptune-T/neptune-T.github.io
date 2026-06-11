@@ -7,11 +7,11 @@ const Footer = () => {
   const isDarkMode = currentTheme === 'dark';
 
   const newFooterContainer = isDarkMode
-    ? 'bg-[#1a1a1a]/80 backdrop-blur-md border border-white/5 shadow-lg text-gray-200 rounded-3xl p-8 md:p-10'
+    ? 'bg-[#241f1b]/66 backdrop-blur-2xl backdrop-saturate-150 border border-[#f3e8dc]/10 text-[#d8ccc0] rounded-3xl p-8 md:p-10'
     : 'bg-warm-surface/90 backdrop-blur-md border border-black/5 shadow-lg text-warm-ink rounded-3xl p-8 md:p-10';
 
-  const footerDivider = isDarkMode ? 'bg-white/10' : 'bg-black/10';
-  const footerIcon = isDarkMode ? 'hover:text-white text-gray-400' : 'hover:text-black text-gray-500';
+  const footerDivider = isDarkMode ? 'bg-[#f3e8dc]/10' : 'bg-black/10';
+  const footerIcon = isDarkMode ? 'hover:text-[#f1e8dc] text-[#9f958b]' : 'hover:text-black text-gray-500';
 
   return (
     <footer className="w-full py-10 px-4 md:px-10 lg:px-20 flex justify-center relative z-10">

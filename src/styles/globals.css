@@ -46,8 +46,22 @@
 }
 
 .note-prose-dark {
+  --tw-prose-invert-body: #c8bdb2;
+  --tw-prose-invert-headings: #eee4d8;
+  --tw-prose-invert-lead: #b8ada2;
   --tw-prose-invert-links: #ffb49d;
+  --tw-prose-invert-bold: #eee4d8;
+  --tw-prose-invert-counters: #9f958b;
+  --tw-prose-invert-bullets: #cc785c;
+  --tw-prose-invert-hr: #4a4038;
+  --tw-prose-invert-quotes: #d8ccc0;
   --tw-prose-invert-quote-borders: #cc785c;
+  --tw-prose-invert-captions: #9f958b;
+  --tw-prose-invert-code: #eee4d8;
+  --tw-prose-invert-pre-code: #e7dacb;
+  --tw-prose-invert-pre-bg: #1b1714;
+  --tw-prose-invert-th-borders: #594b41;
+  --tw-prose-invert-td-borders: #40362f;
 }
 
 .note-prose :where(h1, h2, h3, h4) {
@@ -65,7 +79,7 @@
 }
 
 .note-prose-dark :where(code):not(:where(pre code)) {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(231, 218, 203, 0.08);
   color: #ffb49d;
 }
 

@@ -88,7 +88,7 @@ export default function HomePage() {
   };
 
   return (
-    <div className={`w-full min-h-screen transition-colors duration-700 ease-in-out ${theme.bg} font-sans selection:bg-purple-500/30 flex flex-col`}>
+    <div className={`w-full min-h-screen transition-colors duration-700 ease-in-out ${theme.bg} font-sans selection:bg-coral/30 flex flex-col`}>
       
       <Head>
         <title>Tianshan Zhang (张天山) | 3D Vision and Generative AI</title>
@@ -160,12 +160,12 @@ export default function HomePage() {
           </div>
           <div className="flex w-full justify-center md:w-[52%] md:justify-end">
             <div className={`relative aspect-square w-full overflow-hidden rounded-[24px] border transition-all duration-700 md:max-w-[500px] ${theme.cardBorder} ${isDarkMode ? 'bg-[#1d1916]' : 'bg-warm-canvas'}`}>
-              <div className={`absolute inset-3 rounded-[18px] border pointer-events-none z-10 ${isDarkMode ? 'border-white/[0.06]' : 'border-black/[0.06]'}`} />
+              <div className={`absolute inset-3 rounded-[18px] border pointer-events-none z-10 ${isDarkMode ? 'border-[#f3e8dc]/[0.06]' : 'border-black/[0.06]'}`} />
               <div className={`absolute top-7 left-7 z-10 pointer-events-none transition-colors duration-700 ${isDarkMode ? 'text-[#e7dacb]' : 'text-[#242321]'}`}>
                 <h2 className="text-sm font-semibold uppercase">
                   Stanford Bunny
                 </h2>
-                <div className={`h-px w-10 my-2.5 ${isDarkMode ? 'bg-white/25' : 'bg-black/20'}`} />
+                <div className={`h-px w-10 my-2.5 ${isDarkMode ? 'bg-[#f3e8dc]/25' : 'bg-black/20'}`} />
                 <p className="font-mono text-[10px] leading-relaxed opacity-60">
                   PLY / INTERACTIVE SURFACE<br/>
                   DRAG TO ROTATE · HOVER TO DEFORM
@@ -191,7 +191,7 @@ export default function HomePage() {
           viewport={{ once: true, amount: 0.1 }}
           variants={fadeInVariants}
         >
-          <motion.h2 className={`text-3xl md:text-5xl font-bold mb-16 text-center ${isDarkMode ? 'text-white' : 'text-black'}`}>
+          <motion.h2 className={`text-3xl md:text-5xl font-bold mb-16 text-center ${isDarkMode ? 'text-[#eee4d8]' : 'text-black'}`}>
             Academic Profile
           </motion.h2>
           
@@ -243,7 +243,7 @@ export default function HomePage() {
         </motion.div>
 
         {/* Columns - [修改] 应用单色调主题 */}
-        <div className={`px-4 md:px-10 lg:px-20 max-w-7xl mx-auto border-t pt-20 mb-10 ${isDarkMode ? 'border-white/10' : 'border-black/10'}`}>
+        <div className={`px-4 md:px-10 lg:px-20 max-w-7xl mx-auto border-t pt-20 mb-10 ${isDarkMode ? 'border-[#f3e8dc]/10' : 'border-black/10'}`}>
             <motion.h2 
               className={`text-3xl md:text-4xl font-bold mb-16 text-center ${theme.columnTitle}`}
               initial="hidden"
