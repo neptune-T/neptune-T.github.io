@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { motion, Variants } from 'framer-motion';
-import { FaBook, FaFlask, FaUser, FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa';
+import { FaBook, FaFlask, FaUser, FaGithub } from 'react-icons/fa';
 
 // 引入拆分出去的 Header 组件
 import Header from '@/components/Header';
@@ -9,6 +9,7 @@ import Head from 'next/head';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useTheme } from '@/context/ThemeContext';
+import { GITHUB_URL, SITE_URL } from '@/lib/site';
 
 const HomeHeroScene = dynamic(() => import('@/components/HomeHeroScene'), {
   ssr: false,
@@ -90,8 +91,28 @@ export default function HomePage() {
     <div className={`w-full min-h-screen transition-colors duration-700 ease-in-out ${theme.bg} font-sans selection:bg-purple-500/30 flex flex-col`}>
       
       <Head>
-        <title>Tianshan Zhang | 张天山</title>
-        <meta name="description" content="Personal academic homepage" />
+        <title>Tianshan Zhang (张天山) | 3D Vision and Generative AI</title>
+        <meta
+          key="description"
+          name="description"
+          content="Tianshan Zhang's academic homepage, with research on 3D vision, generative AI, computer graphics, and physically plausible hand-object interaction."
+        />
+        <meta key="og-title" property="og:title" content="Tianshan Zhang | 3D Vision and Generative AI" />
+        <meta key="og-description" property="og:description" content="Research projects, publications, and technical notes by Tianshan Zhang." />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'Person',
+              name: 'Tianshan Zhang',
+              alternateName: '张天山',
+              url: SITE_URL,
+              sameAs: [GITHUB_URL],
+              knowsAbout: ['3D Vision', 'Generative AI', 'Computer Graphics', 'Physical Simulation'],
+            }),
+          }}
+        />
       </Head>
 
       {/* HEADER */}
@@ -247,12 +268,12 @@ export default function HomePage() {
                     <p className={`${theme.columnText} mb-8 text-sm h-16 leading-relaxed`}>Research notes and methodological insights from my ongoing projects.</p>
                     <div className="space-y-3">
                         {/* [修改] 使用 tagMono */}
-                        <a href="#" className={`block w-full py-2.5 px-4 rounded text-xs font-medium tracking-wide transition-all ${theme.tagMono}`}>
-                           Cognitive Models
-                        </a>
-                        <a href="#" className={`block w-full py-2.5 px-4 rounded text-xs font-medium tracking-wide transition-all ${theme.tagMono}`}>
-                           Experimental Design
-                        </a>
+                        <Link href="/notes/SequenceModeling" className={`block w-full py-2.5 px-4 rounded text-xs font-medium tracking-wide transition-all ${theme.tagMono}`}>
+                           Sequence Modeling
+                        </Link>
+                        <Link href="/notes/3DGaussianSplatting" className={`block w-full py-2.5 px-4 rounded text-xs font-medium tracking-wide transition-all ${theme.tagMono}`}>
+                           3D Gaussian Splatting
+                        </Link>
                     </div>
                 </motion.div>
                 
@@ -271,11 +292,11 @@ export default function HomePage() {
                     <p className={`${theme.columnText} mb-8 text-sm h-16 leading-relaxed`}>Critical reviews and summaries of influential papers in AI.</p>
                     <div className="space-y-3">
                         {/* [修改] 使用 tagMono */}
-                        <a href="#" className={`block w-full py-2.5 px-4 rounded text-xs font-medium tracking-wide transition-all ${theme.tagMono}`}>
-                           Recent Publications
+                        <a href="https://github.com/AIGeeksGroup/DragMesh-2" target="_blank" rel="noreferrer" className={`block w-full py-2.5 px-4 rounded text-xs font-medium tracking-wide transition-all ${theme.tagMono}`}>
+                           DragMesh-2
                         </a>
-                        <a href="#" className={`block w-full py-2.5 px-4 rounded text-xs font-medium tracking-wide transition-all ${theme.tagMono}`}>
-                           Classic Papers
+                        <a href="https://arxiv.org/abs/2512.06424" target="_blank" rel="noreferrer" className={`block w-full py-2.5 px-4 rounded text-xs font-medium tracking-wide transition-all ${theme.tagMono}`}>
+                           DragMesh
                         </a>
                     </div>
                 </motion.div>
@@ -295,12 +316,12 @@ export default function HomePage() {
                     <p className={`${theme.columnText} mb-8 text-sm h-16 leading-relaxed`}>Personal reflections on academic life and philosophy.</p>
                     <div className="space-y-3">
                         {/* [修改] 使用 tagMono */}
-                        <a href="#" className={`block w-full py-2.5 px-4 rounded text-xs font-medium tracking-wide transition-all ${theme.tagMono}`}>
+                        <Link href="/about" className={`block w-full py-2.5 px-4 rounded text-xs font-medium tracking-wide transition-all ${theme.tagMono}`}>
                            Academic Journey
-                        </a>
-                        <a href="#" className={`block w-full py-2.5 px-4 rounded text-xs font-medium tracking-wide transition-all ${theme.tagMono}`}>
-                           Teaching Philosophy
-                        </a>
+                        </Link>
+                        <Link href="/about#honors" className={`block w-full py-2.5 px-4 rounded text-xs font-medium tracking-wide transition-all ${theme.tagMono}`}>
+                           Honors &amp; Awards
+                        </Link>
                     </div>
                 </motion.div>
             </div>
@@ -316,14 +337,12 @@ export default function HomePage() {
                <p className="opacity-80 text-sm">Academic Homepage</p>
             </div>
             <div className="flex gap-6 items-center">
-               <a href="#" className={`transition-colors duration-300 ${theme.footerIcon}`} aria-label="GitHub"> <FaGithub size={24} /> </a>
-               <a href="#" className={`transition-colors duration-300 ${theme.footerIcon}`} aria-label="LinkedIn"> <FaLinkedin size={24} /> </a>
-               <a href="#" className={`transition-colors duration-300 ${theme.footerIcon}`} aria-label="Twitter"> <FaTwitter size={24} /> </a>
+               <a href={GITHUB_URL} target="_blank" rel="noreferrer" className={`transition-colors duration-300 ${theme.footerIcon}`} aria-label="GitHub"> <FaGithub size={24} /> </a>
             </div>
           </div>
           <div className={`w-full h-px my-8 ${theme.footerDivider}`}></div>
           <div className="text-center text-sm opacity-60">
-            <p>© 2025 Plote · “We can only see a short distance ahead, but we can see plenty there that needs to be done.” — Alan Turing</p>
+            <p>© 2026 Plote · “We can only see a short distance ahead, but we can see plenty there that needs to be done.” — Alan Turing</p>
           </div>
         </div>
       </footer>

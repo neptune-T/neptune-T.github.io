@@ -191,7 +191,8 @@ export default function About({ travelData, honorsData }: AboutProps) {
   return (
     <>
       <Head>
-        <title>About | Plote Motion Field</title>
+        <title>About Tianshan Zhang</title>
+        <meta key="description" name="description" content="Biography, academic interests, honors, and travel history of Tianshan Zhang." />
       </Head>
 
       <div className={`min-h-screen transition-colors duration-500 font-sans selection:bg-purple-500/30 flex flex-col ${theme.wrapper}`}>
@@ -279,7 +280,7 @@ export default function About({ travelData, honorsData }: AboutProps) {
           </section>
 
           {/* 3. Honors & Awards Section */}
-          <section>
+          <section id="honors">
             <h2 className={`text-3xl font-bold ${theme.titleColor} mb-8 flex items-center gap-3`}>
               <Trophy className="w-6 h-6 opacity-70" />
               Honors & Awards

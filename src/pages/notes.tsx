@@ -79,8 +79,8 @@ export default function Notes({ allNotesData }: { allNotesData: Note[] }) {
   return (
     <>
       <Head>
-        <title>Notes | Plote Motion Field</title>
-        <meta name="description" content="Research notes and methodological insights." />
+        <title>Research Notes | Tianshan Zhang</title>
+        <meta key="description" name="description" content="Technical notes by Tianshan Zhang on 3D vision, generative modeling, computer graphics, mathematics, and physics." />
       </Head>
 
       <div className={`min-h-screen transition-colors duration-500 font-sans selection:bg-purple-500/30 flex flex-col ${theme.wrapper}`}>

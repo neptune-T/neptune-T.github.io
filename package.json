@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
+    "prebuild": "node scripts/generate-sitemap.mjs",
     "build": "next build",
     "postbuild": "node -e \"require('fs').closeSync(require('fs').openSync('out/.nojekyll','a'))\"",
     "start": "next start",

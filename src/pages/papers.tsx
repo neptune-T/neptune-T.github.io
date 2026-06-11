@@ -114,8 +114,8 @@ export default function Papers({ allPapersData }: { allPapersData: Paper[] }) {
   return (
     <>
       <Head>
-        <title>Papers | Plote Motion Field</title>
-        <meta name="description" content="Selected publications and research papers." />
+        <title>Publications | Tianshan Zhang</title>
+        <meta key="description" name="description" content="Publications and research projects by Tianshan Zhang in 3D vision, generative AI, and physically plausible interaction." />
       </Head>
 
       <div className={`min-h-screen transition-colors duration-500 font-sans selection:bg-purple-500/30 flex flex-col ${theme.wrapper}`}>

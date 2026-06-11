@@ -33,6 +33,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 type NoteData = {
   title: string;
   date: string;
+  summary: string;
   contentHtml: string;
   coverImage?: string;
 };
@@ -43,7 +44,11 @@ export default function Note({ noteData }: { noteData: NoteData }) {
   return (
     <>
       <Head>
-        <title>{noteData.title} | Plote</title>
+        <title>{noteData.title} | Tianshan Zhang</title>
+        <meta key="description" name="description" content={noteData.summary} />
+        <meta key="og-type" property="og:type" content="article" />
+        <meta key="og-title" property="og:title" content={noteData.title} />
+        <meta key="og-description" property="og:description" content={noteData.summary} />
       </Head>
       <div className={`min-h-screen transition-colors duration-500 font-sans selection:bg-purple-500/30 flex flex-col ${isDarkMode ? 'bg-[#050505] text-white' : 'bg-[#F9F9F9] text-[#1a1a1a]'}`}>
         <Header />
@@ -77,4 +82,4 @@ export default function Note({ noteData }: { noteData: NoteData }) {
       </div>
     </>
   );
-} 
+}

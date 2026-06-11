@@ -7,7 +7,7 @@ summary: We present DragMesh, a robust framework for real-time interactive 3D ar
 arxiv_url: https://arxiv.org/abs/2512.06424
 github_url: https://github.com/AIGeeksGroup/DragMesh
 huggingface_url: https://huggingface.co/AIGeeksGroup/DragMesh
+url: https://aigeeksgroup.github.io/DragMesh/
 video: /videos/papers/dragmesh/dragmesh.mp4
 ---
-
 

@@ -2,18 +2,33 @@ import '@/styles/globals.css'
 import 'katex/dist/katex.min.css';
 import type { AppProps } from 'next/app'
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import { withBasePath } from '@/lib/basePath';
 import { ThemeProvider } from '@/context/ThemeContext';
+import { SITE_NAME, toAbsoluteUrl, toCanonicalUrl } from '@/lib/site';
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const router = useRouter();
+  const canonicalUrl = toCanonicalUrl(router.asPath);
+
   return (
     <>
       <Head>
-        {/* 默认元信息：具体页面可在各自的 <Head> 中覆盖 */}
-        <meta name="description" content="A collection of thoughts, explorations, and research in Generative AI, Mathematics, and Physics." />
-        <meta property="og:description" content="Explore notes, papers, and more." />
+        <meta
+          key="description"
+          name="description"
+          content="Tianshan Zhang's academic homepage, featuring research in 3D vision, generative AI, computer graphics, and physically plausible interaction."
+        />
+        <meta name="author" content="Tianshan Zhang" />
+        <meta name="robots" content="index,follow,max-image-preview:large" />
+        <link key="canonical" rel="canonical" href={canonicalUrl} />
+        <meta property="og:site_name" content={SITE_NAME} />
+        <meta key="og-type" property="og:type" content="website" />
+        <meta property="og:url" content={canonicalUrl} />
+        <meta key="og-title" property="og:title" content="Tianshan Zhang | 3D Vision and Generative AI" />
+        <meta key="og-description" property="og:description" content="Research, publications, and technical notes by Tianshan Zhang." />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta property="og:image" content={withBasePath('/favicon.ico')} />
+        <meta property="og:image" content={toAbsoluteUrl(withBasePath('/favicon.ico'))} />
       </Head>
       <ThemeProvider>
         <Component {...pageProps} />
@@ -22,4 +37,4 @@ function MyApp({ Component, pageProps }: AppProps) {
   )
 }
 
-export default MyApp; 
+export default MyApp;

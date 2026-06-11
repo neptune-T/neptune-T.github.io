@@ -62,7 +62,12 @@ export function getAllNoteIds() {
   }
   const fileNames = fs.readdirSync(notesDirectory);
   return fileNames
-    .filter((fileName) => fileName.endsWith('.md')) // Ensure we only process markdown files
+    .filter((fileName) => fileName.endsWith('.md'))
+    .filter((fileName) => {
+      const fullPath = path.join(notesDirectory, fileName);
+      const matterResult = matter(fs.readFileSync(fullPath, 'utf8'));
+      return Boolean(matterResult.data.title && matterResult.data.date && matterResult.data.summary);
+    })
     .map((fileName) => {
       return {
         params: {
@@ -103,4 +108,4 @@ export async function getNoteData(id: string) {
     coverImage,
     ...(matterResult.data as { title: string; date: string; summary: string; tags?: string[] }),
   };
-} 
+}

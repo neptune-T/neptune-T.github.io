@@ -1,5 +1,6 @@
 import { useTheme } from '@/context/ThemeContext';
-import { FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa';
+import { FaGithub } from 'react-icons/fa';
+import { GITHUB_URL } from '@/lib/site';
 
 const Footer = () => {
   const { theme: currentTheme } = useTheme();
@@ -21,18 +22,16 @@ const Footer = () => {
             <p className="opacity-80 text-sm">Academic Homepage</p>
           </div>
           <div className="flex gap-6 items-center">
-            <a href="#" className={`transition-colors duration-300 ${footerIcon}`} aria-label="GitHub"> <FaGithub size={24} /> </a>
-            <a href="#" className={`transition-colors duration-300 ${footerIcon}`} aria-label="LinkedIn"> <FaLinkedin size={24} /> </a>
-            <a href="#" className={`transition-colors duration-300 ${footerIcon}`} aria-label="Twitter"> <FaTwitter size={24} /> </a>
+            <a href={GITHUB_URL} target="_blank" rel="noreferrer" className={`transition-colors duration-300 ${footerIcon}`} aria-label="GitHub"> <FaGithub size={24} /> </a>
           </div>
         </div>
         <div className={`w-full h-px my-8 ${footerDivider}`}></div>
         <div className="text-center text-sm opacity-60">
-          <p>© 2025 Plote · “We can only see a short distance ahead, but we can see plenty there that needs to be done.” — Alan Turing</p>
+          <p>© 2026 Plote · “We can only see a short distance ahead, but we can see plenty there that needs to be done.” — Alan Turing</p>
         </div>
       </div>
     </footer>
   );
 };
 
-export default Footer; 
+export default Footer;
