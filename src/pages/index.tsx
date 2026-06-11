@@ -39,51 +39,51 @@ export default function HomePage() {
   };
 
   const theme = {
-    bg: isDarkMode ? 'bg-[#050505]' : 'bg-warm-canvas',
+    bg: isDarkMode ? 'bg-[#161310]' : 'bg-warm-canvas',
     
     // --- 字体颜色 ---
-    heroTitle: isDarkMode ? 'text-white drop-shadow-md' : 'text-black',
-    heroSubtitle: isDarkMode ? 'text-gray-200' : 'text-gray-800',
-    heroBody: isDarkMode ? 'text-gray-400' : 'text-gray-600',
+    heroTitle: isDarkMode ? 'text-[#f1e8dc]' : 'text-black',
+    heroSubtitle: isDarkMode ? 'text-[#d8ccc0]' : 'text-gray-800',
+    heroBody: isDarkMode ? 'text-[#aaa096]' : 'text-gray-600',
     
     // --- 参数网格 ---
-    statsLabel: isDarkMode ? 'text-gray-500' : 'text-gray-400',
-    statsValue: isDarkMode ? 'text-gray-100' : 'text-gray-900',
-    statsBorder: isDarkMode ? 'border-white/10' : 'border-black/10',
+    statsLabel: isDarkMode ? 'text-[#82786f]' : 'text-gray-400',
+    statsValue: isDarkMode ? 'text-[#eee4d8]' : 'text-gray-900',
+    statsBorder: isDarkMode ? 'border-[#f3e8dc]/10' : 'border-black/10',
 
     // --- 大卡片样式 (Academic Profile) ---
     academicProfileCard: isDarkMode
-      ? 'bg-[#1a1a18]/68 backdrop-blur-2xl backdrop-saturate-150 border border-white/10 ring-1 ring-white/[0.03] rounded-3xl p-10 md:p-16'
+      ? 'bg-[#241f1b]/66 backdrop-blur-2xl backdrop-saturate-150 border border-[#f3e8dc]/10 ring-1 ring-[#cc785c]/[0.04] rounded-3xl p-10 md:p-16'
       : 'bg-warm-surface/60 backdrop-blur-2xl backdrop-saturate-150 border border-white/70 ring-1 ring-black/[0.04] rounded-3xl p-10 md:p-16',
 
     // --- Footer ---
     newFooterContainer: isDarkMode
-      ? 'bg-[#1a1a18]/68 backdrop-blur-2xl backdrop-saturate-150 border border-white/10 text-gray-200 rounded-3xl p-8 md:p-10'
+      ? 'bg-[#241f1b]/66 backdrop-blur-2xl backdrop-saturate-150 border border-[#f3e8dc]/10 text-[#d8ccc0] rounded-3xl p-8 md:p-10'
       : 'bg-warm-surface/60 backdrop-blur-2xl backdrop-saturate-150 border border-white/70 text-warm-ink rounded-3xl p-8 md:p-10',
-    footerDivider: isDarkMode ? 'bg-white/10' : 'bg-black/10',
-    footerIcon: isDarkMode ? 'hover:text-white text-gray-400' : 'hover:text-black text-gray-500',
+    footerDivider: isDarkMode ? 'bg-[#f3e8dc]/10' : 'bg-black/10',
+    footerIcon: isDarkMode ? 'hover:text-[#f1e8dc] text-[#9f958b]' : 'hover:text-black text-gray-500',
 
-    cardBorder: isDarkMode ? 'border-white/10' : 'border-black/5',
-    cardBg: isDarkMode ? 'bg-[#101010]' : 'bg-warm-surface',
-    buttonPrimary: isDarkMode ? 'bg-white text-black hover:bg-gray-200 border-transparent' : 'bg-black text-white hover:bg-gray-800 border-transparent',
-    buttonOutline: isDarkMode ? 'border-white/30 hover:bg-white/10 text-white' : 'border-black/20 hover:bg-black/5 text-black',
+    cardBorder: isDarkMode ? 'border-[#f3e8dc]/10' : 'border-black/5',
+    cardBg: isDarkMode ? 'bg-[#1d1916]' : 'bg-warm-surface',
+    buttonPrimary: isDarkMode ? 'bg-[#e7dacb] text-[#1b1714] hover:bg-[#f1e8dc] border-transparent' : 'bg-black text-white hover:bg-gray-800 border-transparent',
+    buttonOutline: isDarkMode ? 'border-[#e7dacb]/25 hover:bg-[#e7dacb]/[0.07] text-[#e7dacb]' : 'border-black/20 hover:bg-black/5 text-black',
     
     // --- 学术专栏 (Columns) 样式 ---
     glassCard: isDarkMode 
-      ? 'bg-[#1a1a18]/64 backdrop-blur-xl backdrop-saturate-150 border border-white/[0.08] hover:bg-[#22221f]/78 transition-colors duration-300'
+      ? 'bg-[#241f1b]/62 backdrop-blur-xl backdrop-saturate-150 border border-[#f3e8dc]/[0.08] hover:bg-[#2b2520]/78 transition-colors duration-300'
       : 'bg-warm-surface/55 backdrop-blur-xl backdrop-saturate-150 border border-white/70 hover:bg-warm-surface/80 transition-colors duration-300',
     
-    columnText: isDarkMode ? 'text-gray-400' : 'text-gray-600',
-    columnTitle: isDarkMode ? 'text-gray-100' : 'text-gray-900',
+    columnText: isDarkMode ? 'text-[#aaa096]' : 'text-gray-600',
+    columnTitle: isDarkMode ? 'text-[#eee4d8]' : 'text-gray-900',
     
     // --- [修改] 图标背景 - 统一为单色调 ---
-    iconBgMono: isDarkMode ? 'bg-white/10' : 'bg-warm-panel',
+    iconBgMono: isDarkMode ? 'bg-coral/15' : 'bg-warm-panel',
     // --- [修改] 图标颜色 - 自适应 ---
-    iconColor: isDarkMode ? 'text-white' : 'text-gray-900',
+    iconColor: isDarkMode ? 'text-[#dfa089]' : 'text-gray-900',
 
     // --- [修改] 标签条样式 - 统一为单色调 ---
     tagMono: isDarkMode 
-      ? 'bg-white/5 text-gray-300 hover:bg-white/10 border border-white/10' 
+      ? 'bg-[#2b2520]/75 text-[#d8ccc0] hover:bg-[#342c26] border border-[#f3e8dc]/[0.08]'
       : 'bg-warm-panel text-warm-ink hover:bg-[#e7ddcf] border border-black/5',
   };
 
@@ -159,9 +159,9 @@ export default function HomePage() {
             </div>
           </div>
           <div className="flex w-full justify-center md:w-[52%] md:justify-end">
-            <div className={`relative aspect-square w-full overflow-hidden rounded-[24px] border transition-all duration-700 md:max-w-[500px] ${theme.cardBorder} ${isDarkMode ? 'bg-[#11110f]' : 'bg-warm-canvas'}`}>
+            <div className={`relative aspect-square w-full overflow-hidden rounded-[24px] border transition-all duration-700 md:max-w-[500px] ${theme.cardBorder} ${isDarkMode ? 'bg-[#1d1916]' : 'bg-warm-canvas'}`}>
               <div className={`absolute inset-3 rounded-[18px] border pointer-events-none z-10 ${isDarkMode ? 'border-white/[0.06]' : 'border-black/[0.06]'}`} />
-              <div className={`absolute top-7 left-7 z-10 pointer-events-none transition-colors duration-700 ${isDarkMode ? 'text-[#f4f0e8]' : 'text-[#242321]'}`}>
+              <div className={`absolute top-7 left-7 z-10 pointer-events-none transition-colors duration-700 ${isDarkMode ? 'text-[#e7dacb]' : 'text-[#242321]'}`}>
                 <h2 className="text-sm font-semibold uppercase">
                   Stanford Bunny
                 </h2>
@@ -171,7 +171,7 @@ export default function HomePage() {
                   DRAG TO ROTATE · HOVER TO DEFORM
                 </p>
               </div>
-              <div className={`absolute right-7 bottom-7 z-10 pointer-events-none rounded-full border px-3 py-1.5 font-mono text-[9px] uppercase ${isDarkMode ? 'border-white/10 bg-black/20 text-white/55' : 'border-black/10 bg-warm-surface/60 text-black/50'}`}>
+              <div className={`absolute right-7 bottom-7 z-10 pointer-events-none rounded-full border px-3 py-1.5 font-mono text-[9px] uppercase ${isDarkMode ? 'border-[#f3e8dc]/10 bg-[#161310]/30 text-[#c0b4a8]' : 'border-black/10 bg-warm-surface/60 text-black/50'}`}>
                 {isDarkMode ? 'Night study' : 'Day study'}
               </div>
               <HomeHeroScene isDarkMode={isDarkMode} />

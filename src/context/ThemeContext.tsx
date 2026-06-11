@@ -34,7 +34,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     document.documentElement.dataset.theme = theme;
 
     // 同步背景，避免页面边缘/滚动区域闪白
-    const bg = theme === 'dark' ? '#050505' : '#F5F0E8';
+    const bg = theme === 'dark' ? '#161310' : '#F5F0E8';
     document.body.style.backgroundColor = bg;
     document.documentElement.style.backgroundColor = bg;
 

@@ -83,7 +83,7 @@ function InteractiveBunny({ url, isDarkMode }: { url: string; isDarkMode: boolea
   const materialArgs = useMemo(() => ({
     uniforms: {
       uTime: { value: 0 },
-      uColor: { value: new THREE.Color(isDarkMode ? '#f4f0e8' : '#242321') },
+      uColor: { value: new THREE.Color(isDarkMode ? '#e7dacb' : '#242321') },
       uAccent: { value: new THREE.Color('#cc785c') },
       uHover: { value: new THREE.Vector3(9999, 9999, 9999) },
       uInteractionRadius: { value: 0.3 },
@@ -132,10 +132,10 @@ function InteractiveBunny({ url, isDarkMode }: { url: string; isDarkMode: boolea
       <mesh onPointerMove={handlePointerMove} onPointerLeave={handlePointerLeave}>
         <primitive object={geometry} />
         <meshPhysicalMaterial
-          color={isDarkMode ? '#191917' : '#d8d0c3'}
-          roughness={isDarkMode ? 0.38 : 0.62}
-          metalness={isDarkMode ? 0.25 : 0.04}
-          clearcoat={isDarkMode ? 0.28 : 0.12}
+          color={isDarkMode ? '#302923' : '#d8d0c3'}
+          roughness={isDarkMode ? 0.5 : 0.62}
+          metalness={isDarkMode ? 0.12 : 0.04}
+          clearcoat={isDarkMode ? 0.18 : 0.12}
           clearcoatRoughness={0.7}
           transparent
           opacity={isDarkMode ? 0.5 : 0.88}
@@ -193,13 +193,13 @@ export default function HomeHeroScene({ isDarkMode }: { isDarkMode: boolean }) {
       shadows
       gl={{ powerPreference: 'high-performance', antialias: true }}
     >
-      <color attach="background" args={[isDarkMode ? '#11110f' : '#f5f0e8']} />
+      <color attach="background" args={[isDarkMode ? '#1d1916' : '#f5f0e8']} />
       <ambientLight intensity={isDarkMode ? 0.72 : 1.2} />
       <directionalLight
         castShadow
         position={[-2.5, 3.5, 3]}
         intensity={isDarkMode ? 2.2 : 2.8}
-        color={isDarkMode ? '#fff4e8' : '#fffaf2'}
+        color={isDarkMode ? '#f3e3d2' : '#fffaf2'}
       />
       <directionalLight
         position={[3, 0.5, -2]}
@@ -234,5 +234,4 @@ export default function HomeHeroScene({ isDarkMode }: { isDarkMode: boolean }) {
     </Canvas>
   );
 }
-
 

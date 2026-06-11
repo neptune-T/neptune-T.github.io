@@ -23,9 +23,9 @@ const Header: React.FC<HeaderProps> = ({ isDarkMode: isDarkModeProp, setIsDarkMo
 
   // Keep the fixed header compact so it does not compete with the hero.
   const glassNavClass = isDarkMode 
-    ? 'bg-[#0b0b0a]/72 border-white/[0.08] text-[#f5f0e8]'
+    ? 'bg-[#1a1714]/72 border-[#f3e8dc]/10 text-[#eee4d8]'
     : 'bg-warm-surface/72 border-white/70 text-warm-ink';
-  const navLinkStyle = { color: isDarkMode ? '#f5f0e8' : '#242321' };
+  const navLinkStyle = { color: isDarkMode ? '#eee4d8' : '#242321' };
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 px-4 sm:px-6 lg:px-10 py-2.5 transition-colors duration-500 border-b backdrop-blur-2xl backdrop-saturate-150 ${glassNavClass}`}>
@@ -73,7 +73,7 @@ const Header: React.FC<HeaderProps> = ({ isDarkMode: isDarkModeProp, setIsDarkMo
       {/* Mobile dropdown */}
       {mobileOpen && (
         <div className="md:hidden mt-2.5 rounded-2xl border border-current/10 overflow-hidden">
-          <div className={`flex flex-col ${isDarkMode ? 'bg-black/65' : 'bg-warm-surface/78'} backdrop-blur-2xl backdrop-saturate-150`}>
+          <div className={`flex flex-col ${isDarkMode ? 'bg-[#1a1714]/82' : 'bg-warm-surface/78'} backdrop-blur-2xl backdrop-saturate-150`}>
             <Link
               href="/"
               className="px-4 py-3 hover:bg-current/5 transition-colors"
