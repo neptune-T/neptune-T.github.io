@@ -212,8 +212,8 @@ export default function Papers({ allPapersData }: { allPapersData: Paper[] }) {
                   </p>
 
                   {/* 3. 底部操作栏 (链接按钮) */}
-                  <div className={`pt-6 border-t border-dashed flex flex-wrap items-center gap-3 ${theme.divider}`}>
-                    <div className={`flex items-center gap-2 text-xs font-mono mr-auto opacity-60 ${theme.metaColor}`}>
+                  <div className={`pt-6 border-t border-dashed flex flex-nowrap items-center gap-2 overflow-x-auto ${theme.divider}`}>
+                    <div className={`flex shrink-0 items-center gap-2 text-xs font-mono mr-auto opacity-60 ${theme.metaColor}`}>
                       <Calendar size={12} />
                       {paper.date.substring(0, 7)}
                     </div>
@@ -223,23 +223,23 @@ export default function Papers({ allPapersData }: { allPapersData: Paper[] }) {
                         href={paper.arxiv_url}
                         target="_blank"
                         rel="noreferrer"
-                        className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold transition-all ${linkBtnByType('paper')}`}
+                        className={`flex shrink-0 items-center gap-2 px-3 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all ${linkBtnByType('paper')}`}
                       >
                         <FileText size={14} /> arXiv
                       </a>
                     )}
                     {paper.github_url && (
-                      <a href={paper.github_url} target="_blank" rel="noreferrer" className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold transition-all ${linkBtnByType('code')}`}>
+                      <a href={paper.github_url} target="_blank" rel="noreferrer" className={`flex shrink-0 items-center gap-2 px-3 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all ${linkBtnByType('code')}`}>
                         <Github size={14} /> Code
                       </a>
                     )}
                     {paper.url && (
-                      <a href={paper.url} target="_blank" rel="noreferrer" className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold transition-all ${linkBtnByType('website')}`}>
+                      <a href={paper.url} target="_blank" rel="noreferrer" className={`flex shrink-0 items-center gap-2 px-3 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all ${linkBtnByType('website')}`}>
                         <Globe size={14} /> Website
                       </a>
                     )}
                     {paper.huggingface_url && (
-                      <a href={paper.huggingface_url} target="_blank" rel="noreferrer" className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold transition-all ${linkBtnByType('huggingface')}`}>
+                      <a href={paper.huggingface_url} target="_blank" rel="noreferrer" className={`flex shrink-0 items-center gap-2 px-3 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all ${linkBtnByType('huggingface')}`}>
                         <LinkIcon size={14} /> HuggingFace
                       </a>
                     )}
