@@ -294,7 +294,7 @@ export default function About({ travelData, honorsData }: AboutProps) {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
-                  className={`p-6 rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-4 transition-all ${theme.card}`}
+                  className={`p-6 rounded-2xl transition-all ${theme.card}`}
                 >
                   <div className="flex items-start gap-4">
                     <div className={`mt-1 p-2 rounded-full ${isDarkMode ? 'bg-coral/15' : 'bg-black/5'}`}>
@@ -304,9 +304,6 @@ export default function About({ travelData, honorsData }: AboutProps) {
                       <h3 className={`text-lg font-bold ${theme.titleColor}`}>{honor.title}</h3>
                       <p className={`text-sm ${theme.subText}`}>{honor.description}</p>
                     </div>
-                  </div>
-                  <div className={`text-xs font-mono px-4 py-1.5 rounded-full border ${isDarkMode ? 'border-[#f3e8dc]/[0.08] text-[#aaa096] bg-[#2b2520]/75' : 'border-black/10 text-gray-500 bg-black/5'}`}>
-                    {honor.date || 'Award'} 
                   </div>
                 </motion.div>
               ))}

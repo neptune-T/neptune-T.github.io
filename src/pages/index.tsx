@@ -7,7 +7,6 @@ import { FaBook, FaFlask, FaUser, FaGithub } from 'react-icons/fa';
 import Header from '@/components/Header';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useTheme } from '@/context/ThemeContext';
 import { GITHUB_URL, SITE_URL } from '@/lib/site';
@@ -302,12 +301,15 @@ export default function HomePage() {
                   transition={{ duration: 0.45, delay: index * 0.08 }}
                 >
                   <div className="flex h-[72px] w-[72px] items-center justify-center p-2 md:h-[80px] md:w-[80px]">
-                    <Image
+                    {/* Keep logos as public assets, matching the native images rendered in Notes. */}
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
                       src={withBasePath(experience.logo)}
                       alt={`${experience.institution} logo`}
                       width={experience.logoWidth}
                       height={experience.logoHeight}
-                      className={`max-h-full w-auto object-contain ${
+                      loading="eager"
+                      className={`max-h-full max-w-full w-auto object-contain ${
                         isDarkMode && experience.invertInDarkMode ? 'invert' : ''
                       }`}
                     />
