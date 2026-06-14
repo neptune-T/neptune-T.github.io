@@ -25,7 +25,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta property="og:site_name" content={SITE_NAME} />
         <meta key="og-type" property="og:type" content="website" />
         <meta property="og:url" content={canonicalUrl} />
-        <meta key="og-title" property="og:title" content="Tianshan Zhang | 3D Vision and Generative AI" />
+        <meta key="og-title" property="og:title" content="Tianshan Zhang | 张天山" />
         <meta key="og-description" property="og:description" content="Research, publications, and technical notes by Tianshan Zhang." />
         <meta name="twitter:card" content="summary_large_image" />
         <meta property="og:image" content={toAbsoluteUrl(withBasePath('/favicon.ico'))} />

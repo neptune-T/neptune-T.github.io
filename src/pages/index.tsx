@@ -7,9 +7,44 @@ import { FaBook, FaFlask, FaUser, FaGithub } from 'react-icons/fa';
 import Header from '@/components/Header';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useTheme } from '@/context/ThemeContext';
 import { GITHUB_URL, SITE_URL } from '@/lib/site';
+import { withBasePath } from '@/lib/basePath';
+
+const researchExperience = [
+  {
+    institution: 'Peking University',
+    period: '2025 - Present',
+    focus: 'Vision-Language-Action Models, Generative Models, and Robotic Manipulation',
+    description: 'Exploring VLA models and generative policies for robot manipulation.',
+    logo: '/logos/research/pku.png',
+    logoWidth: 64,
+    logoHeight: 64,
+    invertInDarkMode: false,
+  },
+  {
+    institution: 'Zhipu AI',
+    period: '2025 - 2026',
+    focus: 'Mathematical Reasoning and LLM Inference',
+    description: 'Studying inference strategies for mathematical problem solving in large language models.',
+    logo: '/logos/research/zhipu.svg',
+    logoWidth: 128,
+    logoHeight: 48,
+    invertInDarkMode: true,
+  },
+  {
+    institution: 'Institute of Automation, CAS',
+    period: '2024 - 2025',
+    focus: 'Generative Models',
+    description: 'Worked on GAN-based generative models for visual content synthesis.',
+    logo: '/logos/research/casia.png',
+    logoWidth: 64,
+    logoHeight: 64,
+    invertInDarkMode: false,
+  },
+];
 
 const HomeHeroScene = dynamic(() => import('@/components/HomeHeroScene'), {
   ssr: false,
@@ -85,19 +120,24 @@ export default function HomePage() {
     tagMono: isDarkMode 
       ? 'bg-[#2b2520]/75 text-[#d8ccc0] hover:bg-[#342c26] border border-[#f3e8dc]/[0.08]'
       : 'bg-warm-panel text-warm-ink hover:bg-[#e7ddcf] border border-black/5',
+
+    experienceRow: isDarkMode
+      ? 'border-[#f3e8dc]/10 hover:bg-[#241f1b]/45'
+      : 'border-black/10 hover:bg-warm-surface/55',
+    experiencePeriod: isDarkMode ? 'text-[#dfa089]' : 'text-[#9f4f3b]',
   };
 
   return (
     <div className={`w-full min-h-screen transition-colors duration-700 ease-in-out ${theme.bg} font-sans selection:bg-coral/30 flex flex-col`}>
       
       <Head>
-        <title>Tianshan Zhang (张天山) | 3D Vision and Generative AI</title>
+        <title>Tianshan Zhang | 张天山</title>
         <meta
           key="description"
           name="description"
           content="Tianshan Zhang's academic homepage, with research on 3D vision, generative AI, computer graphics, and physically plausible hand-object interaction."
         />
-        <meta key="og-title" property="og:title" content="Tianshan Zhang | 3D Vision and Generative AI" />
+        <meta key="og-title" property="og:title" content="Tianshan Zhang | 张天山" />
         <meta key="og-description" property="og:description" content="Research projects, publications, and technical notes by Tianshan Zhang." />
         <script
           type="application/ld+json"
@@ -201,12 +241,12 @@ export default function HomePage() {
                   <h3 className={`text-3xl font-bold mb-8 opacity-90 ${theme.columnTitle}`}>Research Interests</h3>
                   <ul className={`${theme.columnText} leading-relaxed text-lg space-y-6`}>
                     <li>
-                      <strong className={`block mb-2 ${theme.columnTitle} opacity-90`}>Theoretical Generative Modeling (Image & Video)</strong>
-                      My research is grounded in the theoretical foundations of generative modeling. I approach this from a mathematical perspective, specifically studying Diffusion and Autoregressive models through their connections to Markov processes, SDEs, and Boltzmann-type distributions.
+                      <strong className={`block mb-2 ${theme.columnTitle} opacity-90`}>Generative AI for Embodied Intelligence</strong>
+                      I am interested in connecting generative AI with robotics, particularly through vision-language-action models that integrate perception, reasoning, and physical action.
                     </li>
                     <li>
-                      <strong className={`block mb-2 ${theme.columnTitle} opacity-90`}>Interactive & Navigable 3D Environments</strong>
-                      I am interested in the autonomous generation of navigable 3D scenes. My goal is to develop systems that can generate complex 3D environments where users or agents can freely move and interact, bridging the gap between static 3D assets and dynamic virtual spaces.
+                      <strong className={`block mb-2 ${theme.columnTitle} opacity-90`}>Robot Learning and Manipulation</strong>
+                      My work explores how multimodal representations and generative models can help robots understand instructions, interact with their environment, and perform robust manipulation tasks.
                     </li>
                   </ul>
               </div>
@@ -216,13 +256,10 @@ export default function HomePage() {
                   <h3 className={`text-3xl font-bold mb-8 opacity-90 ${theme.columnTitle}`}>Biography</h3>
                   <div className={`${theme.columnText} leading-relaxed text-lg space-y-6 text-justify`}>
                     <p>
-                      I am an undergraduate with a dual focus in Computer Science and Materials Science. My passion lies in understanding complex systems from first principles—ranging from deriving the Maxwell-Boltzmann distribution and Schrödinger equation in statistical mechanics, to engineering core systems in computer science.
+                      I am a third-year undergraduate studying Computer Science and Materials Science. My current research focuses on generative AI and robotics, especially vision-language-action models and robot manipulation.
                     </p>
                     <p>
-                      My technical background is rooted in hands-on systems programming. I have implemented a compiler front-end (from source to AST/IR) and extended the xv6 operating system with advanced features like copy-on-write fork and priority-based scheduling.
-                    </p>
-                    <p>
-
+                      My goal is to build intelligent systems that connect perception, reasoning, generation, and action, enabling robots to understand complex environments and interact with them effectively.
                     </p>
                   </div>
               </div>
@@ -241,6 +278,66 @@ export default function HomePage() {
               </div>
           </div> */}
         </motion.div>
+
+        {/* Research Experience */}
+        <section id="research-experience" className="mx-auto mb-24 w-full max-w-6xl scroll-mt-24 px-4 md:px-10 lg:px-20">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.1 }}
+            variants={fadeInVariants}
+          >
+            <h2 className={`mb-12 text-center text-3xl font-bold tracking-normal md:text-4xl ${theme.columnTitle}`}>
+              Research Experience
+            </h2>
+
+            <div className={`border-y ${isDarkMode ? 'border-[#f3e8dc]/10' : 'border-black/10'}`}>
+              {researchExperience.map((experience, index) => (
+                <motion.article
+                  key={`${experience.institution}-${experience.period}`}
+                  className={`grid grid-cols-[72px_minmax(0,1fr)] gap-5 border-b px-2 py-8 transition-colors last:border-b-0 md:grid-cols-[88px_minmax(0,1fr)_auto] md:gap-8 md:px-4 ${theme.experienceRow}`}
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.35 }}
+                  transition={{ duration: 0.45, delay: index * 0.08 }}
+                >
+                  <div className="flex h-[72px] w-[72px] items-center justify-center p-2 md:h-[80px] md:w-[80px]">
+                    <Image
+                      src={withBasePath(experience.logo)}
+                      alt={`${experience.institution} logo`}
+                      width={experience.logoWidth}
+                      height={experience.logoHeight}
+                      className={`max-h-full w-auto object-contain ${
+                        isDarkMode && experience.invertInDarkMode ? 'invert' : ''
+                      }`}
+                    />
+                  </div>
+
+                  <div className="min-w-0">
+                    <div className="mb-2 flex flex-col gap-1 md:block">
+                      <h3 className={`text-xl font-bold leading-snug md:text-2xl ${theme.columnTitle}`}>
+                        {experience.institution}
+                      </h3>
+                      <p className={`text-sm font-semibold md:hidden ${theme.experiencePeriod}`}>
+                        {experience.period}
+                      </p>
+                    </div>
+                    <p className={`mb-2 text-sm font-semibold leading-relaxed md:text-base ${theme.columnTitle}`}>
+                      {experience.focus}
+                    </p>
+                    <p className={`max-w-3xl text-sm leading-relaxed ${theme.columnText}`}>
+                      {experience.description}
+                    </p>
+                  </div>
+
+                  <p className={`hidden whitespace-nowrap pt-1 text-sm font-semibold md:block ${theme.experiencePeriod}`}>
+                    {experience.period}
+                  </p>
+                </motion.article>
+              ))}
+            </div>
+          </motion.div>
+        </section>
 
         {/* Columns - [修改] 应用单色调主题 */}
         <div className={`px-4 md:px-10 lg:px-20 max-w-7xl mx-auto border-t pt-20 mb-10 ${isDarkMode ? 'border-[#f3e8dc]/10' : 'border-black/10'}`}>
