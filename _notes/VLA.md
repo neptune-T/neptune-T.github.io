@@ -8,6 +8,9 @@ tags: ['Robot Learning','Probability Bounds','Generative Policy']
 
 `Intelligent behavior emerges through feedback between an agent and its environment.`
 
+![](https://raw.githubusercontent.com/neptune-t/aca-web-html/main/public/img/vla/vla.png)
+
+
 ## 任务特定策略 -> 语言模型
 
 机器人学习最初通常将每一种操作能力视为一个独立的控制问题。对于抓取、放置、开门或导航等任务，研究者分别定义任务状态、控制目标和训练数据，并针对特定场景学习对应策略。给定当前观测 ($o_t$)，策略预测机器人下一步动作：
