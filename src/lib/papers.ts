@@ -18,6 +18,8 @@ interface Paper {
   arxiv_url?: string;
   github_url?: string;
   huggingface_url?: string;
+  daily_paper_url?: string;
+  daily_paper_rank?: number;
   gifUrl?: string;
 }
 

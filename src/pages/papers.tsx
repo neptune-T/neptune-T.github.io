@@ -3,7 +3,7 @@ import Head from 'next/head';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import Header from '@/components/Header';
-import { Calendar, MapPin, Users, FileText, Github, Globe, Link as LinkIcon } from 'lucide-react';
+import { Calendar, MapPin, Users, FileText, Github, Globe, Link as LinkIcon, Trophy } from 'lucide-react';
 import { withBasePath } from '@/lib/basePath';
 import { useTheme } from '@/context/ThemeContext';
 
@@ -21,6 +21,8 @@ type Paper = {
   arxiv_url?: string;
   github_url?: string;
   huggingface_url?: string;
+  daily_paper_url?: string;
+  daily_paper_rank?: number;
 };
 
 // --- 数据获取 ---
@@ -117,11 +119,11 @@ export default function Papers({ allPapersData }: { allPapersData: Paper[] }) {
         <meta key="description" name="description" content="Publications and research projects by Tianshan Zhang in 3D vision, generative AI, and physically plausible interaction." />
       </Head>
 
-      <div className={`min-h-screen transition-colors duration-500 font-sans selection:bg-coral/30 flex flex-col ${theme.wrapper}`}>
+      <div className={`min-h-screen overflow-x-hidden transition-colors duration-500 font-sans selection:bg-coral/30 flex flex-col ${theme.wrapper}`}>
         
         <Header />
 
-        <main className="flex-grow pt-32 md:pt-40 px-4 md:px-10 lg:px-20 pb-20 max-w-7xl mx-auto w-full">
+        <main className="flex-grow overflow-x-hidden pt-32 md:pt-40 px-4 md:px-10 lg:px-20 pb-20 max-w-7xl mx-auto w-full">
           
           {/* 标题区域 */}
           <header className="mb-20 text-center md:text-left">
@@ -144,19 +146,19 @@ export default function Papers({ allPapersData }: { allPapersData: Paper[] }) {
           </header>
 
           {/* 论文列表 (Grid Layout) */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className={`grid w-full min-w-0 grid-cols-1 gap-8 ${allPapersData.length > 1 ? 'lg:grid-cols-2' : 'max-w-5xl mx-auto'}`}>
             {allPapersData.map((paper, index) => (
               <motion.article
                 key={paper.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 + 0.2 }}
-                className={`group rounded-3xl flex flex-col transition-all duration-300 ${theme.card}`}
+                className={`group min-w-0 w-full max-w-[calc(100vw-2rem)] lg:max-w-none rounded-2xl flex flex-col transition-all duration-300 ${theme.card}`}
               >
                 
                 {/* 1. 封面区域（优先视频，其次图片） */}
                 {(paper.video || paper.image) && (
-                  <div className="relative w-full h-64 overflow-hidden border-b border-opacity-10 border-gray-500">
+                  <div className="relative h-64 w-full min-w-0 overflow-hidden border-b border-opacity-10 border-gray-500">
                     {paper.video ? (
                       <video
                         className="w-full h-full object-cover"
@@ -184,10 +186,10 @@ export default function Papers({ allPapersData }: { allPapersData: Paper[] }) {
                 )}
 
                 {/* 2. 内容区域 */}
-                <div className="p-8 flex flex-col flex-grow">
+                <div className="flex min-w-0 flex-col flex-grow p-6 sm:p-8">
                   
                   {/* Meta Info (没有图片时显示 Venue) */}
-                  {!paper.image && (
+                  {!(paper.video || paper.image) && (
                     <div className={`flex items-center gap-2 text-xs font-mono mb-4 uppercase tracking-wider ${theme.accentColor}`}>
                       <MapPin size={12} />
                       <span className="font-bold">{paper.venue}</span>
@@ -195,53 +197,75 @@ export default function Papers({ allPapersData }: { allPapersData: Paper[] }) {
                   )}
 
                   {/* Title */}
-                  <h2 className={`text-2xl font-bold mb-3 leading-tight group-hover:underline decoration-2 decoration-current underline-offset-4 ${theme.titleColor}`}>
+                  <h2 className={`text-2xl font-bold mb-3 leading-tight break-words group-hover:underline decoration-2 decoration-current underline-offset-4 ${theme.titleColor}`}>
                     {paper.title}
                   </h2>
 
+                  {paper.daily_paper_url && (
+                    <a
+                      href={paper.daily_paper_url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className={`mb-4 inline-flex w-fit max-w-full min-w-0 items-center gap-2 rounded-lg px-3 py-2 text-xs font-bold transition-all ${
+                        isDarkMode
+                          ? 'bg-[#b7923f]/15 hover:bg-[#b7923f]/25 text-[#e6cf8a] border border-[#b7923f]/30'
+                          : 'bg-[#f2e7c8] hover:bg-[#ebddb4] text-[#725913] border border-[#ddca8c]'
+                      }`}
+                      title="Hugging Face Daily Papers"
+                    >
+                      <Trophy size={14} className="shrink-0" />
+                      <span className="min-w-0 truncate">
+                        #{paper.daily_paper_rank ?? 2} Paper of the Day · Hugging Face
+                      </span>
+                    </a>
+                  )}
+
                   {/* Authors */}
-                  <div className={`flex items-start gap-2 text-sm mb-5 ${theme.metaColor}`}>
+                  <div className={`flex min-w-0 items-start gap-2 text-sm mb-5 ${theme.metaColor}`}>
                     <Users size={14} className="mt-1 flex-shrink-0" />
                     {renderAuthors(paper.authors)}
                   </div>
 
                   {/* Summary */}
-                  <p className={`text-sm leading-relaxed mb-8 line-clamp-3 flex-grow ${theme.textColor}`}>
+                  <p className={`text-sm leading-relaxed mb-6 line-clamp-3 flex-grow break-words ${theme.textColor}`}>
                     {paper.summary}
                   </p>
 
                   {/* 3. 底部操作栏 (链接按钮) */}
-                  <div className={`pt-6 border-t border-dashed flex flex-nowrap items-center gap-2 overflow-x-auto ${theme.divider}`}>
-                    <div className={`flex shrink-0 items-center gap-2 text-xs font-mono mr-auto opacity-60 ${theme.metaColor}`}>
-                      <Calendar size={12} />
-                      {paper.date.substring(0, 7)}
-                    </div>
+                  <div className={`border-t border-dashed pt-4 ${theme.divider}`}>
+                    <div className="grid grid-cols-[auto,minmax(0,1fr),minmax(0,1fr)] items-center gap-1.5">
+                      <div className={`inline-flex items-center gap-1.5 pr-2 text-[11px] font-mono opacity-70 ${theme.metaColor}`}>
+                        <Calendar size={11} />
+                        {paper.date.substring(0, 7)}
+                      </div>
 
-                    {paper.arxiv_url && (
-                      <a
-                        href={paper.arxiv_url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className={`flex shrink-0 items-center gap-2 px-3 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all ${linkBtnByType('paper')}`}
-                      >
-                        <FileText size={14} /> arXiv
-                      </a>
-                    )}
-                    {paper.github_url && (
-                      <a href={paper.github_url} target="_blank" rel="noreferrer" className={`flex shrink-0 items-center gap-2 px-3 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all ${linkBtnByType('code')}`}>
-                        <Github size={14} /> Code
-                      </a>
-                    )}
-                    {paper.url && (
-                      <a href={paper.url} target="_blank" rel="noreferrer" className={`flex shrink-0 items-center gap-2 px-3 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all ${linkBtnByType('website')}`}>
-                        <Globe size={14} /> Website
-                      </a>
-                    )}
-                    {paper.huggingface_url && (
-                      <a href={paper.huggingface_url} target="_blank" rel="noreferrer" className={`flex shrink-0 items-center gap-2 px-3 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all ${linkBtnByType('huggingface')}`}>
-                        <LinkIcon size={14} /> HuggingFace
-                      </a>
-                    )}
+                      {paper.arxiv_url && (
+                        <a
+                          href={paper.arxiv_url}
+                          target="_blank"
+                          rel="noreferrer"
+                          className={`inline-flex min-w-0 items-center justify-center gap-1.5 rounded-md px-2 py-1.5 text-[11px] font-bold transition-all ${linkBtnByType('paper')}`}
+                        >
+                          <FileText size={13} className="shrink-0" /> <span className="truncate">arXiv</span>
+                        </a>
+                      )}
+                      {paper.github_url && (
+                        <a href={paper.github_url} target="_blank" rel="noreferrer" className={`inline-flex min-w-0 items-center justify-center gap-1.5 rounded-md px-2 py-1.5 text-[11px] font-bold transition-all ${linkBtnByType('code')}`}>
+                          <Github size={13} className="shrink-0" /> <span className="truncate">Code</span>
+                        </a>
+                      )}
+                      <div aria-hidden="true" />
+                      {paper.url && (
+                        <a href={paper.url} target="_blank" rel="noreferrer" className={`inline-flex min-w-0 items-center justify-center gap-1.5 rounded-md px-2 py-1.5 text-[11px] font-bold transition-all ${linkBtnByType('website')}`}>
+                          <Globe size={13} className="shrink-0" /> <span className="truncate">Website</span>
+                        </a>
+                      )}
+                      {paper.huggingface_url && (
+                        <a href={paper.huggingface_url} target="_blank" rel="noreferrer" className={`inline-flex min-w-0 items-center justify-center gap-1.5 rounded-md px-2 py-1.5 text-[11px] font-bold transition-all ${linkBtnByType('huggingface')}`}>
+                          <LinkIcon size={13} className="shrink-0" /> <span className="truncate">HuggingFace</span>
+                        </a>
+                      )}
+                    </div>
                   </div>
 
                 </div>

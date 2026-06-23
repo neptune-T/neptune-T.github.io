@@ -394,11 +394,11 @@ export default function HomePage() {
                     <p className={`${theme.columnText} mb-8 text-sm h-16 leading-relaxed`}>Critical reviews and summaries of influential papers in AI.</p>
                     <div className="space-y-3">
                         {/* [修改] 使用 tagMono */}
-                        <a href="https://github.com/AIGeeksGroup/DragMesh-2" target="_blank" rel="noreferrer" className={`block w-full py-2.5 px-4 rounded text-xs font-medium tracking-wide transition-all ${theme.tagMono}`}>
-                           DragMesh-2
+                        <a href="https://arxiv.org/abs/2606.15133" target="_blank" rel="noreferrer" className={`block w-full py-2.5 px-4 rounded text-xs font-medium tracking-wide transition-all ${theme.tagMono}`}>
+                           DragMesh-2 Paper
                         </a>
                         <a href="https://arxiv.org/abs/2512.06424" target="_blank" rel="noreferrer" className={`block w-full py-2.5 px-4 rounded text-xs font-medium tracking-wide transition-all ${theme.tagMono}`}>
-                           DragMesh
+                           DragMesh Paper
                         </a>
                     </div>
                 </motion.div>
