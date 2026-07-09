@@ -1,11 +1,13 @@
 ---
-title: '哈密顿量、作用量与路径积分：一条从经典力学到量子场论的主线'
+title: '哈密顿量、作用量与路径积分'
 date: '2026-07'
 summary: 'Classical mechanics can be organized around force, action, or energy. The Hamiltonian—energy on phase space—turns out to be the object that survives into quantum theory as the generator of time evolution on Hilbert space, while the action reappears as the phase weighting every path in the path integral. Following these two threads, together with the Poisson-bracket-to-commutator correspondence and the symmetry–conservation link, leads through quantization, the harmonic oscillator, statistical mechanics, quantum field theory, renormalization, and effective field theory.'
 tags: ['Physics','Classical Mechanics','Quantum Mechanics','Quantum Field Theory']
 ---
 
 > To understand motion, physics first had to learn how to describe not only where a system is, but how it could have moved.
+
+![](https://raw.githubusercontent.com/neptune-t/aca-web-html/main/public/img/hamiltonians/hamiltonians.png)
 
 经典力学有三种彼此等价的表述：牛顿以力为核心，拉格朗日以作用量为核心，哈密顿以能量和相空间为核心。它们在经典层面给出相同的轨迹，但通向量子力学的路却不同。哈密顿量最终成为希尔伯特空间上时间演化的生成元，作用量则成为路径积分里每条路径的相位权重，而经典的泊松括号在量子化里变成算符对易子。这篇笔记沿着这几条线，从牛顿方程一直走到量子场论、重整化、有效场论，以及对称性与守恒量的关系，尽量把中间每一步"为什么"讲清楚，而不只是罗列结论。
 
