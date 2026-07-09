@@ -2,7 +2,7 @@
 title: '哈密顿量、作用量与路径积分'
 date: '2026-07'
 summary: 'Classical mechanics can be organized around force, action, or energy. The Hamiltonian—energy on phase space—turns out to be the object that survives into quantum theory as the generator of time evolution on Hilbert space, while the action reappears as the phase weighting every path in the path integral. Following these two threads, together with the Poisson-bracket-to-commutator correspondence and the symmetry–conservation link, leads through quantization, the harmonic oscillator, statistical mechanics, quantum field theory, renormalization, and effective field theory.'
-tags: ['Physics','Classical Mechanics','Quantum Mechanics','Quantum Field Theory']
+tags: ['Physics','Quantum Mechanics']
 ---
 
 > “The electron does anything it likes.” — Richard Feynman
