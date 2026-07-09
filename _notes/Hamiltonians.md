@@ -5,7 +5,8 @@ summary: 'Classical mechanics can be organized around force, action, or energy. 
 tags: ['Physics','Classical Mechanics','Quantum Mechanics','Quantum Field Theory']
 ---
 
-> To understand motion, physics first had to learn how to describe not only where a system is, but how it could have moved.
+> “The electron does anything it likes.” — Richard Feynman
+
 
 ![](https://raw.githubusercontent.com/neptune-t/aca-web-html/main/public/img/hamiltonians/hamiltonians.png)
 
