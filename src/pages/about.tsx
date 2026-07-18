@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react'; // [修改1] 删除了 useMemo
+import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
 import { motion } from 'framer-motion';
 import Header from '@/components/Header';
-import { Trophy, Globe, Award, MapPin } from 'lucide-react';
+import Footer from '@/components/Footer';
+import { MapPin } from 'lucide-react';
 import { getTravelData } from '@/lib/travel';
 import { getHonorsData } from '@/lib/honors';
 import { withBasePath } from '@/lib/basePath';
@@ -63,26 +64,11 @@ export default function About({ travelData, honorsData }: AboutProps) {
     loadMapData();
   }, []);
 
-  const theme = {
-    wrapper: isDarkMode ? 'bg-[#161310] text-[#eee4d8]' : 'bg-warm-canvas text-warm-ink',
-    titleColor: isDarkMode ? 'text-[#eee4d8]' : 'text-warm-ink',
-    textColor: isDarkMode ? 'text-[#aaa096]' : 'text-warm-muted',
-    subText: isDarkMode ? 'text-[#82786f]' : 'text-warm-muted/70',
-    card: isDarkMode
-      ? 'bg-[#241f1b]/66 backdrop-blur-xl backdrop-saturate-150 border border-[#f3e8dc]/[0.08]'
-      : 'bg-warm-surface/90 backdrop-blur-md border border-black/5 shadow-sm hover:shadow-md',
-    pillActive: isDarkMode 
-      ? 'bg-[#e7dacb] text-[#1b1714]'
-      : 'bg-black text-white shadow-lg',
-    pillInactive: isDarkMode
-      ? 'bg-[#2b2520]/75 text-[#aaa096] hover:bg-[#342c26] hover:text-[#eee4d8]'
-      : 'bg-black/5 text-gray-600 hover:bg-black/10 hover:text-black',
-    divider: isDarkMode ? 'border-[#f3e8dc]/10' : 'border-black/10',
-    mapBg: 'transparent',
-    mapAreaColor: isDarkMode ? '#342c26' : '#ded5ca',
-    mapBorderColor: isDarkMode ? '#594b41' : '#faf7f1',
-    mapHighlight: isDarkMode ? '#cc785c' : '#111111',
-    mapHighlightShadow: isDarkMode ? 'rgba(204, 120, 92, 0.35)' : 'rgba(0, 0, 0, 0.3)',
+  const mapColors = {
+    area: isDarkMode ? '#292420' : '#e6e1d4',
+    border: isDarkMode ? '#161310' : '#f6f4ee',
+    highlight: '#cc785c',
+    highlightShadow: isDarkMode ? 'rgba(204, 120, 92, 0.30)' : 'rgba(204, 120, 92, 0.25)',
   };
 
   const getOption = () => {
@@ -107,38 +93,38 @@ export default function About({ travelData, honorsData }: AboutProps) {
             return aliases.map((name) => ({ name, originalName }));
           })
         : visitedListRaw.map((name) => ({ name, originalName: name }));
-    
+
     const data = visitedItems.map(({ name, originalName }) => ({
       name,
       originalName,
       value: detailsData[originalName].visits,
       details: detailsData[originalName].description,
       itemStyle: {
-        areaColor: theme.mapHighlight,
-        shadowBlur: 15,
-        shadowColor: theme.mapHighlightShadow
-      }
+        areaColor: mapColors.highlight,
+        shadowBlur: 12,
+        shadowColor: mapColors.highlightShadow,
+      },
     }));
 
     // 让去过的地方“常亮”：即使鼠标移走/缩放拖拽也保持高亮样式
     const regions = visitedItems.map(({ name }) => ({
       name,
       itemStyle: {
-        areaColor: theme.mapHighlight,
-        shadowBlur: 15,
-        shadowColor: theme.mapHighlightShadow,
+        areaColor: mapColors.highlight,
+        shadowBlur: 12,
+        shadowColor: mapColors.highlightShadow,
       },
     }));
 
     return {
-      backgroundColor: theme.mapBg,
+      backgroundColor: 'transparent',
       tooltip: {
         trigger: 'item',
-        backgroundColor: isDarkMode ? 'rgba(36,31,27,0.94)' : 'rgba(255,255,255,0.9)',
+        backgroundColor: isDarkMode ? 'rgba(36,31,27,0.94)' : 'rgba(255,255,255,0.92)',
         borderColor: isDarkMode ? '#594b41' : '#ddd',
-        textStyle: { color: isDarkMode ? '#eee4d8' : '#000' },
-        // [修改2] 添加了 eslint-disable-line 来忽略 any 类型检查
-        formatter: (params: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any
+        textStyle: { color: isDarkMode ? '#eae2d4' : '#23211c' },
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        formatter: (params: any) => {
           if (!params.data) return params.name;
           const info = params.data;
           return `
@@ -146,172 +132,157 @@ export default function About({ travelData, honorsData }: AboutProps) {
             <div style="font-size:12px; opacity:0.8;">Visits: ${info.value}</div>
             ${info.details ? `<div style="font-size:12px; opacity:0.8; margin-top:2px;">${info.details}</div>` : ''}
           `;
-        }
+        },
       },
       geo: {
         map: mapScope,
         roam: true,
         selectedMode: false,
         regions,
-        
-        center: mapScope === 'world' 
-          ? [150, 25]  
-          : [105, 36], 
-        
-        zoom: 1.2, 
-
+        center: mapScope === 'world' ? [150, 25] : [105, 36],
+        zoom: 1.2,
         label: { show: false },
         itemStyle: {
-          areaColor: theme.mapAreaColor,
-          borderColor: theme.mapBorderColor,
+          areaColor: mapColors.area,
+          borderColor: mapColors.border,
           borderWidth: 1,
         },
         emphasis: {
           itemStyle: {
-            areaColor: theme.mapHighlight,
-            shadowBlur: 10,
-            shadowColor: theme.mapHighlightShadow
+            areaColor: mapColors.highlight,
+            shadowBlur: 8,
+            shadowColor: mapColors.highlightShadow,
           },
-          label: { show: false }
-        }
+          label: { show: false },
+        },
       },
       series: [
         {
           type: 'map',
           geoIndex: 0,
           selectedMode: false,
-          data: data,
-        }
-      ]
+          data,
+        },
+      ],
     };
   };
 
-  const totalPlaces = Object.keys(travelData.details[mapScope === 'world' ? 'world' : 'china']).length;
+  const totalPlaces = Object.keys(
+    travelData.details[mapScope === 'world' ? 'world' : 'china'],
+  ).length;
 
   return (
     <>
       <Head>
-        <title>About Tianshan Zhang</title>
+        <title>About | Tianshan Zhang</title>
         <meta key="description" name="description" content="Biography, academic interests, honors, and travel history of Tianshan Zhang." />
       </Head>
 
-      <div className={`min-h-screen transition-colors duration-500 font-sans selection:bg-coral/30 flex flex-col ${theme.wrapper}`}>
+      <div className="flex min-h-screen flex-col bg-paper font-sans text-ink transition-colors duration-500 dark:bg-dpaper dark:text-dink">
         <Header />
 
-        <main className="flex-grow pt-32 md:pt-40 px-4 md:px-10 lg:px-20 pb-20 max-w-7xl mx-auto w-full">
-          
-          {/* 1. Title & Intro */}
-          <header className="mb-16 text-center md:text-left">
-            <motion.h1 
-              className={`text-5xl md:text-7xl font-bold tracking-tighter mb-6 leading-tight ${theme.titleColor}`}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-            >
-              About Me
-            </motion.h1>
-            <motion.div 
-              className={`p-8 rounded-3xl ${theme.card}`}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-            >
-              <p className={`text-lg leading-relaxed ${theme.textColor}`}>
-                I am a passionate researcher and developer navigating the spaces between generative AI, cognitive science, and interactive design. This page chronicles my journey—both geographically and academically.
-              </p>
-            </motion.div>
-          </header>
+        <main className="mx-auto w-full max-w-5xl flex-grow px-6 pb-24 pt-28 md:pt-36">
+          {/* Intro */}
+          <motion.header
+            className="mb-20 max-w-2xl"
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: 'easeOut' }}
+          >
+            <h1 className="font-serif text-5xl font-medium leading-[1.08] md:text-6xl">About</h1>
+            <p className="mt-6 text-[17px] leading-relaxed text-muted dark:text-dmuted">
+              I am a researcher and developer navigating the spaces between generative AI,
+              cognitive science, and interactive design. This page chronicles my journey — both
+              geographical and academic.
+            </p>
+          </motion.header>
 
-          {/* 2. Travel Map Section */}
-          <section className="mb-20">
-            <div className="flex items-center justify-between mb-8">
-              <h2 className={`text-3xl font-bold ${theme.titleColor} flex items-center gap-3`}>
-                <Globe className="w-6 h-6 opacity-70" />
-                Footprints
-              </h2>
-              
-              {/* Map Switcher */}
+          {/* Footprints */}
+          <motion.section
+            className="mb-24"
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.7, ease: 'easeOut' }}
+          >
+            <div className="mb-8 flex flex-wrap items-baseline justify-between gap-4">
+              <h2 className="font-serif text-3xl font-medium md:text-4xl">Footprints</h2>
               <div className="flex gap-2">
                 {(['world', 'china'] as const).map((scope) => (
                   <button
                     key={scope}
                     onClick={() => setMapScope(scope)}
-                    className={`px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wide transition-all ${
-                      mapScope === scope ? theme.pillActive : theme.pillInactive
+                    className={`rounded-full border px-4 py-1.5 text-[13px] transition-all duration-300 ${
+                      mapScope === scope
+                        ? 'border-ink bg-ink text-paper dark:border-dink dark:bg-dink dark:text-dpaper'
+                        : 'border-line text-muted hover:border-ink/30 hover:text-ink dark:border-dline dark:text-dmuted dark:hover:border-dink/30 dark:hover:text-dink'
                     }`}
                   >
-                    {scope.toUpperCase()}
+                    {scope === 'world' ? 'World' : 'China'}
                   </button>
                 ))}
               </div>
             </div>
 
-            {/* Map Container */}
-            <motion.div 
-              className={`relative w-full h-[500px] rounded-3xl overflow-hidden flex items-center justify-center ${theme.card}`}
-              initial={{ opacity: 0, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5 }}
-            >
+            <div className="relative h-[480px] w-full overflow-hidden rounded-2xl border border-line dark:border-dline">
               {mapLoaded ? (
-                <ReactECharts 
-                  option={getOption()} 
+                <ReactECharts
+                  option={getOption()}
                   style={{ height: '100%', width: '100%' }}
                   opts={{ renderer: 'svg' }}
-                  notMerge={true} 
+                  notMerge={true}
                   lazyUpdate={true}
                 />
               ) : (
-                <div className="flex items-center justify-center h-full text-sm opacity-50">
-                  Loading Cartography...
+                <div className="flex h-full items-center justify-center text-sm text-faint dark:text-dfaint">
+                  Loading map…
                 </div>
               )}
-            </motion.div>
-            
-            <div className="mt-6 flex justify-between items-center px-4">
-               <div className={`flex items-center gap-2 text-sm font-mono ${theme.subText}`}>
-                 <MapPin size={14} />
-                 <span>Total Locations</span>
-               </div>
-               <div className={`text-lg font-bold ${theme.titleColor}`}>
-                 {totalPlaces} <span className="text-sm font-normal opacity-60">visited</span>
-               </div>
             </div>
-          </section>
 
-          {/* 3. Honors & Awards Section */}
-          <section id="honors">
-            <h2 className={`text-3xl font-bold ${theme.titleColor} mb-8 flex items-center gap-3`}>
-              <Trophy className="w-6 h-6 opacity-70" />
-              Honors & Awards
-            </h2>
-            
-            <div className="grid grid-cols-1 gap-4">
+            <div className="mt-4 flex items-center justify-between px-1">
+              <div className="flex items-center gap-2 text-sm text-faint dark:text-dfaint">
+                <MapPin size={14} />
+                <span>Total locations</span>
+              </div>
+              <p className="text-sm text-muted dark:text-dmuted">
+                <span className="font-serif text-lg text-ink dark:text-dink">{totalPlaces}</span>{' '}
+                visited
+              </p>
+            </div>
+          </motion.section>
+
+          {/* Honors */}
+          <motion.section
+            id="honors"
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.7, ease: 'easeOut' }}
+          >
+            <h2 className="mb-8 font-serif text-3xl font-medium md:text-4xl">Honors &amp; Awards</h2>
+            <div className="border-t border-line dark:border-dline">
               {honorsData.map((honor, index) => (
-                <motion.div
+                <div
                   key={index}
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                  className={`p-6 rounded-2xl transition-all ${theme.card}`}
+                  className="flex items-baseline justify-between gap-6 border-b border-line py-6 dark:border-dline"
                 >
-                  <div className="flex items-start gap-4">
-                    <div className={`mt-1 p-2 rounded-full ${isDarkMode ? 'bg-coral/15' : 'bg-black/5'}`}>
-                      <Award size={20} className={theme.textColor} />
-                    </div>
-                    <div>
-                      <h3 className={`text-lg font-bold ${theme.titleColor}`}>{honor.title}</h3>
-                      <p className={`text-sm ${theme.subText}`}>{honor.description}</p>
-                    </div>
+                  <div className="min-w-0">
+                    <h3 className="font-serif text-lg font-medium leading-snug">{honor.title}</h3>
+                    <p className="mt-1 text-sm leading-relaxed text-muted dark:text-dmuted">
+                      {honor.description}
+                    </p>
                   </div>
-                </motion.div>
+                  {honor.date && (
+                    <p className="shrink-0 text-sm text-faint dark:text-dfaint">{honor.date}</p>
+                  )}
+                </div>
               ))}
             </div>
-          </section>
-
+          </motion.section>
         </main>
 
+        <Footer />
       </div>
     </>
   );

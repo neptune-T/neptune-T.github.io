@@ -6,7 +6,7 @@ import { ParsedUrlQuery } from 'querystring';
 import { FiArrowLeft } from 'react-icons/fi';
 import { motion } from 'framer-motion';
 import Header from '@/components/Header';
-import { useTheme } from '@/context/ThemeContext';
+import Footer from '@/components/Footer';
 
 interface IParams extends ParsedUrlQuery {
   id: string;
@@ -39,8 +39,6 @@ type NoteData = {
 };
 
 export default function Note({ noteData }: { noteData: NoteData }) {
-  const { isDarkMode } = useTheme();
-
   return (
     <>
       <Head>
@@ -50,29 +48,37 @@ export default function Note({ noteData }: { noteData: NoteData }) {
         <meta key="og-title" property="og:title" content={noteData.title} />
         <meta key="og-description" property="og:description" content={noteData.summary} />
       </Head>
-      <div className={`min-h-screen transition-colors duration-500 font-sans selection:bg-coral/30 flex flex-col ${isDarkMode ? 'bg-[#161310] text-[#eee4d8]' : 'bg-warm-canvas text-warm-ink'}`}>
+
+      <div className="flex min-h-screen flex-col bg-paper font-sans text-ink transition-colors duration-500 dark:bg-dpaper dark:text-dink">
         <Header />
 
-        <motion.div 
-          className="flex-grow pt-32 md:pt-40 px-4 md:px-10 lg:px-20 pb-20 max-w-7xl mx-auto w-full"
+        <motion.main
+          className="mx-auto w-full max-w-3xl flex-grow px-6 pb-24 pt-28 md:pt-36"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.7 }}
         >
-          <div className="mb-10">
-            <Link href="/notes" className={`inline-flex items-center transition-colors font-medium ${isDarkMode ? 'text-[#aaa096] hover:text-[#eee4d8]' : 'text-warm-muted hover:text-warm-ink'}`}>
-              <FiArrowLeft className="mr-2" />
-              Back to all notes
-            </Link>
-          </div>
-          <div className={`p-8 md:p-12 rounded-2xl border ${isDarkMode ? 'bg-[#241f1b]/66 border-[#f3e8dc]/[0.08] backdrop-blur-xl backdrop-saturate-150' : 'bg-warm-surface border-black/5 shadow-sm'}`}>
-            <article className={`note-prose prose prose-lg max-w-none ${isDarkMode ? 'prose-invert note-prose-dark' : 'note-prose-light'}`}>
-              <h1>{noteData.title}</h1>
-              <p className={`text-base -mt-4 mb-8 ${isDarkMode ? 'text-[#82786f]' : 'text-warm-muted'}`}>{noteData.date}</p>
-              <div dangerouslySetInnerHTML={{ __html: noteData.contentHtml }} />
-            </article>
-          </div>
-        </motion.div>
+          <Link
+            href="/notes"
+            className="inline-flex items-center gap-2 text-sm text-faint no-underline transition-colors duration-300 hover:text-ink dark:text-dfaint dark:hover:text-dink"
+          >
+            <FiArrowLeft size={15} />
+            All notes
+          </Link>
+
+          <header className="mt-10 border-b border-line pb-10 dark:border-dline">
+            <h1 className="font-serif text-4xl font-medium leading-[1.15] md:text-5xl">
+              {noteData.title}
+            </h1>
+            <p className="mt-5 text-sm text-faint dark:text-dfaint">{noteData.date}</p>
+          </header>
+
+          <article className="note-prose prose prose-lg mt-10 max-w-none note-prose-light dark:prose-invert dark:note-prose-dark">
+            <div dangerouslySetInnerHTML={{ __html: noteData.contentHtml }} />
+          </article>
+        </motion.main>
+
+        <Footer />
       </div>
     </>
   );

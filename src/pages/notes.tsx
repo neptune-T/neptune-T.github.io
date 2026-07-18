@@ -4,12 +4,9 @@ import { motion } from 'framer-motion';
 import { useState } from 'react';
 import Head from 'next/head';
 import Header from '@/components/Header';
-import { Calendar, ArrowRight } from 'lucide-react';
-import { withBasePath } from '@/lib/basePath';
-import Image from 'next/image';
-import { useTheme } from '@/context/ThemeContext';
+import Footer from '@/components/Footer';
+import { ArrowRight } from 'lucide-react';
 
-// --- 数据获取 (保持不变) ---
 export async function getStaticProps() {
   const allNotesData = getSortedNotesData();
   return {
@@ -29,44 +26,13 @@ type Note = {
 };
 
 export default function Notes({ allNotesData }: { allNotesData: Note[] }) {
-  const { isDarkMode } = useTheme();
   const [selectedTag, setSelectedTag] = useState<string>('all');
 
-  const uniqueTags = ['all', ...new Set(allNotesData.flatMap(note => note.tags || []))];
-  const filteredNotes = selectedTag === 'all' 
-    ? allNotesData 
-    : allNotesData.filter(note => note.tags?.includes(selectedTag));
-
-  // --- Theme ---
-  const theme = {
-    wrapper: isDarkMode ? 'bg-[#161310] text-[#eee4d8]' : 'bg-warm-canvas text-warm-ink',
-    
-    titleColor: isDarkMode ? 'text-[#eee4d8]' : 'text-black',
-    textColor: isDarkMode ? 'text-[#aaa096]' : 'text-warm-muted',
-    metaColor: isDarkMode ? 'text-[#82786f]' : 'text-warm-muted/70',
-
-    card: isDarkMode
-      ? 'bg-[#241f1b]/66 backdrop-blur-xl backdrop-saturate-150 border border-[#f3e8dc]/[0.08] hover:border-[#cc785c]/30 hover:bg-[#2b2520]/78'
-      : 'bg-warm-surface border border-black/5 hover:border-black/10 shadow-sm hover:shadow-md',
-    
-    filterBtnActive: isDarkMode 
-      ? 'bg-[#e7dacb] text-[#1b1714] font-bold'
-      : 'bg-black text-white font-bold shadow-lg',
-    
-    filterBtnInactive: isDarkMode
-      ? 'bg-[#2b2520]/75 text-[#aaa096] border border-[#f3e8dc]/[0.08] hover:bg-[#342c26] hover:text-[#eee4d8]'
-      : 'bg-black/5 text-gray-600 border border-black/5 hover:bg-black/10 hover:text-black',
-      
-    tagPill: isDarkMode 
-      ? 'bg-[#2b2520]/75 text-[#aaa096] border border-[#f3e8dc]/[0.08]'
-      : 'bg-black/5 text-gray-600 border border-black/5',
-    
-    arrowBg: isDarkMode 
-      ? 'bg-[#e7dacb] text-[#1b1714]'
-      : 'bg-black text-white',
-
-    divider: isDarkMode ? 'border-[#f3e8dc]/10' : 'border-black/10',
-  };
+  const uniqueTags = ['all', ...new Set(allNotesData.flatMap((note) => note.tags || []))];
+  const filteredNotes =
+    selectedTag === 'all'
+      ? allNotesData
+      : allNotesData.filter((note) => note.tags?.includes(selectedTag));
 
   return (
     <>
@@ -75,131 +41,92 @@ export default function Notes({ allNotesData }: { allNotesData: Note[] }) {
         <meta key="description" name="description" content="Technical notes by Tianshan Zhang on 3D vision, generative modeling, computer graphics, mathematics, and physics." />
       </Head>
 
-      <div className={`min-h-screen transition-colors duration-500 font-sans selection:bg-coral/30 flex flex-col ${theme.wrapper}`}>
-        
+      <div className="flex min-h-screen flex-col bg-paper font-sans text-ink transition-colors duration-500 dark:bg-dpaper dark:text-dink">
         <Header />
 
-        <main className="flex-grow pt-32 md:pt-40 px-4 md:px-10 lg:px-20 pb-20 max-w-7xl mx-auto w-full">
-          
-          {/* 标题区域 */}
-          <header className="mb-16 text-center md:text-left">
-            <motion.h1 
-              className={`text-5xl md:text-7xl font-bold tracking-tighter mb-6 leading-tight ${theme.titleColor}`}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-            >
-              Research Notes
-            </motion.h1>
-            <motion.p 
-              className={`text-lg md:text-xl max-w-2xl leading-relaxed ${theme.textColor}`}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-            >
-              A collection of thoughts, explorations, and research findings in the field of Generative AI and Cognitive Science.
-            </motion.p>
-          </header>
-
-          {/* 标签筛选区 */}
-          <motion.div 
-            className="mb-16 flex flex-wrap gap-3"
-            initial={{ opacity: 0, y: 10 }}
+        <main className="mx-auto w-full max-w-3xl flex-grow px-6 pb-24 pt-28 md:pt-36">
+          <motion.header
+            className="mb-14"
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
+            transition={{ duration: 0.7, ease: 'easeOut' }}
           >
-            {uniqueTags.map(tag => (
+            <h1 className="font-serif text-5xl font-medium leading-[1.08] md:text-6xl">Notes</h1>
+            <p className="mt-6 max-w-xl text-[17px] leading-relaxed text-muted dark:text-dmuted">
+              Working notes on generative models, computer graphics, mathematics, and physics —
+              written to think clearly.
+            </p>
+          </motion.header>
+
+          {/* Tag filter */}
+          <motion.div
+            className="mb-4 flex flex-wrap gap-x-6 gap-y-2"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.15 }}
+          >
+            {uniqueTags.map((tag) => (
               <button
                 key={tag}
                 onClick={() => setSelectedTag(tag)}
-                className={`px-6 py-2.5 rounded-full text-sm transition-all duration-300 ${
-                  selectedTag === tag ? theme.filterBtnActive : theme.filterBtnInactive
+                className={`relative pb-1 text-sm transition-colors duration-300 ${
+                  selectedTag === tag
+                    ? 'text-ink dark:text-dink'
+                    : 'text-faint hover:text-muted dark:text-dfaint dark:hover:text-dmuted'
                 }`}
               >
                 {tag.charAt(0).toUpperCase() + tag.slice(1)}
+                {selectedTag === tag && (
+                  <span className="absolute -bottom-0.5 left-0 h-px w-full bg-coral" />
+                )}
               </button>
             ))}
           </motion.div>
 
-          {/* 笔记卡片网格 */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredNotes.map(({ id, date, title, summary, tags, coverImage }, index) => (
-              <motion.div
+          {/* Notes list */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.2, ease: 'easeOut' }}
+          >
+            {filteredNotes.map(({ id, date, title, summary, tags }) => (
+              <Link
                 key={id}
-                layoutId={id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.05 + 0.3 }}
+                href={`/notes/${id}`}
+                className="group block border-b border-line py-8 no-underline first:border-t dark:border-dline"
               >
-                <Link href={`/notes/${id}`} legacyBehavior>
-                  <a className={`group block h-full rounded-3xl p-8 transition-all duration-300 flex flex-col justify-between ${theme.card}`}>
-                    
-                    {coverImage && (
-                      <div className="relative w-full h-40 rounded-lg mb-6 overflow-hidden">
-                        <Image
-                          src={withBasePath(coverImage)}
-                          alt={title}
-                          fill
-                          className="object-cover"
-                          sizes="(max-width: 768px) 100vw, 33vw"
-                          unoptimized
-                        />
-                      </div>
-                    )}
-
-                    <div>
-                      {/* 日期 */}
-                      <div className={`flex items-center gap-2 text-xs font-mono mb-6 uppercase tracking-wider ${theme.metaColor}`}>
-                        <Calendar size={14} />
-                        <span>{date}</span>
-                      </div>
-
-                      {/* 标题 - 强制高亮 */}
-                      <h2 className={`text-2xl font-bold mb-4 group-hover:underline decoration-2 decoration-current underline-offset-4 transition-all line-clamp-2 ${theme.titleColor}`}>
-                        {title}
-                      </h2>
-
-                      {/* 摘要 */}
-                      <p className={`text-sm leading-relaxed mb-8 line-clamp-3 ${theme.textColor}`}>
-                        {summary}
-                      </p>
-                    </div>
-
-                    {/* 底部标签栏 */}
-                    <div className={`flex items-center justify-between mt-auto pt-6 border-t border-dashed ${theme.divider}`}>
-                      <div className="flex flex-wrap gap-2">
-                        {tags && tags.slice(0, 2).map(tag => (
-                          <span 
-                            key={tag} 
-                            className={`px-3 py-1 rounded-md text-[10px] font-mono uppercase tracking-wide ${theme.tagPill}`}
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                      {/* 箭头按钮 */}
-                      <div className={`p-3 rounded-full transition-transform duration-300 group-hover:-rotate-45 shadow-lg ${theme.arrowBg}`}>
-                        <ArrowRight size={18} />
-                      </div>
-                    </div>
-
-                  </a>
-                </Link>
-              </motion.div>
+                <div className="flex items-baseline justify-between gap-6">
+                  <p className="shrink-0 text-sm text-faint dark:text-dfaint">{date}</p>
+                  <div className="flex shrink-0 items-center gap-3">
+                    {tags?.slice(0, 2).map((tag) => (
+                      <span key={tag} className="hidden text-xs text-faint dark:text-dfaint sm:inline">
+                        {tag}
+                      </span>
+                    ))}
+                    <ArrowRight
+                      size={16}
+                      className="text-faint opacity-0 transition-all duration-300 group-hover:translate-x-0.5 group-hover:text-coral group-hover:opacity-100 dark:text-dfaint"
+                    />
+                  </div>
+                </div>
+                <h2 className="mt-2.5 font-serif text-2xl font-medium leading-snug text-ink transition-colors duration-300 group-hover:text-coral dark:text-dink dark:group-hover:text-coral">
+                  {title}
+                </h2>
+                <p className="mt-2.5 line-clamp-2 text-[15px] leading-relaxed text-muted dark:text-dmuted">
+                  {summary}
+                </p>
+              </Link>
             ))}
-          </div>
+          </motion.div>
 
-          {/* 空状态 */}
           {filteredNotes.length === 0 && (
-            <div className="text-center py-20 opacity-50">
-              <p className={`text-xl ${theme.textColor}`}>No notes found with this tag.</p>
+            <div className="py-20 text-center">
+              <p className="text-lg text-muted dark:text-dmuted">No notes found with this tag.</p>
             </div>
           )}
-
         </main>
 
-
-
+        <Footer />
       </div>
     </>
   );

@@ -1,34 +1,33 @@
-import { useTheme } from '@/context/ThemeContext';
 import { FaGithub } from 'react-icons/fa';
 import { GITHUB_URL } from '@/lib/site';
 
 const Footer = () => {
-  const { theme: currentTheme } = useTheme();
-  const isDarkMode = currentTheme === 'dark';
-
-  const newFooterContainer = isDarkMode
-    ? 'bg-[#241f1b]/66 backdrop-blur-2xl backdrop-saturate-150 border border-[#f3e8dc]/10 text-[#d8ccc0] rounded-3xl p-8 md:p-10'
-    : 'bg-warm-surface/90 backdrop-blur-md border border-black/5 shadow-lg text-warm-ink rounded-3xl p-8 md:p-10';
-
-  const footerDivider = isDarkMode ? 'bg-[#f3e8dc]/10' : 'bg-black/10';
-  const footerIcon = isDarkMode ? 'hover:text-[#f1e8dc] text-[#9f958b]' : 'hover:text-black text-gray-500';
-
   return (
-    <footer className="w-full py-10 px-4 md:px-10 lg:px-20 flex justify-center relative z-10">
-      <div className={`w-full max-w-6xl rounded-3xl border p-8 md:p-10 transition-all duration-500 ${newFooterContainer}`}>
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-          <div>
-            <h3 className="text-xl font-bold tracking-tight mb-1">Plote</h3>
-            <p className="opacity-80 text-sm">Academic Homepage</p>
-          </div>
-          <div className="flex gap-6 items-center">
-            <a href={GITHUB_URL} target="_blank" rel="noreferrer" className={`transition-colors duration-300 ${footerIcon}`} aria-label="GitHub"> <FaGithub size={24} /> </a>
-          </div>
+    <footer className="mx-auto w-full max-w-5xl px-6 pb-14 pt-4">
+      <div className="border-t border-line pt-8 transition-colors duration-500 dark:border-dline">
+        <div className="flex items-center justify-between gap-6">
+          <p className="text-sm text-muted dark:text-dmuted">
+            <span className="font-serif text-[15px] font-medium text-ink dark:text-dink">
+              Tianshan Zhang
+            </span>
+            <span className="mx-2 text-faint dark:text-dfaint">·</span>
+            Academic Homepage
+          </p>
+          <a
+            href={GITHUB_URL}
+            target="_blank"
+            rel="noreferrer"
+            aria-label="GitHub"
+            className="text-faint transition-colors duration-300 hover:text-ink dark:text-dfaint dark:hover:text-dink"
+          >
+            <FaGithub size={18} />
+          </a>
         </div>
-        <div className={`w-full h-px my-8 ${footerDivider}`}></div>
-        <div className="text-center text-sm opacity-60">
-          <p>© 2026 Plote · “We can only see a short distance ahead, but we can see plenty there that needs to be done.” — Alan Turing</p>
-        </div>
+        <p className="mt-6 font-serif text-sm italic leading-relaxed text-faint dark:text-dfaint">
+          “We can only see a short distance ahead, but we can see plenty there that needs to be
+          done.” — Alan Turing
+        </p>
+        <p className="mt-3 text-xs text-faint dark:text-dfaint">© 2026 Tianshan Zhang</p>
       </div>
     </footer>
   );

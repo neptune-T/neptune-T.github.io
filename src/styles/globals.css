@@ -1,44 +1,59 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Orbitron:wght@400;600;800&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* EVA / Motion Graphic palette */
+/* Quiet editorial base — warm paper canvas, ink text, single coral accent */
 :root {
-  --primary-text: #f5f5f5;
-  --color-text: #f5f5f5;
-  --secondary-text: #bcbcbc;
-  --accent-blue: #f5f5f5;
-  --accent-violet: #dcdcdc;
-  --accent-green: #cfcfcf;
-  --accent-rose: #e3e3e3;
-  --panel: rgba(5, 5, 5, 0.82);
-  --panel-bright: rgba(18, 18, 18, 0.9);
-  --panel-border: rgba(255, 255, 255, 0.18);
-  --grid-line: rgba(255, 255, 255, 0.08);
-  --code-bg: rgba(15, 15, 15, 0.95);
-  --code-text: #f8f8f8;
-  --formula-color: #e3e3e3;
-  --highlight: rgba(255, 255, 255, 0.08);
-  --border: rgba(255, 255, 255, 0.2);
-  --old-red: #8A0000;
+  --background: #F6F4EE;
+  --foreground: #23211C;
+  --accent: #9F4F3B;
+}
+
+html.dark {
+  --background: #161310;
+  --foreground: #EAE2D4;
+  --accent: #D89A80;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Inter, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  line-height: 1.65;
+  margin: 0;
+  padding: 0;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: rgba(204, 120, 92, 0.22);
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: color 0.2s ease;
 }
 
 /* Note typography has explicit light/dark contrast. */
 .note-prose-light {
-  --tw-prose-body: #242321;
-  --tw-prose-headings: #141413;
+  --tw-prose-body: #3a372f;
+  --tw-prose-headings: #23211c;
   --tw-prose-lead: #4f4b45;
   --tw-prose-links: #9f4f3b;
-  --tw-prose-bold: #141413;
+  --tw-prose-bold: #23211c;
   --tw-prose-counters: #6c675f;
   --tw-prose-bullets: #8b8176;
-  --tw-prose-hr: #d8cfc3;
+  --tw-prose-hr: rgba(35, 33, 28, 0.12);
   --tw-prose-quotes: #3d3934;
   --tw-prose-quote-borders: #cc785c;
   --tw-prose-captions: #6c675f;
-  --tw-prose-code: #242321;
+  --tw-prose-code: #23211c;
   --tw-prose-pre-code: #f5f0e8;
   --tw-prose-pre-bg: #242321;
   --tw-prose-th-borders: #cfc4b7;
@@ -47,17 +62,17 @@
 
 .note-prose-dark {
   --tw-prose-invert-body: #c8bdb2;
-  --tw-prose-invert-headings: #eee4d8;
+  --tw-prose-invert-headings: #eae2d4;
   --tw-prose-invert-lead: #b8ada2;
-  --tw-prose-invert-links: #ffb49d;
-  --tw-prose-invert-bold: #eee4d8;
+  --tw-prose-invert-links: #d89a80;
+  --tw-prose-invert-bold: #eae2d4;
   --tw-prose-invert-counters: #9f958b;
   --tw-prose-invert-bullets: #cc785c;
-  --tw-prose-invert-hr: #4a4038;
+  --tw-prose-invert-hr: rgba(243, 232, 220, 0.12);
   --tw-prose-invert-quotes: #d8ccc0;
   --tw-prose-invert-quote-borders: #cc785c;
   --tw-prose-invert-captions: #9f958b;
-  --tw-prose-invert-code: #eee4d8;
+  --tw-prose-invert-code: #eae2d4;
   --tw-prose-invert-pre-code: #e7dacb;
   --tw-prose-invert-pre-bg: #1b1714;
   --tw-prose-invert-th-borders: #594b41;
@@ -65,6 +80,8 @@
 }
 
 .note-prose :where(h1, h2, h3, h4) {
+  font-family: "IBM Plex Serif", "Noto Serif SC", Georgia, serif;
+  font-weight: 500;
   letter-spacing: 0;
 }
 
@@ -75,224 +92,18 @@
 }
 
 .note-prose-light :where(code):not(:where(pre code)) {
-  background: #e9dfd2;
+  background: #ebe4d6;
 }
 
 .note-prose-dark :where(code):not(:where(pre code)) {
   background: rgba(231, 218, 203, 0.08);
-  color: #ffb49d;
+  color: #d89a80;
 }
 
 .note-prose :where(.katex) {
   color: inherit;
 }
 
-/* 苹果风格全局设置 */
-:root {
-  --background: #F5F0E8;
-  --foreground: #242321;
-  --accent: #CC785C;
-  --gray: #6C675F;
+.note-prose :where(img) {
+  border-radius: 0.5rem;
 }
-
-html.dark {
-  --background: #161310;
-  --foreground: #EEE4D8;
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  line-height: 1.6;
-  letter-spacing: 0.01em;
-  margin: 0;
-  padding: 0;
-}
-
-.notes-page {
-  color: black !important;
-}
-
-h1, h2, h3 {
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  color: var(--foreground);
-}
-
-a {
-  color: #9f4f3b;
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-
-a:hover {
-  color: #7f3e2e;
-}
-
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
-/* 移除不必要的类 */
-.eva-chip, .eva-pill, .eva-divider, .eva-hero-gradient, .noise-overlay, .eva-grid {
-  display: none;
-}
-
-.eva-hero-gradient {
-  background: radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.12), transparent 45%),
-              radial-gradient(circle at 75% 25%, rgba(255, 255, 255, 0.08), transparent 55%),
-              radial-gradient(circle at 50% 80%, rgba(255, 255, 255, 0.05), transparent 40%);
-}
-
-.eva-section {
-  position: relative;
-  padding: 5rem 1rem;
-}
-
-.eva-section::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(120deg, rgba(5, 8, 15, 0.95), rgba(11, 18, 36, 0.85));
-  border-radius: 2rem;
-  filter: drop-shadow(0 0 45px rgba(87, 210, 255, 0.12));
-  pointer-events: none;
-}
-
-.eva-card {
-  position: relative;
-  border-radius: 1.25rem;
-  padding: 2rem;
-  background: var(--panel);
-  border: 1px solid var(--panel-border);
-  box-shadow: 0 10px 35px rgba(5, 8, 15, 0.45);
-  overflow: hidden;
-}
-
-.eva-card::before {
-  content: '';
-  position: absolute;
-  inset: 1px;
-  border-radius: 1.1rem;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  pointer-events: none;
-}
-
-.eva-card-glow {
-  position: absolute;
-  inset: 20% 10%;
-  background: radial-gradient(circle, rgba(124, 137, 255, 0.18), transparent 60%);
-  filter: blur(50px);
-  pointer-events: none;
-}
-
-.eva-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.45rem 1rem;
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  background: rgba(10, 10, 10, 0.7);
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-
-.eva-divider {
-  width: 100%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--accent-blue), transparent);
-  opacity: 0.5;
-}
-
-.eva-stat {
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-}
-
-.eva-stat-value {
-  font-size: 2rem;
-  font-weight: 700;
-  color: var(--primary-text);
-}
-
-.eva-stat-label {
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  color: rgba(215, 224, 255, 0.7);
-}
-
-.eva-pill {
-  border-radius: 0.75rem;
-  padding: 0.75rem 1.25rem;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  box-shadow: inset 0 0 25px rgba(255, 255, 255, 0.08);
-}
-
-.eva-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  font-size: 0.9rem;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  color: var(--primary-text);
-}
-
-.eva-link svg {
-  width: 1rem;
-  height: 1rem;
-}
-
-.eva-stripes {
-  position: absolute;
-  width: 180%;
-  height: 180%;
-  background: repeating-linear-gradient(
-    -60deg,
-    rgba(255, 255, 255, 0.04),
-    rgba(255, 255, 255, 0.04) 10px,
-    transparent 10px,
-    transparent 20px
-  );
-  animation: drift 25s linear infinite;
-  pointer-events: none;
-}
-
-.noise-overlay {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='none' fill-opacity='0.6'%3E%3Cpath d='M0 0h1v1H0z' fill='%23ffffff' fill-opacity='.08'/%3E%3C/g%3E%3C/svg%3E");
-  mix-blend-mode: soft-light;
-}
-
-@keyframes drift {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-25%);
-  }
-}
-
-@layer base {
-  .font-eva {
-    font-family: monospace, "Courier New", sans-serif;
-    font-weight: 600;
-  }
-}
-
-/* Comment out original glass class */
-/* .glass {
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.3));
-  backdrop-filter: blur(20px);
-  border: none;
-  border-radius: 24px;
-  padding: 1rem;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05), inset 0 2px 4px rgba(255, 255, 255, 0.2);
-} */

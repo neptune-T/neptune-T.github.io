@@ -1,134 +1,57 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { ArrowRight } from 'lucide-react';
 import { motion, Variants } from 'framer-motion';
-import { FaBook, FaFlask, FaUser, FaGithub } from 'react-icons/fa';
 
-// 引入拆分出去的 Header 组件
 import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useTheme } from '@/context/ThemeContext';
 import { GITHUB_URL, SITE_URL } from '@/lib/site';
-import { withBasePath } from '@/lib/basePath';
 
 const researchExperience = [
   {
     institution: 'Peking University',
-    period: '2025 - Present',
-    focus: 'Vision-Language-Action Models, Generative Models, and Robotic Manipulation',
+    period: '2025 – Present',
+    focus: 'Vision-Language-Action Models, Generative Models, Robotic Manipulation',
     description: 'Exploring VLA models and generative policies for robot manipulation.',
-    logo: 'https://raw.githubusercontent.com/neptune-t/aca-web-html/main/public/logos/research/pku.png',
-    logoWidth: 64,
-    logoHeight: 64,
-    invertInDarkMode: false,
   },
   {
     institution: 'Zhipu AI',
-    period: '2025 - 2026',
-    focus: 'Mathematical Reasoning and LLM Inference',
+    period: '2025 – 2026',
+    focus: 'Mathematical Reasoning, LLM Inference',
     description: 'Studying inference strategies for mathematical problem solving in large language models.',
-    logo: 'https://raw.githubusercontent.com/neptune-t/aca-web-html/main/public/logos/research/zhipu.svg',
-    logoWidth: 128,
-    logoHeight: 48,
-    invertInDarkMode: true,
   },
   {
     institution: 'Institute of Automation, CAS',
-    period: '2024 - 2025',
+    period: '2024 – 2025',
     focus: 'Generative Models',
     description: 'Worked on GAN-based generative models for visual content synthesis.',
-    logo: 'https://raw.githubusercontent.com/neptune-t/aca-web-html/main/public/logos/research/casia.png',
-    logoWidth: 64,
-    logoHeight: 64,
-    invertInDarkMode: false,
   },
+];
+
+const indexLinks = [
+  { href: '/notes', title: 'Notes', description: 'Research notes and methodological insights' },
+  { href: '/papers', title: 'Papers', description: 'Publications and preprints' },
+  { href: '/about', title: 'About', description: 'Journey, honors, and footprints' },
 ];
 
 const HomeHeroScene = dynamic(() => import('@/components/HomeHeroScene'), {
   ssr: false,
-  loading: () => (
-    <div className="w-full h-full flex items-center justify-center">
-      <div className="text-xs font-mono opacity-70">LOADING SCENE...</div>
-    </div>
-  ),
+  loading: () => null,
 });
+
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 16 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: 'easeOut' } },
+};
 
 export default function HomePage() {
   const { isDarkMode } = useTheme();
 
-  useEffect(() => {
-    // body 背景由 ThemeProvider 统一同步；这里只保留历史兼容的 margin/padding 兜底
-    document.body.style.margin = '0';
-    document.body.style.padding = '0';
-  }, []);
-
-  const fadeInVariants: Variants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
-      y: 0, 
-      transition: { duration: 0.8, ease: 'easeOut' } 
-    },
-  };
-
-  const theme = {
-    bg: isDarkMode ? 'bg-[#161310]' : 'bg-warm-canvas',
-    
-    // --- 字体颜色 ---
-    heroTitle: isDarkMode ? 'text-[#f1e8dc]' : 'text-black',
-    heroSubtitle: isDarkMode ? 'text-[#d8ccc0]' : 'text-gray-800',
-    heroBody: isDarkMode ? 'text-[#aaa096]' : 'text-gray-600',
-    
-    // --- 参数网格 ---
-    statsLabel: isDarkMode ? 'text-[#82786f]' : 'text-gray-400',
-    statsValue: isDarkMode ? 'text-[#eee4d8]' : 'text-gray-900',
-    statsBorder: isDarkMode ? 'border-[#f3e8dc]/10' : 'border-black/10',
-
-    // --- 大卡片样式 (Academic Profile) ---
-    academicProfileCard: isDarkMode
-      ? 'bg-[#241f1b]/66 backdrop-blur-2xl backdrop-saturate-150 border border-[#f3e8dc]/10 ring-1 ring-[#cc785c]/[0.04] rounded-3xl p-10 md:p-16'
-      : 'bg-warm-surface/60 backdrop-blur-2xl backdrop-saturate-150 border border-white/70 ring-1 ring-black/[0.04] rounded-3xl p-10 md:p-16',
-
-    // --- Footer ---
-    newFooterContainer: isDarkMode
-      ? 'bg-[#241f1b]/66 backdrop-blur-2xl backdrop-saturate-150 border border-[#f3e8dc]/10 text-[#d8ccc0] rounded-3xl p-8 md:p-10'
-      : 'bg-warm-surface/60 backdrop-blur-2xl backdrop-saturate-150 border border-white/70 text-warm-ink rounded-3xl p-8 md:p-10',
-    footerDivider: isDarkMode ? 'bg-[#f3e8dc]/10' : 'bg-black/10',
-    footerIcon: isDarkMode ? 'hover:text-[#f1e8dc] text-[#9f958b]' : 'hover:text-black text-gray-500',
-
-    cardBorder: isDarkMode ? 'border-[#f3e8dc]/10' : 'border-black/5',
-    cardBg: isDarkMode ? 'bg-[#1d1916]' : 'bg-warm-surface',
-    buttonPrimary: isDarkMode ? 'bg-[#e7dacb] text-[#1b1714] hover:bg-[#f1e8dc] border-transparent' : 'bg-black text-white hover:bg-gray-800 border-transparent',
-    buttonOutline: isDarkMode ? 'border-[#e7dacb]/25 hover:bg-[#e7dacb]/[0.07] text-[#e7dacb]' : 'border-black/20 hover:bg-black/5 text-black',
-    
-    // --- 学术专栏 (Columns) 样式 ---
-    glassCard: isDarkMode 
-      ? 'bg-[#241f1b]/62 backdrop-blur-xl backdrop-saturate-150 border border-[#f3e8dc]/[0.08] hover:bg-[#2b2520]/78 transition-colors duration-300'
-      : 'bg-warm-surface/55 backdrop-blur-xl backdrop-saturate-150 border border-white/70 hover:bg-warm-surface/80 transition-colors duration-300',
-    
-    columnText: isDarkMode ? 'text-[#aaa096]' : 'text-gray-600',
-    columnTitle: isDarkMode ? 'text-[#eee4d8]' : 'text-gray-900',
-    
-    // --- [修改] 图标背景 - 统一为单色调 ---
-    iconBgMono: isDarkMode ? 'bg-coral/15' : 'bg-warm-panel',
-    // --- [修改] 图标颜色 - 自适应 ---
-    iconColor: isDarkMode ? 'text-[#dfa089]' : 'text-gray-900',
-
-    // --- [修改] 标签条样式 - 统一为单色调 ---
-    tagMono: isDarkMode 
-      ? 'bg-[#2b2520]/75 text-[#d8ccc0] hover:bg-[#342c26] border border-[#f3e8dc]/[0.08]'
-      : 'bg-warm-panel text-warm-ink hover:bg-[#e7ddcf] border border-black/5',
-
-    experienceRow: isDarkMode
-      ? 'border-[#f3e8dc]/10 hover:bg-[#241f1b]/45'
-      : 'border-black/10 hover:bg-warm-surface/55',
-    experiencePeriod: isDarkMode ? 'text-[#dfa089]' : 'text-[#9f4f3b]',
-  };
-
   return (
-    <div className={`w-full min-h-screen transition-colors duration-700 ease-in-out ${theme.bg} font-sans selection:bg-coral/30 flex flex-col`}>
-      
+    <div className="flex min-h-screen w-full flex-col bg-paper font-sans text-ink transition-colors duration-500 dark:bg-dpaper dark:text-dink">
       <Head>
         <title>Tianshan Zhang | 张天山</title>
         <meta
@@ -154,301 +77,160 @@ export default function HomePage() {
         />
       </Head>
 
-      {/* HEADER */}
       <Header />
 
-      {/* HERO SECTION */}
-      <section className="relative flex min-h-[100svh] w-full flex-col justify-center px-6 pb-12 pt-24 md:px-10 md:pb-16 md:pt-24 lg:px-12">
-        <div className="mx-auto flex w-full max-w-6xl flex-col items-center justify-between gap-10 md:flex-row lg:gap-14">
-          <div className="z-10 flex w-full flex-col space-y-6 text-left md:w-[43%]">
-            <div>
-              <h1 className={`mb-5 text-5xl font-bold leading-[1.05] tracking-normal transition-colors duration-500 md:text-6xl lg:text-[64px] ${theme.heroTitle}`}>
-                Tianshan Zhang 
+      <main className="flex-grow">
+        {/* HERO */}
+        <section className="mx-auto w-full max-w-5xl px-6 pt-28 md:pt-36">
+          <div className="grid items-center gap-12 md:grid-cols-[1.05fr_0.95fr] md:gap-16">
+            <motion.div initial="hidden" animate="visible" variants={fadeUp}>
+              <p className="text-sm text-muted dark:text-dmuted">
+                B.S. Candidate — Computer Science &amp; Materials Science
+              </p>
+              <h1 className="mt-5 font-serif text-5xl font-medium leading-[1.08] md:text-[64px]">
+                Tianshan Zhang
+                <span className="ml-4 align-middle font-serif text-2xl text-muted dark:text-dmuted md:text-3xl">
+                  张天山
+                </span>
               </h1>
-              <p className={`mb-3 text-lg font-light tracking-normal transition-colors duration-500 md:text-xl ${theme.heroSubtitle}`}>
-              B.S. Candidate
+              <p className="mt-6 max-w-md text-[17px] leading-relaxed text-muted dark:text-dmuted">
+                I work on generative models and vision-language-action systems — toward machines
+                that can perceive, reason, and act in the physical world.
               </p>
-              <p className={`text-sm md:text-base leading-relaxed max-w-md transition-colors duration-500 ${theme.heroBody}`}>
-              Computer Science and Materials Science
-                <br /><br />
-                A view of computer graphics, expressed through {isDarkMode ? 'physical simulation' : 'generative imaging'}.
-              </p>
-            </div>
-            <div className="flex flex-wrap gap-3 pt-2">
-              <Link href="/notes" className={`flex items-center gap-2 rounded-lg border px-6 py-2.5 text-sm font-bold tracking-normal transition-all ${theme.buttonPrimary}`}>
-                Explore Notes <ArrowRight size={16} />
-              </Link>
-              <Link href="/papers" className={`rounded-lg border px-6 py-2.5 text-sm font-bold tracking-normal transition-all ${theme.buttonOutline}`}>
-                View Papers
-              </Link>
-            </div>
-              <div className={`grid grid-cols-3 gap-4 border-t pt-6 transition-colors duration-500 ${theme.statsBorder}`}>
-                <div>
-                  <p className={`text-[10px] uppercase tracking-widest mb-1 ${theme.statsLabel}`}>FIELD</p>
-                  <p className={`text-lg font-bold ${theme.statsValue}`}>CS & AI</p>
-                </div>
-                <div>
-                  <p className={`text-[10px] uppercase tracking-widest mb-1 ${theme.statsLabel}`}>INTEREST</p>
-                  <p className={`text-lg font-bold ${theme.statsValue}`}>{isDarkMode ? '3D Vision' : 'GenAI'}</p>
-                </div>
-                <div>
-                  <p className={`text-[10px] uppercase tracking-widest mb-1 ${theme.statsLabel}`}>ROLE</p>
-                  <p className={`text-lg font-bold ${theme.statsValue}`}>Research Intern</p>
-                </div>
-            </div>
-          </div>
-          <div className="flex w-full justify-center md:w-[52%] md:justify-end">
-            <div className={`relative aspect-square w-full overflow-hidden rounded-[24px] border transition-all duration-700 md:max-w-[500px] ${theme.cardBorder} ${isDarkMode ? 'bg-[#1d1916]' : 'bg-warm-canvas'}`}>
-              <div className={`absolute inset-3 rounded-[18px] border pointer-events-none z-10 ${isDarkMode ? 'border-[#f3e8dc]/[0.06]' : 'border-black/[0.06]'}`} />
-              <div className={`absolute top-7 left-7 z-10 pointer-events-none transition-colors duration-700 ${isDarkMode ? 'text-[#e7dacb]' : 'text-[#242321]'}`}>
-                <h2 className="text-sm font-semibold uppercase">
-                  Stanford Bunny
-                </h2>
-                <div className={`h-px w-10 my-2.5 ${isDarkMode ? 'bg-[#f3e8dc]/25' : 'bg-black/20'}`} />
-                <p className="font-mono text-[10px] leading-relaxed opacity-60">
-                  PLY / INTERACTIVE SURFACE<br/>
-                  DRAG TO ROTATE · HOVER TO DEFORM
-                </p>
-              </div>
-              <div className={`absolute right-7 bottom-7 z-10 pointer-events-none rounded-full border px-3 py-1.5 font-mono text-[9px] uppercase ${isDarkMode ? 'border-[#f3e8dc]/10 bg-[#161310]/30 text-[#c0b4a8]' : 'border-black/10 bg-warm-surface/60 text-black/50'}`}>
-                {isDarkMode ? 'Night study' : 'Day study'}
-              </div>
-              <HomeHeroScene isDarkMode={isDarkMode} />
-            </div>
-          </div>
-        </div>
-      </section>
+              <nav className="mt-9 flex flex-wrap items-center gap-x-7 gap-y-3">
+                {indexLinks.map(({ href, title }) => (
+                  <Link
+                    key={href}
+                    href={href}
+                    className="group inline-flex items-center gap-1.5 text-[15px] text-ink no-underline transition-colors duration-300 hover:text-coral dark:text-dink dark:hover:text-coral"
+                  >
+                    {title}
+                    <ArrowRight
+                      size={15}
+                      className="text-faint transition-all duration-300 group-hover:translate-x-0.5 group-hover:text-coral dark:text-dfaint"
+                    />
+                  </Link>
+                ))}
+              </nav>
+            </motion.div>
 
-      {/* CONTENT SECTION */}
-      <section className={`py-20 relative z-20 transition-colors duration-700 flex-grow`}>
-        {/* Profile - 大毛玻璃卡片包裹 */}
-        <motion.div 
-          id="profile"
-          className={`px-4 md:px-10 lg:px-20 max-w-6xl mx-auto mb-24 ${theme.academicProfileCard}`}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1, delay: 0.15 }}
+            >
+              <div className="relative aspect-square w-full overflow-hidden rounded-2xl border border-line dark:border-dline">
+                <HomeHeroScene isDarkMode={isDarkMode} />
+              </div>
+              <p className="mt-3 text-center text-xs text-faint dark:text-dfaint">
+                Stanford Bunny — an interactive point-cloud study
+              </p>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* RESEARCH */}
+        <motion.section
+          className="mx-auto mt-24 w-full max-w-5xl px-6 md:mt-32"
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.1 }}
-          variants={fadeInVariants}
+          viewport={{ once: true, amount: 0.2 }}
+          variants={fadeUp}
         >
-          <motion.h2 className={`text-3xl md:text-5xl font-bold mb-16 text-center ${isDarkMode ? 'text-[#eee4d8]' : 'text-black'}`}>
-            Academic Profile
-          </motion.h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
-              {/* Research Interests - [修改] 增加分行和列表结构 */}
-              <div>
-                  <h3 className={`text-3xl font-bold mb-8 opacity-90 ${theme.columnTitle}`}>Research Interests</h3>
-                  <ul className={`${theme.columnText} leading-relaxed text-lg space-y-6`}>
-                    <li>
-                      <strong className={`block mb-2 ${theme.columnTitle} opacity-90`}>Generative AI for Embodied Intelligence</strong>
-                      I am interested in connecting generative AI with robotics, particularly through vision-language-action models that integrate perception, reasoning, and physical action.
-                    </li>
-                    <li>
-                      <strong className={`block mb-2 ${theme.columnTitle} opacity-90`}>Robot Learning and Manipulation</strong>
-                      My work explores how multimodal representations and generative models can help robots understand instructions, interact with their environment, and perform robust manipulation tasks.
-                    </li>
-                  </ul>
-              </div>
-              
-              {/* Biography - [修改] 增加分段 */}
-              <div>
-                  <h3 className={`text-3xl font-bold mb-8 opacity-90 ${theme.columnTitle}`}>Biography</h3>
-                  <div className={`${theme.columnText} leading-relaxed text-lg space-y-6 text-justify`}>
-                    <p>
-                      I am a third-year undergraduate studying Computer Science and Materials Science. My current research focuses on generative AI and robotics, especially vision-language-action models and robot manipulation.
-                    </p>
-                    <p>
-                      My goal is to build intelligent systems that connect perception, reasoning, generation, and action, enabling robots to understand complex environments and interact with them effectively.
-                    </p>
-                  </div>
-              </div>
+          <div className="grid gap-10 border-t border-line pt-14 dark:border-dline md:grid-cols-[1fr_2fr] md:gap-16">
+            <h2 className="font-serif text-3xl font-medium md:text-4xl">Research</h2>
+            <div className="space-y-8 text-[17px] leading-relaxed text-muted dark:text-dmuted">
+              <p>
+                <strong className="font-serif font-medium italic text-ink dark:text-dink">
+                  Generative AI for embodied intelligence.
+                </strong>{' '}
+                I am interested in connecting generative AI with robotics, particularly through
+                vision-language-action models that integrate perception, reasoning, and physical
+                action.
+              </p>
+              <p>
+                <strong className="font-serif font-medium italic text-ink dark:text-dink">
+                  Robot learning and manipulation.
+                </strong>{' '}
+                My work explores how multimodal representations and generative models can help
+                robots understand instructions, interact with their environment, and perform robust
+                manipulation tasks.
+              </p>
+            </div>
           </div>
-          
-          {/* Affiliations
-          <div className="mt-16 pt-8 border-t border-white/10">
-              <h3 className={`text-2xl font-bold mb-8 opacity-90 ${theme.columnTitle}`}>Affiliations</h3>
-              <div className="flex flex-wrap gap-4">
-                  <div className={`px-6 py-3 rounded-full bg-white/5 text-gray-400 border border-white/10 hover:bg-white/10 transition-colors cursor-default text-sm font-medium`}>
-                    Peking University (Visiting)
-                  </div>
-                  <div className={`px-6 py-3 rounded-full bg-white/5 text-gray-400 border border-white/10 hover:bg-white/10 transition-colors cursor-default text-sm font-medium`}>
-                    Institute of Automation, CAS (Visiting)
-                  </div>
-              </div>
-          </div> */}
-        </motion.div>
+        </motion.section>
 
-        {/* Research Experience */}
-        <section id="research-experience" className="mx-auto mb-24 w-full max-w-6xl scroll-mt-24 px-4 md:px-10 lg:px-20">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.1 }}
-            variants={fadeInVariants}
-          >
-            <h2 className={`mb-12 text-center text-3xl font-bold tracking-normal md:text-4xl ${theme.columnTitle}`}>
-              Research Experience
-            </h2>
-
-            <div className={`border-y ${isDarkMode ? 'border-[#f3e8dc]/10' : 'border-black/10'}`}>
-              {researchExperience.map((experience, index) => (
-                <motion.article
+        {/* EXPERIENCE */}
+        <motion.section
+          className="mx-auto mt-24 w-full max-w-5xl px-6 md:mt-32"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.15 }}
+          variants={fadeUp}
+        >
+          <div className="grid gap-10 border-t border-line pt-14 dark:border-dline md:grid-cols-[1fr_2fr] md:gap-16">
+            <h2 className="font-serif text-3xl font-medium md:text-4xl">Experience</h2>
+            <div>
+              {researchExperience.map((experience) => (
+                <article
                   key={`${experience.institution}-${experience.period}`}
-                  className={`grid grid-cols-[72px_minmax(0,1fr)] gap-5 border-b px-2 py-8 transition-colors last:border-b-0 md:grid-cols-[88px_minmax(0,1fr)_auto] md:gap-8 md:px-4 ${theme.experienceRow}`}
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.35 }}
-                  transition={{ duration: 0.45, delay: index * 0.08 }}
+                  className="flex items-baseline justify-between gap-6 border-b border-line py-6 first:pt-0 last:border-b-0 dark:border-dline"
                 >
-                  <div className="flex h-[72px] w-[72px] items-center justify-center p-2 md:h-[80px] md:w-[80px]">
-                    {/* Keep logos as public assets, matching the native images rendered in Notes. */}
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={withBasePath(experience.logo)}
-                      alt={`${experience.institution} logo`}
-                      width={experience.logoWidth}
-                      height={experience.logoHeight}
-                      loading="eager"
-                      className={`max-h-full max-w-full w-auto object-contain ${
-                        isDarkMode && experience.invertInDarkMode ? 'invert' : ''
-                      }`}
-                    />
-                  </div>
-
                   <div className="min-w-0">
-                    <div className="mb-2 flex flex-col gap-1 md:block">
-                      <h3 className={`text-xl font-bold leading-snug md:text-2xl ${theme.columnTitle}`}>
-                        {experience.institution}
-                      </h3>
-                      <p className={`text-sm font-semibold md:hidden ${theme.experiencePeriod}`}>
-                        {experience.period}
-                      </p>
-                    </div>
-                    <p className={`mb-2 text-sm font-semibold leading-relaxed md:text-base ${theme.columnTitle}`}>
+                    <h3 className="font-serif text-xl font-medium leading-snug">
+                      {experience.institution}
+                    </h3>
+                    <p className="mt-1.5 text-[15px] text-ink/80 dark:text-dink/80">
                       {experience.focus}
                     </p>
-                    <p className={`max-w-3xl text-sm leading-relaxed ${theme.columnText}`}>
+                    <p className="mt-1 text-sm leading-relaxed text-muted dark:text-dmuted">
                       {experience.description}
                     </p>
                   </div>
-
-                  <p className={`hidden whitespace-nowrap pt-1 text-sm font-semibold md:block ${theme.experiencePeriod}`}>
+                  <p className="shrink-0 text-sm text-faint dark:text-dfaint">
                     {experience.period}
                   </p>
-                </motion.article>
+                </article>
               ))}
             </div>
-          </motion.div>
-        </section>
+          </div>
+        </motion.section>
 
-        {/* Columns - [修改] 应用单色调主题 */}
-        <div className={`px-4 md:px-10 lg:px-20 max-w-7xl mx-auto border-t pt-20 mb-10 ${isDarkMode ? 'border-[#f3e8dc]/10' : 'border-black/10'}`}>
-            <motion.h2 
-              className={`text-3xl md:text-4xl font-bold mb-16 text-center ${theme.columnTitle}`}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.5 }}
-              variants={fadeInVariants}
-            >
-              Academic Columns
-            </motion.h2>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                
-                {/* 1. Notes */}
-                <motion.div 
-                  className={`p-8 rounded-2xl ${theme.glassCard}`}
-                  initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInVariants}
-                >
-                    <div className="flex items-center mb-6">
-                        {/* [修改] 使用 iconBgMono 和 iconColor */}
-                        <div className={`w-10 h-10 rounded-full flex items-center justify-center mr-4 ${theme.iconBgMono}`}>
-                            <FaFlask className={`w-4 h-4 ${theme.iconColor}`} />
-                        </div>
-                        <h3 className={`text-xl font-bold tracking-wide ${theme.columnTitle}`}>Notes</h3>
-                    </div>
-                    <p className={`${theme.columnText} mb-8 text-sm h-16 leading-relaxed`}>Research notes and methodological insights from my ongoing projects.</p>
-                    <div className="space-y-3">
-                        {/* [修改] 使用 tagMono */}
-                        <Link href="/notes/SequenceModeling" className={`block w-full py-2.5 px-4 rounded text-xs font-medium tracking-wide transition-all ${theme.tagMono}`}>
-                           Sequence Modeling
-                        </Link>
-                        <Link href="/notes/3DGaussianSplatting" className={`block w-full py-2.5 px-4 rounded text-xs font-medium tracking-wide transition-all ${theme.tagMono}`}>
-                           3D Gaussian Splatting
-                        </Link>
-                    </div>
-                </motion.div>
-                
-                {/* 2. Papers */}
-                <motion.div 
-                  className={`p-8 rounded-2xl ${theme.glassCard}`}
-                  initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.5 }} transition={{delay: 0.1}} variants={fadeInVariants}
-                >
-                    <div className="flex items-center mb-6">
-                          {/* [修改] 使用 iconBgMono 和 iconColor */}
-                         <div className={`w-10 h-10 rounded-full flex items-center justify-center mr-4 ${theme.iconBgMono}`}>
-                            <FaBook className={`w-4 h-4 ${theme.iconColor}`} />
-                        </div>
-                        <h3 className={`text-xl font-bold tracking-wide ${theme.columnTitle}`}>Papers</h3>
-                    </div>
-                    <p className={`${theme.columnText} mb-8 text-sm h-16 leading-relaxed`}>Critical reviews and summaries of influential papers in AI.</p>
-                    <div className="space-y-3">
-                        {/* [修改] 使用 tagMono */}
-                        <a href="https://arxiv.org/abs/2606.15133" target="_blank" rel="noreferrer" className={`block w-full py-2.5 px-4 rounded text-xs font-medium tracking-wide transition-all ${theme.tagMono}`}>
-                           DragMesh-2 Paper
-                        </a>
-                        <a href="https://arxiv.org/abs/2512.06424" target="_blank" rel="noreferrer" className={`block w-full py-2.5 px-4 rounded text-xs font-medium tracking-wide transition-all ${theme.tagMono}`}>
-                           DragMesh Paper
-                        </a>
-                    </div>
-                </motion.div>
-
-                {/* 3. About Me */}
-                <motion.div 
-                  className={`p-8 rounded-2xl ${theme.glassCard}`}
-                  initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.5 }} transition={{delay: 0.2}} variants={fadeInVariants}
-                >
-                    <div className="flex items-center mb-6">
-                        {/* [修改] 使用 iconBgMono 和 iconColor */}
-                        <div className={`w-10 h-10 rounded-full flex items-center justify-center mr-4 ${theme.iconBgMono}`}>
-                            <FaUser className={`w-4 h-4 ${theme.iconColor}`} />
-                        </div>
-                        <h3 className={`text-xl font-bold tracking-wide ${theme.columnTitle}`}>About Me</h3>
-                    </div>
-                    <p className={`${theme.columnText} mb-8 text-sm h-16 leading-relaxed`}>Personal reflections on academic life and philosophy.</p>
-                    <div className="space-y-3">
-                        {/* [修改] 使用 tagMono */}
-                        <Link href="/about" className={`block w-full py-2.5 px-4 rounded text-xs font-medium tracking-wide transition-all ${theme.tagMono}`}>
-                           Academic Journey
-                        </Link>
-                        <Link href="/about#honors" className={`block w-full py-2.5 px-4 rounded text-xs font-medium tracking-wide transition-all ${theme.tagMono}`}>
-                           Honors &amp; Awards
-                        </Link>
-                    </div>
-                </motion.div>
-            </div>
-        </div>
-      </section>
-
-      {/* FOOTER (保持不变) */}
-      <footer className="w-full py-10 px-4 md:px-10 lg:px-20 flex justify-center relative z-10">
-        <div className={`w-full max-w-6xl rounded-3xl border p-8 md:p-10 transition-all duration-500 ${theme.newFooterContainer}`}>
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+        {/* INDEX */}
+        <motion.section
+          className="mx-auto mb-28 mt-24 w-full max-w-5xl px-6 md:mt-32"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={fadeUp}
+        >
+          <div className="grid gap-10 border-t border-line pt-14 dark:border-dline md:grid-cols-[1fr_2fr] md:gap-16">
+            <h2 className="font-serif text-3xl font-medium md:text-4xl">Index</h2>
             <div>
-               <h3 className="text-xl font-bold tracking-tight mb-1">Plote</h3>
-               <p className="opacity-80 text-sm">Academic Homepage</p>
-            </div>
-            <div className="flex gap-6 items-center">
-               <a href={GITHUB_URL} target="_blank" rel="noreferrer" className={`transition-colors duration-300 ${theme.footerIcon}`} aria-label="GitHub"> <FaGithub size={24} /> </a>
+              {indexLinks.map(({ href, title, description }) => (
+                <Link
+                  key={href}
+                  href={href}
+                  className="group flex items-center justify-between gap-6 border-b border-line py-6 no-underline first:pt-0 last:border-b-0 dark:border-dline"
+                >
+                  <div className="flex min-w-0 flex-wrap items-baseline gap-x-5 gap-y-1">
+                    <span className="font-serif text-2xl font-medium text-ink transition-colors duration-300 group-hover:text-coral dark:text-dink dark:group-hover:text-coral">
+                      {title}
+                    </span>
+                    <span className="text-sm text-muted dark:text-dmuted">{description}</span>
+                  </div>
+                  <ArrowRight
+                    size={18}
+                    className="shrink-0 text-faint transition-all duration-300 group-hover:translate-x-1 group-hover:text-coral dark:text-dfaint"
+                  />
+                </Link>
+              ))}
             </div>
           </div>
-          <div className={`w-full h-px my-8 ${theme.footerDivider}`}></div>
-          <div className="text-center text-sm opacity-60">
-            <p>© 2026 Plote · “We can only see a short distance ahead, but we can see plenty there that needs to be done.” — Alan Turing</p>
-          </div>
-        </div>
-      </footer>
+        </motion.section>
+      </main>
 
+      <Footer />
     </div>
   );
 }

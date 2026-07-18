@@ -86,10 +86,10 @@ function InteractiveBunny({ url, isDarkMode }: { url: string; isDarkMode: boolea
       uColor: { value: new THREE.Color(isDarkMode ? '#e7dacb' : '#242321') },
       uAccent: { value: new THREE.Color('#cc785c') },
       uHover: { value: new THREE.Vector3(9999, 9999, 9999) },
-      uInteractionRadius: { value: 0.3 },
-      uInteractionStrength: { value: 0.22 },
+      uInteractionRadius: { value: 0.28 },
+      uInteractionStrength: { value: 0.12 },
       uPixelRatio: { value: 1 },
-      uBaseOpacity: { value: isDarkMode ? 0.72 : 0.58 },
+      uBaseOpacity: { value: isDarkMode ? 0.68 : 0.55 },
     },
     vertexShader: `
       uniform float uTime;
@@ -107,7 +107,7 @@ function InteractiveBunny({ url, isDarkMode }: { url: string; isDarkMode: boolea
         newPosition += displacement + (normal * breath);
         vec4 viewPosition = viewMatrix * modelMatrix * vec4(newPosition, 1.0);
         gl_Position = projectionMatrix * viewPosition;
-        gl_PointSize = (4.0 + influence * 8.0) * uPixelRatio;
+        gl_PointSize = (3.0 + influence * 5.0) * uPixelRatio;
         gl_PointSize *= (1.0 / -viewPosition.z);
         vIntensity = influence;
       }
@@ -193,7 +193,7 @@ export default function HomeHeroScene({ isDarkMode }: { isDarkMode: boolean }) {
       shadows
       gl={{ powerPreference: 'high-performance', antialias: true }}
     >
-      <color attach="background" args={[isDarkMode ? '#1d1916' : '#f5f0e8']} />
+      <color attach="background" args={[isDarkMode ? '#161310' : '#f6f4ee']} />
       <ambientLight intensity={isDarkMode ? 0.72 : 1.2} />
       <directionalLight
         castShadow
@@ -211,6 +211,8 @@ export default function HomeHeroScene({ isDarkMode }: { isDarkMode: boolean }) {
         enablePan={false}
         enableDamping
         dampingFactor={0.07}
+        autoRotate
+        autoRotateSpeed={0.55}
         minPolarAngle={Math.PI * 0.32}
         maxPolarAngle={Math.PI * 0.68}
         rotateSpeed={0.42}
