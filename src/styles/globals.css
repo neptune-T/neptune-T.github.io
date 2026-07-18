@@ -79,6 +79,12 @@ a {
   --tw-prose-invert-td-borders: #40362f;
 }
 
+/* Long-form note bodies read in the same serif as the site headings;
+   code/pre keep Tailwind preflight's monospace, KaTeX keeps its own fonts. */
+.note-prose {
+  font-family: "IBM Plex Serif", "Noto Serif SC", Georgia, serif;
+}
+
 .note-prose :where(h1, h2, h3, h4) {
   font-family: "IBM Plex Serif", "Noto Serif SC", Georgia, serif;
   font-weight: 500;

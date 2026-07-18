@@ -61,7 +61,7 @@ export default function Notes({ allNotesData }: { allNotesData: Note[] }) {
 
           {/* Tag filter */}
           <motion.div
-            className="mb-4 flex flex-wrap gap-x-6 gap-y-2"
+            className="mb-4 flex flex-nowrap gap-x-6 gap-y-2 overflow-x-auto pb-1 sm:flex-wrap sm:overflow-x-visible sm:pb-0"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.15 }}
@@ -96,7 +96,18 @@ export default function Notes({ allNotesData }: { allNotesData: Note[] }) {
                 href={`/notes/${id}`}
                 className="group block border-b border-line py-8 no-underline first:border-t dark:border-dline"
               >
-                <div className="flex items-center gap-6 sm:gap-8">
+                <div className="flex items-start gap-4 sm:items-center sm:gap-8">
+                  {coverImage && (
+                    <div className="relative aspect-[4/3] w-20 shrink-0 overflow-hidden rounded-lg border border-line dark:border-dline sm:w-32 md:w-40">
+                      <Image
+                        src={coverImage}
+                        alt={title}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 640px) 80px, (max-width: 768px) 128px, 160px"
+                      />
+                    </div>
+                  )}
                   <div className="min-w-0 flex-1">
                     <div className="flex items-baseline justify-between gap-6">
                       <p className="shrink-0 text-sm text-faint dark:text-dfaint">{date}</p>
@@ -112,24 +123,13 @@ export default function Notes({ allNotesData }: { allNotesData: Note[] }) {
                         />
                       </div>
                     </div>
-                    <h2 className="mt-2.5 font-serif text-2xl font-medium leading-snug text-ink transition-colors duration-300 group-hover:text-coral dark:text-dink dark:group-hover:text-coral">
+                    <h2 className="mt-2.5 font-serif text-xl font-medium leading-snug text-ink transition-colors duration-300 group-hover:text-coral dark:text-dink dark:group-hover:text-coral sm:text-2xl">
                       {title}
                     </h2>
                     <p className="mt-2.5 line-clamp-2 text-[15px] leading-relaxed text-muted dark:text-dmuted">
                       {summary}
                     </p>
                   </div>
-                  {coverImage && (
-                    <div className="relative aspect-[4/3] w-24 shrink-0 overflow-hidden rounded-lg border border-line dark:border-dline sm:w-32 md:w-40">
-                      <Image
-                        src={coverImage}
-                        alt={title}
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 640px) 96px, 160px"
-                      />
-                    </div>
-                  )}
                 </div>
               </Link>
             ))}
