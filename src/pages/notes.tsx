@@ -1,5 +1,6 @@
 import { getSortedNotesData } from '@/lib/notes';
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import Head from 'next/head';
@@ -89,32 +90,47 @@ export default function Notes({ allNotesData }: { allNotesData: Note[] }) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.2, ease: 'easeOut' }}
           >
-            {filteredNotes.map(({ id, date, title, summary, tags }) => (
+            {filteredNotes.map(({ id, date, title, summary, tags, coverImage }) => (
               <Link
                 key={id}
                 href={`/notes/${id}`}
                 className="group block border-b border-line py-8 no-underline first:border-t dark:border-dline"
               >
-                <div className="flex items-baseline justify-between gap-6">
-                  <p className="shrink-0 text-sm text-faint dark:text-dfaint">{date}</p>
-                  <div className="flex shrink-0 items-center gap-3">
-                    {tags?.slice(0, 2).map((tag) => (
-                      <span key={tag} className="hidden text-xs text-faint dark:text-dfaint sm:inline">
-                        {tag}
-                      </span>
-                    ))}
-                    <ArrowRight
-                      size={16}
-                      className="text-faint opacity-0 transition-all duration-300 group-hover:translate-x-0.5 group-hover:text-coral group-hover:opacity-100 dark:text-dfaint"
-                    />
+                <div className="flex items-center gap-6 sm:gap-8">
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-baseline justify-between gap-6">
+                      <p className="shrink-0 text-sm text-faint dark:text-dfaint">{date}</p>
+                      <div className="flex shrink-0 items-center gap-3">
+                        {tags?.slice(0, 2).map((tag) => (
+                          <span key={tag} className="hidden text-xs text-faint dark:text-dfaint sm:inline">
+                            {tag}
+                          </span>
+                        ))}
+                        <ArrowRight
+                          size={16}
+                          className="text-faint opacity-0 transition-all duration-300 group-hover:translate-x-0.5 group-hover:text-coral group-hover:opacity-100 dark:text-dfaint"
+                        />
+                      </div>
+                    </div>
+                    <h2 className="mt-2.5 font-serif text-2xl font-medium leading-snug text-ink transition-colors duration-300 group-hover:text-coral dark:text-dink dark:group-hover:text-coral">
+                      {title}
+                    </h2>
+                    <p className="mt-2.5 line-clamp-2 text-[15px] leading-relaxed text-muted dark:text-dmuted">
+                      {summary}
+                    </p>
                   </div>
+                  {coverImage && (
+                    <div className="relative aspect-[4/3] w-24 shrink-0 overflow-hidden rounded-lg border border-line dark:border-dline sm:w-32 md:w-40">
+                      <Image
+                        src={coverImage}
+                        alt={title}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 640px) 96px, 160px"
+                      />
+                    </div>
+                  )}
                 </div>
-                <h2 className="mt-2.5 font-serif text-2xl font-medium leading-snug text-ink transition-colors duration-300 group-hover:text-coral dark:text-dink dark:group-hover:text-coral">
-                  {title}
-                </h2>
-                <p className="mt-2.5 line-clamp-2 text-[15px] leading-relaxed text-muted dark:text-dmuted">
-                  {summary}
-                </p>
               </Link>
             ))}
           </motion.div>

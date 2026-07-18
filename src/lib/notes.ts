@@ -26,10 +26,12 @@ export function getSortedNotesData() {
       const fileContents = fs.readFileSync(fullPath, 'utf8');
       const matterResult = matter(fileContents);
 
-      // Extract first image from content
-      const imageRegex = /!\[.*?\]\((.*?)\)/;
-      const match = imageRegex.exec(matterResult.content);
-      const coverImage = match ? withBasePath(match[1]) : '';
+      // List teaser: prefer the small thumbnail emitted by scripts/generate-note-thumbs.mjs
+      // (prebuild). The raw first image is far too heavy to load on the notes index.
+      const thumbRoute = `/notes/thumbs/${id}.webp`;
+      const coverImage = fs.existsSync(path.join(process.cwd(), 'public', thumbRoute))
+        ? withBasePath(thumbRoute)
+        : '';
 
       if (!matterResult.data.title || !matterResult.data.date || !matterResult.data.summary) {
         console.warn(`Note with id '${id}' is missing required frontmatter and will be skipped.`);

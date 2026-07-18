@@ -6,8 +6,10 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useTheme } from '@/context/ThemeContext';
+import { withBasePath } from '@/lib/basePath';
 import { GITHUB_URL, SITE_URL } from '@/lib/site';
 
 const researchExperience = [
@@ -15,26 +17,35 @@ const researchExperience = [
     institution: 'Peking University',
     period: '2025 – Present',
     focus: 'Vision-Language-Action Models, Generative Models, Robotic Manipulation',
-    description: 'Exploring VLA models and generative policies for robot manipulation.',
+    logo: '/logos/research/pku.png',
+    logoWidth: 64,
+    logoHeight: 64,
+    invertInDarkMode: false,
   },
   {
     institution: 'Zhipu AI',
     period: '2025 – 2026',
     focus: 'Mathematical Reasoning, LLM Inference',
-    description: 'Studying inference strategies for mathematical problem solving in large language models.',
+    logo: '/logos/research/zhipu.svg',
+    logoWidth: 128,
+    logoHeight: 48,
+    invertInDarkMode: true,
   },
   {
     institution: 'Institute of Automation, CAS',
     period: '2024 – 2025',
     focus: 'Generative Models',
-    description: 'Worked on GAN-based generative models for visual content synthesis.',
+    logo: '/logos/research/casia.png',
+    logoWidth: 64,
+    logoHeight: 64,
+    invertInDarkMode: false,
   },
 ];
 
 const indexLinks = [
-  { href: '/notes', title: 'Notes', description: 'Research notes and methodological insights' },
-  { href: '/papers', title: 'Papers', description: 'Publications and preprints' },
-  { href: '/about', title: 'About', description: 'Journey, honors, and footprints' },
+  { href: '/notes', title: 'Notes' },
+  { href: '/papers', title: 'Papers' },
+  { href: '/about', title: 'About' },
 ];
 
 const HomeHeroScene = dynamic(() => import('@/components/HomeHeroScene'), {
@@ -81,7 +92,7 @@ export default function HomePage() {
 
       <main className="flex-grow">
         {/* HERO */}
-        <section className="mx-auto w-full max-w-5xl px-6 pt-28 md:pt-36">
+        <section className="mx-auto flex min-h-svh w-full max-w-5xl flex-col justify-center px-6 pb-16 pt-14">
           <div className="grid items-center gap-12 md:grid-cols-[1.05fr_0.95fr] md:gap-16">
             <motion.div initial="hidden" animate="visible" variants={fadeUp}>
               <p className="text-sm text-muted dark:text-dmuted">
@@ -162,7 +173,7 @@ export default function HomePage() {
 
         {/* EXPERIENCE */}
         <motion.section
-          className="mx-auto mt-24 w-full max-w-5xl px-6 md:mt-32"
+          className="mx-auto mb-28 mt-24 w-full max-w-5xl px-6 md:mt-32"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.15 }}
@@ -174,18 +185,28 @@ export default function HomePage() {
               {researchExperience.map((experience) => (
                 <article
                   key={`${experience.institution}-${experience.period}`}
-                  className="flex items-baseline justify-between gap-6 border-b border-line py-6 first:pt-0 last:border-b-0 dark:border-dline"
+                  className="flex items-center justify-between gap-6 border-b border-line py-6 first:pt-0 last:border-b-0 dark:border-dline"
                 >
-                  <div className="min-w-0">
-                    <h3 className="font-serif text-xl font-medium leading-snug">
-                      {experience.institution}
-                    </h3>
-                    <p className="mt-1.5 text-[15px] text-ink/80 dark:text-dink/80">
-                      {experience.focus}
-                    </p>
-                    <p className="mt-1 text-sm leading-relaxed text-muted dark:text-dmuted">
-                      {experience.description}
-                    </p>
+                  <div className="flex min-w-0 items-center gap-5">
+                    <div className="flex h-10 w-14 shrink-0 items-center justify-center">
+                      <Image
+                        src={withBasePath(experience.logo)}
+                        alt={`${experience.institution} logo`}
+                        width={experience.logoWidth}
+                        height={experience.logoHeight}
+                        className={`max-h-full w-auto object-contain ${
+                          experience.invertInDarkMode ? 'dark:invert' : ''
+                        }`}
+                      />
+                    </div>
+                    <div className="min-w-0">
+                      <h3 className="font-serif text-xl font-medium leading-snug">
+                        {experience.institution}
+                      </h3>
+                      <p className="mt-1.5 text-[15px] text-ink/80 dark:text-dink/80">
+                        {experience.focus}
+                      </p>
+                    </div>
                   </div>
                   <p className="shrink-0 text-sm text-faint dark:text-dfaint">
                     {experience.period}
@@ -196,38 +217,6 @@ export default function HomePage() {
           </div>
         </motion.section>
 
-        {/* INDEX */}
-        <motion.section
-          className="mx-auto mb-28 mt-24 w-full max-w-5xl px-6 md:mt-32"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-          variants={fadeUp}
-        >
-          <div className="grid gap-10 border-t border-line pt-14 dark:border-dline md:grid-cols-[1fr_2fr] md:gap-16">
-            <h2 className="font-serif text-3xl font-medium md:text-4xl">Index</h2>
-            <div>
-              {indexLinks.map(({ href, title, description }) => (
-                <Link
-                  key={href}
-                  href={href}
-                  className="group flex items-center justify-between gap-6 border-b border-line py-6 no-underline first:pt-0 last:border-b-0 dark:border-dline"
-                >
-                  <div className="flex min-w-0 flex-wrap items-baseline gap-x-5 gap-y-1">
-                    <span className="font-serif text-2xl font-medium text-ink transition-colors duration-300 group-hover:text-coral dark:text-dink dark:group-hover:text-coral">
-                      {title}
-                    </span>
-                    <span className="text-sm text-muted dark:text-dmuted">{description}</span>
-                  </div>
-                  <ArrowRight
-                    size={18}
-                    className="shrink-0 text-faint transition-all duration-300 group-hover:translate-x-1 group-hover:text-coral dark:text-dfaint"
-                  />
-                </Link>
-              ))}
-            </div>
-          </div>
-        </motion.section>
       </main>
 
       <Footer />
