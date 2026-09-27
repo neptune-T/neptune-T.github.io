@@ -32,7 +32,7 @@ const config: Config = {
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
-        serif: ['Newsreader', '"Noto Serif SC"', 'Georgia', 'serif'],
+        serif: ['"Source Serif 4"', '"Noto Serif SC"', 'Georgia', 'serif'],
       },
     },
   },

@@ -60,7 +60,7 @@ function TocList({ groups, active, onNavigate }: { groups: TocGroup[]; active: s
                   : 'border-transparent text-muted hover:text-ink dark:text-dmuted dark:hover:text-dink'
               }`}
             >
-              {group.text}
+              <span dangerouslySetInnerHTML={{ __html: group.html }} />
             </a>
             {inGroup && group.children.length > 0 && (
               <ol className="mt-2 space-y-2 pl-6">
@@ -75,7 +75,7 @@ function TocList({ groups, active, onNavigate }: { groups: TocGroup[]; active: s
                           : 'text-faint hover:text-ink dark:text-dfaint dark:hover:text-dink'
                       }`}
                     >
-                      {child.text}
+                      <span dangerouslySetInnerHTML={{ __html: child.html }} />
                     </a>
                   </li>
                 ))}
@@ -129,7 +129,7 @@ export function NoteTocInline({ toc }: { toc: TocItem[] }) {
                 onClick={() => setOpen(false)}
                 className="block pl-3 leading-snug text-muted hover:text-ink dark:text-dmuted dark:hover:text-dink"
               >
-                {group.text}
+                <span dangerouslySetInnerHTML={{ __html: group.html }} />
               </a>
             </li>
           ))}

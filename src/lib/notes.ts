@@ -7,11 +7,13 @@ import remarkMath from 'remark-math';
 import remarkRehype from 'remark-rehype';
 import rehypeKatex from 'rehype-katex';
 import rehypeStringify from 'rehype-stringify';
+import katex from 'katex';
 import { withBasePath } from '@/lib/basePath';
 
 const notesDirectory = path.join(process.cwd(), '_notes');
 
-export type TocItem = { id: string; text: string; depth: number };
+// `html` is the heading as display markup (inline math rendered with KaTeX).
+export type TocItem = { id: string; text: string; html: string; depth: number };
 
 type HastNode = {
   type: string;
@@ -23,6 +25,20 @@ type HastNode = {
 
 const textOf = (node: HastNode): string =>
   node.type === 'text' ? node.value ?? '' : (node.children ?? []).map(textOf).join('');
+
+const escapeHtml = (value: string) =>
+  value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+const isInlineMath = (node: HastNode) => {
+  const className = node.properties?.className;
+  return Array.isArray(className) && className.includes('math-inline');
+};
+
+const htmlOf = (node: HastNode): string => {
+  if (node.type === 'text') return escapeHtml(node.value ?? '');
+  if (isInlineMath(node)) return katex.renderToString(textOf(node), { throwOnError: false });
+  return (node.children ?? []).map(htmlOf).join('');
+};
 
 // Gives every h1–h4 a stable slug id (CJK kept as-is) and records it for the table of
 // contents. Runs before rehype-katex so heading text is still the plain source.
@@ -38,7 +54,7 @@ const rehypeCollectHeadings = (toc: TocItem[]) => () => (tree: HastNode) => {
       seen.set(base, count + 1);
       const id = count ? `${base}-${count}` : base;
       node.properties = { ...node.properties, id };
-      toc.push({ id, text, depth: Number(match[1]) });
+      toc.push({ id, text, html: htmlOf(node).trim(), depth: Number(match[1]) });
       return;
     }
     node.children?.forEach(walk);

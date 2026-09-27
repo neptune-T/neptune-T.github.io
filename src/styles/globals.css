@@ -19,7 +19,7 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Newsreader has an optical-size axis: let the browser pick the cut that matches the
+/* Source Serif 4 has an optical-size axis: let the browser pick the cut that matches the
    rendered size, so display headings get the fine high-contrast cut automatically. */
 .font-serif,
 .note-prose {
@@ -103,11 +103,11 @@ a {
 /* Long-form note bodies read in the same serif as the site headings;
    code/pre keep Tailwind preflight's monospace, KaTeX keeps its own fonts. */
 .note-prose {
-  font-family: Newsreader, "Noto Serif SC", Georgia, serif;
+  font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
 }
 
 .note-prose :where(h1, h2, h3, h4) {
-  font-family: Newsreader, "Noto Serif SC", Georgia, serif;
+  font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
   font-weight: 450;
   letter-spacing: 0;
 }

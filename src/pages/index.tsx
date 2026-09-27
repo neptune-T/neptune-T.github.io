@@ -62,30 +62,24 @@ const MY_NAME = 'Tianshan Zhang';
 const researchExperience = [
   {
     institution: 'Peking University',
+    mark: '北',
     period: '2025 – Present',
     focus: 'Vision-Language-Action Models, Generative Models, Robotic Manipulation',
-    logo: '/logos/research/pku.png',
-    logoWidth: 64,
-    logoHeight: 64,
-    invertInDarkMode: false,
+    current: true,
   },
   {
     institution: 'Zhipu AI',
+    mark: '智',
     period: '2025 – 2026',
     focus: 'Mathematical Reasoning, LLM Inference',
-    logo: '/logos/research/zhipu.svg',
-    logoWidth: 128,
-    logoHeight: 48,
-    invertInDarkMode: true,
+    current: false,
   },
   {
     institution: 'Institute of Automation, CAS',
+    mark: '自',
     period: '2024 – 2025',
     focus: 'Generative Models',
-    logo: '/logos/research/casia.png',
-    logoWidth: 64,
-    logoHeight: 64,
-    invertInDarkMode: false,
+    current: false,
   },
 ];
 
@@ -301,17 +295,18 @@ export default function HomePage({ papers, notes }: { papers: PaperSummary[]; no
               className="group flex items-center justify-between gap-6 border-b border-line py-6 first:pt-0 last:border-b-0 dark:border-dline"
             >
               <div className="flex min-w-0 items-center gap-5">
-                <div className="flex h-10 w-14 shrink-0 items-center justify-center">
-                  <Image
-                    src={withBasePath(experience.logo)}
-                    alt={`${experience.institution} logo`}
-                    width={experience.logoWidth}
-                    height={experience.logoHeight}
-                    className={`max-h-full w-auto object-contain opacity-70 grayscale transition duration-500 group-hover:opacity-100 group-hover:grayscale-0 ${
-                      experience.invertInDarkMode ? 'dark:invert' : ''
-                    }`}
-                  />
-                </div>
+                {/* Seal-style mark: one serif character in a hairline square, drawn in code so
+                    all three institutions share one visual language. Coral marks the current one. */}
+                <span
+                  aria-hidden
+                  className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-[3px] border font-serif text-[21px] leading-none transition-colors duration-500 ${
+                    experience.current
+                      ? 'border-coral/70 text-coral'
+                      : 'border-line text-muted group-hover:border-ink/30 group-hover:text-ink dark:border-dline dark:text-dmuted dark:group-hover:border-dink/30 dark:group-hover:text-dink'
+                  }`}
+                >
+                  {experience.mark}
+                </span>
                 <div className="min-w-0">
                   <h3 className="font-serif text-[22px] font-normal leading-snug">
                     {experience.institution}
