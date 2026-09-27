@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Sun, Moon, Menu, X } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -17,6 +17,8 @@ const Header: React.FC = () => {
   const { isDarkMode, toggleTheme } = useTheme();
   const { pathname } = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  useEffect(() => setMobileOpen(false), [pathname]);
 
   const isActive = (href: string) =>
     href === '/' ? pathname === '/' : pathname.startsWith(href);
@@ -37,6 +39,7 @@ const Header: React.FC = () => {
               <Link
                 key={href}
                 href={href}
+                aria-current={isActive(href) ? 'page' : undefined}
                 className={`relative text-sm no-underline transition-colors duration-300 ${
                   isActive(href)
                     ? 'text-ink dark:text-dink'
@@ -63,6 +66,7 @@ const Header: React.FC = () => {
             onClick={() => setMobileOpen((v) => !v)}
             className="flex h-9 w-9 items-center justify-center rounded-full text-muted transition-colors duration-300 hover:text-ink active:scale-95 dark:text-dmuted dark:hover:text-dink md:hidden"
             aria-label="Toggle navigation menu"
+            aria-expanded={mobileOpen}
           >
             {mobileOpen ? <X size={18} /> : <Menu size={18} />}
           </button>

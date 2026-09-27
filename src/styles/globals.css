@@ -113,3 +113,44 @@ a {
 .note-prose :where(img) {
   border-radius: 0.5rem;
 }
+
+/* Wide display equations scroll inside their own block instead of widening the page.
+   The 2px inline padding/negative margin absorbs KaTeX's .vlist-s spacer, which would
+   otherwise put a scrollbar under every tagged equation. */
+.note-prose :where(.katex-display) {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.25em 2px 0.25em 0;
+  margin-right: -2px;
+  scrollbar-width: thin;
+}
+
+/* Notes quote their sources verbatim; don't let typography add a second pair of marks. */
+.note-prose :where(blockquote p:first-of-type)::before,
+.note-prose :where(blockquote p:last-of-type)::after {
+  content: none;
+}
+
+.note-prose :where(blockquote) {
+  font-weight: 400;
+}
+
+.note-prose :where(table) {
+  display: block;
+  overflow-x: auto;
+}
+
+/* Keyboard focus: one quiet coral ring, only when navigating by keyboard. */
+:focus-visible {
+  outline: 2px solid #CC785C;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.scrollbar-none {
+  scrollbar-width: none;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}

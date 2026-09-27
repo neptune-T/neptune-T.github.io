@@ -11,6 +11,21 @@ import { withBasePath } from '@/lib/basePath';
 
 const notesDirectory = path.join(process.cwd(), '_notes');
 
+const cleanTags = (tags: unknown): string[] =>
+  Array.isArray(tags) ? tags.map((t) => String(t).trim()).filter(Boolean) : [];
+
+// Rough reading time for mixed Chinese/English notes: CJK characters at ~400/min,
+// Latin words at ~220/min. Code blocks, math and image markup are skipped.
+const estimateReadingMinutes = (markdown: string) => {
+  const prose = markdown
+    .replace(/```[\s\S]*?```/g, ' ')
+    .replace(/\$\$[\s\S]*?\$\$/g, ' ')
+    .replace(/!\[.*?\]\(.*?\)/g, ' ');
+  const cjk = (prose.match(/[\u4e00-\u9fff]/g) || []).length;
+  const words = (prose.replace(/[\u4e00-\u9fff]/g, ' ').match(/[A-Za-z0-9]+/g) || []).length;
+  return Math.max(1, Math.round(cjk / 400 + words / 220));
+};
+
 export function getSortedNotesData() {
   if (!fs.existsSync(notesDirectory)) {
     console.warn("'_notes' directory not found. No notes will be displayed.");
@@ -41,10 +56,11 @@ export function getSortedNotesData() {
       return {
         id,
         coverImage,
-        ...(matterResult.data as { title: string; date: string; summary: string; tags?: string[] }),
+        ...(matterResult.data as { title: string; date: string; summary: string }),
+        tags: cleanTags(matterResult.data.tags),
       };
     })
-    .filter((note): note is { id: string; coverImage: string; title: string; date: string; summary: string; tags?: string[] } => note !== null);
+    .filter((note): note is NonNullable<typeof note> => note !== null);
 
   return allNotesData.sort((a, b) => {
     if (a && b) {
@@ -108,6 +124,8 @@ export async function getNoteData(id: string) {
     id,
     contentHtml,
     coverImage,
-    ...(matterResult.data as { title: string; date: string; summary: string; tags?: string[] }),
+    readingMinutes: estimateReadingMinutes(matterResult.content),
+    ...(matterResult.data as { title: string; date: string; summary: string }),
+    tags: cleanTags(matterResult.data.tags),
   };
 }

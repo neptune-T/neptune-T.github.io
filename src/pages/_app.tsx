@@ -3,6 +3,7 @@ import 'katex/dist/katex.min.css';
 import type { AppProps } from 'next/app'
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import { MotionConfig } from 'framer-motion';
 import { withBasePath } from '@/lib/basePath';
 import { ThemeProvider } from '@/context/ThemeContext';
 import { SITE_NAME, toAbsoluteUrl, toCanonicalUrl } from '@/lib/site';
@@ -31,7 +32,9 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta property="og:image" content={toAbsoluteUrl(withBasePath('/favicon.ico'))} />
       </Head>
       <ThemeProvider>
-        <Component {...pageProps} />
+        <MotionConfig reducedMotion="user">
+          <Component {...pageProps} />
+        </MotionConfig>
       </ThemeProvider>
     </>
   )

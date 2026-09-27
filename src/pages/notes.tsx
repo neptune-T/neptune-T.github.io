@@ -29,11 +29,24 @@ type Note = {
 export default function Notes({ allNotesData }: { allNotesData: Note[] }) {
   const [selectedTag, setSelectedTag] = useState<string>('all');
 
-  const uniqueTags = ['all', ...new Set(allNotesData.flatMap((note) => note.tags || []))];
+  const tagCounts = new Map<string, number>();
+  allNotesData.forEach((note) =>
+    note.tags?.forEach((tag) => tagCounts.set(tag, (tagCounts.get(tag) ?? 0) + 1)),
+  );
+  const uniqueTags = ['all', ...tagCounts.keys()];
   const filteredNotes =
     selectedTag === 'all'
       ? allNotesData
       : allNotesData.filter((note) => note.tags?.includes(selectedTag));
+
+  // Notes arrive newest first, so years come out in descending order.
+  const notesByYear: [string, Note[]][] = [];
+  filteredNotes.forEach((note) => {
+    const year = note.date.slice(0, 4);
+    const group = notesByYear.find(([y]) => y === year);
+    if (group) group[1].push(note);
+    else notesByYear.push([year, [note]]);
+  });
 
   return (
     <>
@@ -61,77 +74,94 @@ export default function Notes({ allNotesData }: { allNotesData: Note[] }) {
 
           {/* Tag filter */}
           <motion.div
-            className="mb-4 flex flex-nowrap gap-x-6 gap-y-2 overflow-x-auto pb-1 sm:flex-wrap sm:overflow-x-visible sm:pb-0"
+            className="scrollbar-none -mx-6 mb-6 flex gap-x-6 overflow-x-auto px-6 sm:mx-0 sm:flex-wrap sm:gap-y-3 sm:overflow-visible sm:px-0"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.15 }}
           >
-            {uniqueTags.map((tag) => (
-              <button
-                key={tag}
-                onClick={() => setSelectedTag(tag)}
-                className={`relative pb-1 text-sm transition-colors duration-300 ${
-                  selectedTag === tag
-                    ? 'text-ink dark:text-dink'
-                    : 'text-faint hover:text-muted dark:text-dfaint dark:hover:text-dmuted'
-                }`}
-              >
-                {tag.charAt(0).toUpperCase() + tag.slice(1)}
-                {selectedTag === tag && (
-                  <span className="absolute -bottom-0.5 left-0 h-px w-full bg-coral" />
-                )}
-              </button>
-            ))}
+            {uniqueTags.map((tag) => {
+              const active = selectedTag === tag;
+              return (
+                <button
+                  key={tag}
+                  onClick={() => setSelectedTag(tag)}
+                  aria-pressed={active}
+                  className={`relative shrink-0 whitespace-nowrap pb-1.5 text-sm transition-colors duration-300 ${
+                    active
+                      ? 'text-ink dark:text-dink'
+                      : 'text-faint hover:text-muted dark:text-dfaint dark:hover:text-dmuted'
+                  }`}
+                >
+                  {tag === 'all' ? 'All' : tag.charAt(0).toUpperCase() + tag.slice(1)}
+                  <span className="ml-1.5 text-xs text-faint dark:text-dfaint">
+                    {tag === 'all' ? allNotesData.length : tagCounts.get(tag)}
+                  </span>
+                  {active && (
+                    <motion.span
+                      layoutId="note-tag-underline"
+                      className="absolute bottom-0 left-0 h-px w-full bg-coral"
+                    />
+                  )}
+                </button>
+              );
+            })}
           </motion.div>
 
-          {/* Notes list */}
+          {/* Notes list, grouped by year */}
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            key={selectedTag}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.2, ease: 'easeOut' }}
+            transition={{ duration: 0.5, ease: 'easeOut' }}
           >
-            {filteredNotes.map(({ id, date, title, summary, tags, coverImage }) => (
-              <Link
-                key={id}
-                href={`/notes/${id}`}
-                className="group block border-b border-line py-8 no-underline first:border-t dark:border-dline"
-              >
-                <div className="flex items-start gap-4 sm:items-center sm:gap-8">
-                  {coverImage && (
-                    <div className="relative aspect-[4/3] w-20 shrink-0 overflow-hidden rounded-lg border border-line dark:border-dline sm:w-32 md:w-40">
-                      <Image
-                        src={coverImage}
-                        alt={title}
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 640px) 80px, (max-width: 768px) 128px, 160px"
-                      />
-                    </div>
-                  )}
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-baseline justify-between gap-6">
-                      <p className="shrink-0 text-sm text-faint dark:text-dfaint">{date}</p>
-                      <div className="flex shrink-0 items-center gap-3">
-                        {tags?.slice(0, 2).map((tag) => (
-                          <span key={tag} className="hidden text-xs text-faint dark:text-dfaint sm:inline">
-                            {tag}
-                          </span>
-                        ))}
-                        <ArrowRight
-                          size={16}
-                          className="text-faint opacity-0 transition-all duration-300 group-hover:translate-x-0.5 group-hover:text-coral group-hover:opacity-100 dark:text-dfaint"
-                        />
+            {notesByYear.map(([year, notes]) => (
+              <section key={year} className="border-t border-line dark:border-dline">
+                <h2 className="pt-8 font-serif text-sm text-faint dark:text-dfaint">{year}</h2>
+                {notes.map(({ id, date, title, summary, tags, coverImage }) => (
+                  <Link
+                    key={id}
+                    href={`/notes/${id}`}
+                    className="group block border-b border-line py-8 no-underline last:border-b-0 dark:border-dline"
+                  >
+                    <div className="flex items-start gap-4 sm:gap-8">
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-baseline gap-3 text-sm text-faint dark:text-dfaint">
+                          <time className="shrink-0">{date}</time>
+                          {tags?.slice(0, 2).map((tag) => (
+                            <span key={tag} className="hidden truncate text-xs sm:inline">
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                        <h3 className="mt-2.5 font-serif text-xl font-medium leading-snug text-ink transition-colors duration-300 group-hover:text-coral dark:text-dink sm:text-2xl">
+                          {title}
+                        </h3>
+                        <p className="mt-2.5 line-clamp-2 text-[15px] leading-relaxed text-muted dark:text-dmuted">
+                          {summary}
+                        </p>
+                        <span className="mt-4 inline-flex items-center gap-1.5 text-sm text-faint transition-colors duration-300 group-hover:text-coral dark:text-dfaint">
+                          Read
+                          <ArrowRight
+                            size={14}
+                            className="transition-transform duration-300 group-hover:translate-x-0.5"
+                          />
+                        </span>
                       </div>
+                      {coverImage && (
+                        <div className="relative mt-1 aspect-[4/3] w-24 shrink-0 overflow-hidden rounded-lg border border-line dark:border-dline sm:w-40">
+                          <Image
+                            src={coverImage}
+                            alt=""
+                            fill
+                            className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                            sizes="(max-width: 640px) 96px, 160px"
+                          />
+                        </div>
+                      )}
                     </div>
-                    <h2 className="mt-2.5 font-serif text-xl font-medium leading-snug text-ink transition-colors duration-300 group-hover:text-coral dark:text-dink dark:group-hover:text-coral sm:text-2xl">
-                      {title}
-                    </h2>
-                    <p className="mt-2.5 line-clamp-2 text-[15px] leading-relaxed text-muted dark:text-dmuted">
-                      {summary}
-                    </p>
-                  </div>
-                </div>
-              </Link>
+                  </Link>
+                ))}
+              </section>
             ))}
           </motion.div>
 

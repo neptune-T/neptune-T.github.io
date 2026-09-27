@@ -80,7 +80,7 @@ export default function Papers({ allPapersData }: { allPapersData: Paper[] }) {
 
         <main className="mx-auto w-full max-w-5xl flex-grow px-6 pb-24 pt-28 md:pt-36">
           <motion.header
-            className="mb-16"
+            className="mb-14"
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: 'easeOut' }}
@@ -94,7 +94,7 @@ export default function Papers({ allPapersData }: { allPapersData: Paper[] }) {
             </p>
           </motion.header>
 
-          <div className={`grid w-full grid-cols-1 gap-10 ${allPapersData.length > 1 ? 'md:grid-cols-2' : 'max-w-3xl'}`}>
+          <div className="border-t border-line dark:border-dline">
             {allPapersData.map((paper, index) => {
               const links: PaperLink[] = [
                 paper.arxiv_url && { href: paper.arxiv_url, label: 'arXiv', icon: <FileText size={13} /> },
@@ -109,10 +109,10 @@ export default function Papers({ allPapersData }: { allPapersData: Paper[] }) {
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.08 + 0.15, ease: 'easeOut' }}
-                  className="group flex min-w-0 flex-col overflow-hidden rounded-2xl border border-line transition-colors duration-300 hover:border-ink/25 dark:border-dline dark:hover:border-dink/25"
+                  className="grid min-w-0 gap-8 border-b border-line py-12 dark:border-dline md:grid-cols-[5fr_7fr] md:gap-12"
                 >
                   {(paper.video || paper.image) && (
-                    <div className="relative aspect-[16/9] w-full overflow-hidden border-b border-line dark:border-dline">
+                    <div className="relative aspect-[16/10] w-full self-start overflow-hidden rounded-xl border border-line bg-white dark:border-dline">
                       {paper.video ? (
                         <video
                           className="h-full w-full object-cover"
@@ -136,12 +136,14 @@ export default function Papers({ allPapersData }: { allPapersData: Paper[] }) {
                     </div>
                   )}
 
-                  <div className="flex min-w-0 flex-grow flex-col p-6 sm:p-8">
-                    <p className="text-xs text-faint dark:text-dfaint">
-                      {paper.venue} · {paper.date.substring(0, 7)}
+                  <div className="flex min-w-0 flex-col">
+                    <p className="text-sm text-faint dark:text-dfaint">
+                      {paper.venue}
+                      <span className="mx-2" aria-hidden>·</span>
+                      {paper.date.substring(0, 7)}
                     </p>
 
-                    <h2 className="mt-3 font-serif text-2xl font-medium leading-snug">
+                    <h2 className="mt-3 font-serif text-2xl font-medium leading-snug md:text-[28px]">
                       {paper.title}
                     </h2>
 
@@ -162,12 +164,12 @@ export default function Papers({ allPapersData }: { allPapersData: Paper[] }) {
                       {renderAuthors(paper.authors)}
                     </p>
 
-                    <p className="mt-3 flex-grow text-sm leading-relaxed text-muted dark:text-dmuted">
+                    <p className="mt-4 text-[15px] leading-relaxed text-muted dark:text-dmuted">
                       {paper.summary}
                     </p>
 
                     {links.length > 0 && (
-                      <div className="mt-6 flex flex-wrap gap-2 border-t border-line pt-5 dark:border-dline">
+                      <div className="mt-6 flex flex-wrap gap-2">
                         {links.map((link) => (
                           <a
                             key={link.label}

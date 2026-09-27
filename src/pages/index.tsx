@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { motion, Variants } from 'framer-motion';
 
 import Header from '@/components/Header';
@@ -11,6 +11,51 @@ import Link from 'next/link';
 import { useTheme } from '@/context/ThemeContext';
 import { withBasePath } from '@/lib/basePath';
 import { GITHUB_URL, SITE_URL } from '@/lib/site';
+import { getSortedPapersData } from '@/lib/papers';
+import { getSortedNotesData } from '@/lib/notes';
+
+type PaperSummary = {
+  id: string;
+  title: string;
+  date: string;
+  venue: string;
+  authors: string;
+  image: string | null;
+  video: string | null;
+  url: string | null;
+  arxiv_url: string | null;
+  github_url: string | null;
+};
+
+type NoteSummary = { id: string; title: string; date: string; summary: string };
+
+export async function getStaticProps() {
+  // getStaticProps must return JSON: gray-matter parses YAML dates into Date objects,
+  // and optional fields become null rather than undefined.
+  const papers: PaperSummary[] = getSortedPapersData().map((paper) => {
+    const date = paper.date as unknown;
+    return {
+      id: paper.id,
+      title: paper.title,
+      date: date instanceof Date ? date.toISOString() : String(date),
+      venue: paper.venue,
+      authors: paper.authors,
+      image: paper.image ?? null,
+      video: paper.video ?? null,
+      url: paper.url ?? null,
+      arxiv_url: paper.arxiv_url ?? null,
+      github_url: paper.github_url ?? null,
+    };
+  });
+
+  const notes: NoteSummary[] = getSortedNotesData()
+    .slice(0, 3)
+    .map(({ id, title, date, summary }) => ({ id, title, date, summary }));
+
+  return { props: { papers, notes } };
+}
+
+const MY_NAME = 'Tianshan Zhang';
 
 const researchExperience = [
   {
@@ -58,7 +103,7 @@ const fadeUp: Variants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: 'easeOut' } },
 };
 
-export default function HomePage() {
+export default function HomePage({ papers, notes }: { papers: PaperSummary[]; notes: NoteSummary[] }) {
   const { isDarkMode } = useTheme();
 
   return (
@@ -122,6 +167,18 @@ export default function HomePage() {
                     />
                   </Link>
                 ))}
+                <a
+                  href={GITHUB_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="group inline-flex items-center gap-1.5 text-[15px] text-ink transition-colors duration-300 hover:text-coral dark:text-dink dark:hover:text-coral"
+                >
+                  GitHub
+                  <ArrowUpRight
+                    size={15}
+                    className="text-faint transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-coral dark:text-dfaint"
+                  />
+                </a>
               </nav>
             </motion.div>
 
@@ -171,9 +228,96 @@ export default function HomePage() {
           </div>
         </motion.section>
 
+        {/* PUBLICATIONS */}
+        {papers.length > 0 && (
+          <motion.section
+            className="mx-auto mt-24 w-full max-w-5xl px-6 md:mt-32"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.15 }}
+            variants={fadeUp}
+          >
+            <div className="grid gap-10 border-t border-line pt-14 dark:border-dline md:grid-cols-[1fr_2fr] md:gap-16">
+              <div>
+                <h2 className="font-serif text-3xl font-medium md:text-4xl">Publications</h2>
+                <Link
+                  href="/papers"
+                  className="group mt-4 inline-flex items-center gap-1.5 text-sm text-muted transition-colors duration-300 hover:text-coral dark:text-dmuted"
+                >
+                  All publications
+                  <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-0.5" />
+                </Link>
+              </div>
+              <div>
+                {papers.map((paper) => {
+                  const href = paper.url || paper.arxiv_url || paper.github_url;
+                  return (
+                    <article
+                      key={paper.id}
+                      className="grid gap-5 border-b border-line py-7 first:pt-0 last:border-b-0 dark:border-dline sm:grid-cols-[176px_1fr] sm:gap-7"
+                    >
+                      {(paper.video || paper.image) && (
+                        <div className="relative aspect-[16/10] w-full overflow-hidden rounded-lg border border-line bg-white dark:border-dline">
+                          {paper.video ? (
+                            <video
+                              className="h-full w-full object-cover"
+                              src={withBasePath(paper.video)}
+                              poster={paper.image ? withBasePath(paper.image) : undefined}
+                              muted
+                              loop
+                              playsInline
+                              autoPlay
+                              preload="metadata"
+                            />
+                          ) : (
+                            <Image
+                              src={withBasePath(paper.image as string)}
+                              alt=""
+                              fill
+                              className="object-cover"
+                              sizes="176px"
+                            />
+                          )}
+                        </div>
+                      )}
+                      <div className="min-w-0">
+                        <p className="text-sm text-faint dark:text-dfaint">{paper.venue}</p>
+                        <h3 className="mt-1.5 font-serif text-xl font-medium leading-snug">
+                          {href ? (
+                            <a
+                              href={href}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="text-ink transition-colors duration-300 hover:text-coral dark:text-dink"
+                            >
+                              {paper.title}
+                            </a>
+                          ) : (
+                            paper.title
+                          )}
+                        </h3>
+                        <p className="mt-2 font-serif text-[15px] italic leading-relaxed text-muted dark:text-dmuted">
+                          {paper.authors.split(MY_NAME).map((part, idx, parts) => (
+                            <span key={idx}>
+                              {part}
+                              {idx < parts.length - 1 && (
+                                <span className="not-italic font-medium text-ink dark:text-dink">{MY_NAME}</span>
+                              )}
+                            </span>
+                          ))}
+                        </p>
+                      </div>
+                    </article>
+                  );
+                })}
+              </div>
+            </div>
+          </motion.section>
+        )}
+
         {/* EXPERIENCE */}
         <motion.section
-          className="mx-auto mb-28 mt-24 w-full max-w-5xl px-6 md:mt-32"
+          className="mx-auto mt-24 w-full max-w-5xl px-6 md:mt-32"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.15 }}
@@ -216,6 +360,49 @@ export default function HomePage() {
             </div>
           </div>
         </motion.section>
+
+        {/* LATEST NOTES */}
+        {notes.length > 0 && (
+          <motion.section
+            className="mx-auto mb-28 mt-24 w-full max-w-5xl px-6 md:mt-32"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.15 }}
+            variants={fadeUp}
+          >
+            <div className="grid gap-10 border-t border-line pt-14 dark:border-dline md:grid-cols-[1fr_2fr] md:gap-16">
+              <div>
+                <h2 className="font-serif text-3xl font-medium md:text-4xl">Notes</h2>
+                <Link
+                  href="/notes"
+                  className="group mt-4 inline-flex items-center gap-1.5 text-sm text-muted transition-colors duration-300 hover:text-coral dark:text-dmuted"
+                >
+                  All notes
+                  <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-0.5" />
+                </Link>
+              </div>
+              <div>
+                {notes.map((note) => (
+                  <Link
+                    key={note.id}
+                    href={`/notes/${note.id}`}
+                    className="group block border-b border-line py-6 first:pt-0 last:border-b-0 dark:border-dline"
+                  >
+                    <div className="flex items-baseline justify-between gap-6">
+                      <h3 className="font-serif text-xl font-medium leading-snug text-ink transition-colors duration-300 group-hover:text-coral dark:text-dink">
+                        {note.title}
+                      </h3>
+                      <time className="shrink-0 text-sm text-faint dark:text-dfaint">{note.date}</time>
+                    </div>
+                    <p className="mt-2 line-clamp-2 text-[15px] leading-relaxed text-muted dark:text-dmuted">
+                      {note.summary}
+                    </p>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </motion.section>
+        )}
 
       </main>
 
