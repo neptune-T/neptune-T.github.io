@@ -4,11 +4,12 @@ import dynamic from 'next/dynamic';
 import { motion } from 'framer-motion';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import Section from '@/components/Section';
 import { ArrowUpRight } from 'lucide-react';
 import { getTravelData } from '@/lib/travel';
 import { getHonorsData } from '@/lib/honors';
 import { withBasePath } from '@/lib/basePath';
-import { GITHUB_URL } from '@/lib/site';
+import { GITHUB_URL, X_URL } from '@/lib/site';
 import { useTheme } from '@/context/ThemeContext';
 
 const ReactECharts = dynamic(() => import('echarts-for-react'), { ssr: false });
@@ -194,15 +195,15 @@ export default function About({ travelData, honorsData }: AboutProps) {
       <div className="flex min-h-screen flex-col bg-paper font-sans text-ink transition-colors duration-500 dark:bg-dpaper dark:text-dink">
         <Header />
 
-        <main className="mx-auto w-full max-w-5xl flex-grow px-6 pb-24 pt-28 md:pt-36">
+        <main className="w-full flex-grow pb-24 pt-28 md:pt-36">
           {/* Intro */}
           <motion.header
-            className="mb-24 grid gap-10 md:grid-cols-[1fr_2fr] md:gap-16"
+            className="mx-auto grid w-full max-w-5xl gap-10 px-6 md:grid-cols-[1fr_2fr] md:gap-16"
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: 'easeOut' }}
           >
-            <h1 className="font-serif text-5xl font-medium leading-[1.08] md:text-6xl">About</h1>
+            <h1 className="font-serif text-5xl font-normal leading-[1.05] md:text-[64px]">About</h1>
             <div>
               <p className="text-[17px] leading-relaxed text-muted dark:text-dmuted">
                 I study computer science and materials science. My research has two halves that
@@ -211,10 +212,6 @@ export default function About({ travelData, honorsData }: AboutProps) {
                 vision-language-action models and humanoid platforms. I have also worked on
                 generative models at the Institute of Automation, CAS, and on mathematical
                 reasoning at Zhipu AI.
-              </p>
-              <p className="mt-5 text-[17px] leading-relaxed text-muted dark:text-dmuted">
-                Outside research I write long-form notes on physics and mathematics, and keep a
-                record of the places I have been.
               </p>
               <dl className="mt-10 grid grid-cols-2 gap-x-8 gap-y-6 border-t border-line pt-8 text-sm dark:border-dline sm:grid-cols-3">
                 <div>
@@ -227,19 +224,25 @@ export default function About({ travelData, honorsData }: AboutProps) {
                 </div>
                 <div>
                   <dt className="text-faint dark:text-dfaint">Elsewhere</dt>
-                  <dd className="mt-1">
-                    <a
-                      href={GITHUB_URL}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="group inline-flex items-center gap-1 text-ink transition-colors duration-300 hover:text-coral dark:text-dink"
-                    >
-                      GitHub
-                      <ArrowUpRight
-                        size={14}
-                        className="text-faint transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-coral dark:text-dfaint"
-                      />
-                    </a>
+                  <dd className="mt-1 flex gap-4">
+                    {[
+                      { href: GITHUB_URL, label: 'GitHub' },
+                      { href: X_URL, label: 'X' },
+                    ].map(({ href, label }) => (
+                      <a
+                        key={label}
+                        href={href}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="group inline-flex items-center gap-1 text-ink dark:text-dink"
+                      >
+                        <span className="link-title">{label}</span>
+                        <ArrowUpRight
+                          size={14}
+                          className="text-faint transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-coral dark:text-dfaint"
+                        />
+                      </a>
+                    ))}
                   </dd>
                 </div>
               </dl>
@@ -247,37 +250,26 @@ export default function About({ travelData, honorsData }: AboutProps) {
           </motion.header>
 
           {/* Honors */}
-          <motion.section
-            id="honors"
-            className="mb-24"
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.7, ease: 'easeOut' }}
-          >
-            <div className="grid gap-10 border-t border-line pt-14 dark:border-dline md:grid-cols-[1fr_2fr] md:gap-16">
-              <h2 className="font-serif text-3xl font-medium md:text-4xl">Honors</h2>
-              <div>
-                {honorsData.map((honor) => (
-                  <div
-                    key={`${honor.event}-${honor.award}`}
-                    className="flex items-baseline justify-between gap-6 border-b border-line py-6 first:pt-0 last:border-b-0 dark:border-dline"
-                  >
-                    <div className="min-w-0">
-                      <h3 className="font-serif text-xl font-medium leading-snug">{honor.event}</h3>
-                      <p className="mt-1.5 text-[15px] text-muted dark:text-dmuted">{honor.award}</p>
-                    </div>
-                    {honor.year && (
-                      <p className="shrink-0 text-sm text-faint dark:text-dfaint">{honor.year}</p>
-                    )}
-                  </div>
-                ))}
+          <Section title="Honors" id="honors">
+            {honorsData.map((honor) => (
+              <div
+                key={`${honor.event}-${honor.award}`}
+                className="flex items-baseline justify-between gap-6 border-b border-line py-6 first:pt-0 last:border-b-0 dark:border-dline"
+              >
+                <div className="min-w-0">
+                  <h3 className="font-serif text-[22px] font-normal leading-snug">{honor.event}</h3>
+                  <p className="mt-1 text-[15px] text-muted dark:text-dmuted">{honor.award}</p>
+                </div>
+                {honor.year && (
+                  <p className="shrink-0 text-sm tabular-nums text-faint dark:text-dfaint">{honor.year}</p>
+                )}
               </div>
-            </div>
-          </motion.section>
+            ))}
+          </Section>
 
           {/* Footprints */}
           <motion.section
+            className="mx-auto mt-24 w-full max-w-5xl px-6 md:mt-32"
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.15 }}
@@ -286,7 +278,7 @@ export default function About({ travelData, honorsData }: AboutProps) {
             <div className="border-t border-line pt-14 dark:border-dline">
               <div className="mb-8 flex flex-wrap items-end justify-between gap-6">
                 <div>
-                  <h2 className="font-serif text-3xl font-medium md:text-4xl">Footprints</h2>
+                  <h2 className="font-serif text-3xl font-normal leading-tight md:text-[40px]">Footprints</h2>
                   <p className="mt-3 text-[15px] text-muted dark:text-dmuted">
                     <span className="font-serif text-ink dark:text-dink">{placeCounts.world}</span>{' '}
                     countries ·{' '}

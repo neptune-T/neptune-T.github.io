@@ -177,8 +177,8 @@ function DisplayPlinth({ isDarkMode }: { isDarkMode: boolean }) {
 function LoadingBunny() {
   return (
     <Html center>
-      <div className="rounded-full border border-black/10 bg-warm-surface/80 px-4 py-2 font-mono text-xs text-warm-muted backdrop-blur-sm whitespace-nowrap">
-        Loading geometry
+      <div className="whitespace-nowrap font-serif text-sm italic text-faint dark:text-dfaint">
+        Loading geometry…
       </div>
     </Html>
   );

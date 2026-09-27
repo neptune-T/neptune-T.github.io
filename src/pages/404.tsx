@@ -17,7 +17,7 @@ export default function NotFound() {
 
         <main className="mx-auto flex w-full max-w-3xl flex-grow flex-col justify-center px-6 pb-24 pt-28 md:pt-36">
           <p className="font-serif text-sm text-coral">404</p>
-          <h1 className="mt-4 font-serif text-5xl font-medium leading-[1.08] md:text-6xl">
+          <h1 className="mt-4 font-serif text-5xl font-normal leading-[1.05] md:text-[64px]">
             This page is not on the shelf.
           </h1>
           <p className="mt-6 max-w-xl text-[17px] leading-relaxed text-muted dark:text-dmuted">

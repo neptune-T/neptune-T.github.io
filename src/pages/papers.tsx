@@ -53,7 +53,7 @@ const renderAuthors = (authors: string) => {
         <span key={idx}>
           {part}
           {idx < parts.length - 1 && (
-            <span className="not-italic font-medium text-ink dark:text-dink">{MY_NAME}</span>
+            <span className="not-italic text-ink dark:text-dink">{MY_NAME}</span>
           )}
         </span>
       ))}
@@ -85,7 +85,7 @@ export default function Papers({ allPapersData }: { allPapersData: Paper[] }) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: 'easeOut' }}
           >
-            <h1 className="font-serif text-5xl font-medium leading-[1.08] md:text-6xl">
+            <h1 className="font-serif text-5xl font-normal leading-[1.05] md:text-[64px]">
               Publications
             </h1>
             <p className="mt-6 max-w-2xl text-[17px] leading-relaxed text-muted dark:text-dmuted">
@@ -112,7 +112,7 @@ export default function Papers({ allPapersData }: { allPapersData: Paper[] }) {
                   className="grid min-w-0 gap-8 border-b border-line py-12 dark:border-dline md:grid-cols-[5fr_7fr] md:gap-12"
                 >
                   {(paper.video || paper.image) && (
-                    <div className="relative aspect-[16/10] w-full self-start overflow-hidden rounded-xl border border-line bg-white dark:border-dline">
+                    <div className="relative aspect-[16/10] w-full self-start overflow-hidden rounded-xl border border-line bg-white dark:border-dline dark:brightness-[0.88]">
                       {paper.video ? (
                         <video
                           className="h-full w-full object-cover"
@@ -143,7 +143,7 @@ export default function Papers({ allPapersData }: { allPapersData: Paper[] }) {
                       {paper.date.substring(0, 7)}
                     </p>
 
-                    <h2 className="mt-3 font-serif text-2xl font-medium leading-snug md:text-[28px]">
+                    <h2 className="mt-3 font-serif text-[26px] font-normal leading-snug md:text-[30px]">
                       {paper.title}
                     </h2>
 

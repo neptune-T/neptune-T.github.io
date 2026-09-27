@@ -11,6 +11,41 @@ import { withBasePath } from '@/lib/basePath';
 
 const notesDirectory = path.join(process.cwd(), '_notes');
 
+export type TocItem = { id: string; text: string; depth: number };
+
+type HastNode = {
+  type: string;
+  tagName?: string;
+  value?: string;
+  properties?: Record<string, unknown>;
+  children?: HastNode[];
+};
+
+const textOf = (node: HastNode): string =>
+  node.type === 'text' ? node.value ?? '' : (node.children ?? []).map(textOf).join('');
+
+// Gives every h1–h4 a stable slug id (CJK kept as-is) and records it for the table of
+// contents. Runs before rehype-katex so heading text is still the plain source.
+const rehypeCollectHeadings = (toc: TocItem[]) => () => (tree: HastNode) => {
+  const seen = new Map<string, number>();
+  const walk = (node: HastNode) => {
+    const match = node.type === 'element' && node.tagName?.match(/^h([1-4])$/);
+    if (match) {
+      const text = textOf(node).trim();
+      const base =
+        text.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, '-').replace(/^-+|-+$/g, '') || 'section';
+      const count = seen.get(base) ?? 0;
+      seen.set(base, count + 1);
+      const id = count ? `${base}-${count}` : base;
+      node.properties = { ...node.properties, id };
+      toc.push({ id, text, depth: Number(match[1]) });
+      return;
+    }
+    node.children?.forEach(walk);
+  };
+  walk(tree);
+};
+
 const cleanTags = (tags: unknown): string[] =>
   Array.isArray(tags) ? tags.map((t) => String(t).trim()).filter(Boolean) : [];
 
@@ -100,10 +135,12 @@ export async function getNoteData(id: string) {
   const fileContents = fs.readFileSync(fullPath, 'utf8');
   const matterResult = matter(fileContents);
 
+  const headings: TocItem[] = [];
   const processedContent = await unified()
     .use(remarkParse)
     .use(remarkMath)
     .use(remarkRehype)
+    .use(rehypeCollectHeadings(headings))
     .use(rehypeKatex)
     .use(rehypeStringify)
     .process(matterResult.content);
@@ -120,10 +157,16 @@ export async function getNoteData(id: string) {
   const match = imageRegex.exec(matterResult.content);
   const coverImage = match ? withBasePath(match[1]) : '';
 
+  // Keep the two outermost heading levels the note actually uses (some notes start at
+  // h1, others at h2).
+  const topDepth = Math.min(...headings.map((h) => h.depth));
+  const toc = headings.filter((h) => h.depth <= topDepth + 1);
+
   return {
     id,
     contentHtml,
     coverImage,
+    toc,
     readingMinutes: estimateReadingMinutes(matterResult.content),
     ...(matterResult.data as { title: string; date: string; summary: string }),
     tags: cleanTags(matterResult.data.tags),

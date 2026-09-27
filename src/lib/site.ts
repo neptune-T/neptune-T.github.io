@@ -1,6 +1,7 @@
 export const SITE_URL = 'https://neptune-t.github.io';
 export const SITE_NAME = 'Tianshan Zhang';
 export const GITHUB_URL = 'https://github.com/neptune-T';
+export const X_URL = 'https://x.com/neptune9024';
 
 export const toCanonicalUrl = (path: string) => {
   const cleanPath = path.split(/[?#]/)[0] || '/';

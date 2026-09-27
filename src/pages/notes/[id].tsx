@@ -7,6 +7,8 @@ import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { motion, useScroll, useSpring } from 'framer-motion';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import { NoteTocAside, NoteTocInline } from '@/components/NoteToc';
+import type { TocItem } from '@/lib/notes';
 
 interface IParams extends ParsedUrlQuery {
   id: string;
@@ -47,6 +49,7 @@ type NoteData = {
   coverImage?: string;
   readingMinutes: number;
   tags: string[];
+  toc: TocItem[];
 };
 
 type NoteLink = { id: string; title: string } | null;
@@ -96,11 +99,11 @@ export default function Note({
           </Link>
 
           <header className="mt-10 border-b border-line pb-10 dark:border-dline">
-            <h1 className="font-serif text-4xl font-medium leading-[1.15] md:text-5xl">
+            <h1 className="font-serif text-4xl font-normal leading-[1.12] md:text-[52px]">
               {noteData.title}
             </h1>
             <div className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-faint dark:text-dfaint">
-              <time>{noteData.date}</time>
+              <time className="tabular-nums">{noteData.date}</time>
               <span aria-hidden>·</span>
               <span>{noteData.readingMinutes} min read</span>
               {noteData.tags.length > 0 && (
@@ -116,9 +119,14 @@ export default function Note({
             </div>
           </header>
 
-          <article className="note-prose prose prose-lg mt-10 max-w-none note-prose-light dark:prose-invert dark:note-prose-dark">
-            <div dangerouslySetInnerHTML={{ __html: noteData.contentHtml }} />
-          </article>
+          {noteData.toc.length >= 3 && <NoteTocInline toc={noteData.toc} />}
+
+          <div className="relative">
+            {noteData.toc.length >= 3 && <NoteTocAside toc={noteData.toc} />}
+            <article className="note-prose prose prose-lg mt-10 max-w-none note-prose-light dark:prose-invert dark:note-prose-dark">
+              <div dangerouslySetInnerHTML={{ __html: noteData.contentHtml }} />
+            </article>
+          </div>
 
           {(newer || older) && (
             <nav
@@ -148,8 +156,8 @@ export default function Note({
                       />
                       {label}
                     </span>
-                    <span className="mt-2 block font-serif text-lg font-medium leading-snug text-ink transition-colors duration-300 group-hover:text-coral dark:text-dink">
-                      {link.title}
+                    <span className="mt-2 block font-serif text-xl font-normal leading-snug text-ink dark:text-dink">
+                      <span className="link-title">{link.title}</span>
                     </span>
                   </Link>
                 ) : (

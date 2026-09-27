@@ -32,7 +32,7 @@ const config: Config = {
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
-        serif: ['"IBM Plex Serif"', '"Noto Serif SC"', 'Georgia', 'serif'],
+        serif: ['Newsreader', '"Noto Serif SC"', 'Georgia', 'serif'],
       },
     },
   },

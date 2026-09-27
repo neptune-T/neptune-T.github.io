@@ -28,12 +28,23 @@ type Note = {
 
 export default function Notes({ allNotesData }: { allNotesData: Note[] }) {
   const [selectedTag, setSelectedTag] = useState<string>('all');
+  const [showAllTags, setShowAllTags] = useState(false);
 
   const tagCounts = new Map<string, number>();
   allNotesData.forEach((note) =>
     note.tags?.forEach((tag) => tagCounts.set(tag, (tagCounts.get(tag) ?? 0) + 1)),
   );
-  const uniqueTags = ['all', ...tagCounts.keys()];
+  // Most-used tags first; the long tail of one-off tags folds behind "more".
+  const TAG_LIMIT = 6;
+  const sortedTags = [...tagCounts.keys()].sort((a, b) => tagCounts.get(b)! - tagCounts.get(a)!);
+  const visibleTags =
+    showAllTags || sortedTags.length <= TAG_LIMIT
+      ? sortedTags
+      : sortedTags.slice(0, TAG_LIMIT).concat(
+          sortedTags.slice(TAG_LIMIT).includes(selectedTag) ? [selectedTag] : [],
+        );
+  const hiddenCount = sortedTags.length - visibleTags.length;
+  const uniqueTags = ['all', ...visibleTags];
   const filteredNotes =
     selectedTag === 'all'
       ? allNotesData
@@ -65,7 +76,7 @@ export default function Notes({ allNotesData }: { allNotesData: Note[] }) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: 'easeOut' }}
           >
-            <h1 className="font-serif text-5xl font-medium leading-[1.08] md:text-6xl">Notes</h1>
+            <h1 className="font-serif text-5xl font-normal leading-[1.05] md:text-[64px]">Notes</h1>
             <p className="mt-6 max-w-xl text-[17px] leading-relaxed text-muted dark:text-dmuted">
               Working notes on generative models, computer graphics, mathematics, and physics —
               written to think clearly.
@@ -105,6 +116,14 @@ export default function Notes({ allNotesData }: { allNotesData: Note[] }) {
                 </button>
               );
             })}
+            {(hiddenCount > 0 || showAllTags) && sortedTags.length > TAG_LIMIT && (
+              <button
+                onClick={() => setShowAllTags((v) => !v)}
+                className="shrink-0 whitespace-nowrap pb-1.5 font-serif text-sm italic text-faint transition-colors duration-300 hover:text-ink dark:text-dfaint dark:hover:text-dink"
+              >
+                {showAllTags ? 'fewer' : `+${hiddenCount} more`}
+              </button>
+            )}
           </motion.div>
 
           {/* Notes list, grouped by year */}
@@ -116,7 +135,7 @@ export default function Notes({ allNotesData }: { allNotesData: Note[] }) {
           >
             {notesByYear.map(([year, notes]) => (
               <section key={year} className="border-t border-line dark:border-dline">
-                <h2 className="pt-8 font-serif text-sm text-faint dark:text-dfaint">{year}</h2>
+                <h2 className="pt-8 font-serif text-lg tabular-nums text-coral">{year}</h2>
                 {notes.map(({ id, date, title, summary, tags, coverImage }) => (
                   <Link
                     key={id}
@@ -126,15 +145,15 @@ export default function Notes({ allNotesData }: { allNotesData: Note[] }) {
                     <div className="flex items-start gap-4 sm:gap-8">
                       <div className="min-w-0 flex-1">
                         <div className="flex items-baseline gap-3 text-sm text-faint dark:text-dfaint">
-                          <time className="shrink-0">{date}</time>
+                          <time className="shrink-0 tabular-nums">{date}</time>
                           {tags?.slice(0, 2).map((tag) => (
                             <span key={tag} className="hidden truncate text-xs sm:inline">
                               {tag}
                             </span>
                           ))}
                         </div>
-                        <h3 className="mt-2.5 font-serif text-xl font-medium leading-snug text-ink transition-colors duration-300 group-hover:text-coral dark:text-dink sm:text-2xl">
-                          {title}
+                        <h3 className="mt-2.5 font-serif text-[22px] font-normal leading-snug text-ink dark:text-dink sm:text-[26px]">
+                          <span className="link-title">{title}</span>
                         </h3>
                         <p className="mt-2.5 line-clamp-2 text-[15px] leading-relaxed text-muted dark:text-dmuted">
                           {summary}

@@ -24,7 +24,7 @@ const Header: React.FC = () => {
     href === '/' ? pathname === '/' : pathname.startsWith(href);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-line bg-paper/85 backdrop-blur-md transition-colors duration-500 dark:border-dline dark:bg-dpaper/85">
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-line bg-paper transition-colors duration-500 dark:border-dline dark:bg-dpaper">
       <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-6">
         <Link
           href="/"
@@ -74,7 +74,7 @@ const Header: React.FC = () => {
       </div>
 
       {mobileOpen && (
-        <nav className="border-t border-line bg-paper/95 backdrop-blur-md dark:border-dline dark:bg-dpaper/95 md:hidden">
+        <nav className="border-t border-line bg-paper dark:border-dline dark:bg-dpaper md:hidden">
           <div className="mx-auto flex max-w-5xl flex-col px-6 py-2">
             {NAV_ITEMS.map(({ href, label }) => (
               <Link

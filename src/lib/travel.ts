@@ -52,6 +52,12 @@ export function getTravelData() {
         "内蒙古": { visits: 1, description: "赤峰" },
         "山西": { visits: 1, description: "临汾" },
         "青海": { visits: 1, description: "西宁" },
+        "四川": { visits: 1, description: "四川" },
+        "重庆": { visits: 1, description: "重庆" },
+        "云南": { visits: 1, description: "云南" },
+        "贵州": { visits: 1, description: "贵州" },
+        "湖南": { visits: 1, description: "湖南" },
+        "湖北": { visits: 1, description: "湖北" },
 
       }
     }

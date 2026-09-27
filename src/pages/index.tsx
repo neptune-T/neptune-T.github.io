@@ -1,6 +1,6 @@
 import React from 'react';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
-import { motion, Variants } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -10,7 +10,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useTheme } from '@/context/ThemeContext';
 import { withBasePath } from '@/lib/basePath';
-import { GITHUB_URL, SITE_URL } from '@/lib/site';
+import { GITHUB_URL, SITE_URL, X_URL } from '@/lib/site';
+import Section from '@/components/Section';
 import { getSortedPapersData } from '@/lib/papers';
 import { getSortedNotesData } from '@/lib/notes';
 
@@ -93,15 +94,26 @@ const indexLinks = [
   { href: '/about', title: 'About' },
 ];
 
+const externalLinks = [
+  { href: GITHUB_URL, title: 'GitHub' },
+  { href: X_URL, title: 'X' },
+];
+
+const researchThemes = [
+  {
+    title: 'Generative models and world models',
+    body: 'I am interested in generative models that learn how the world looks and changes: video generation, and world models that predict what happens next under an action. A model that can imagine the future is a natural substrate for planning, simulation, and learning without a real robot in the loop.',
+  },
+  {
+    title: 'Robot learning and embodied intelligence',
+    body: 'On the robotics side I work on vision-language-action models and humanoid robots: policies that ground language and vision in physical action, from dexterous hand-object interaction to whole-body control.',
+  },
+];
+
 const HomeHeroScene = dynamic(() => import('@/components/HomeHeroScene'), {
   ssr: false,
   loading: () => null,
 });
-
-const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 16 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: 'easeOut' } },
-};
 
 export default function HomePage({ papers, notes }: { papers: PaperSummary[]; notes: NoteSummary[] }) {
   const { isDarkMode } = useTheme();
@@ -126,7 +138,7 @@ export default function HomePage({ papers, notes }: { papers: PaperSummary[]; no
               name: 'Tianshan Zhang',
               alternateName: '张天山',
               url: SITE_URL,
-              sameAs: [GITHUB_URL],
+              sameAs: [GITHUB_URL, X_URL],
               knowsAbout: ['Generative Models', 'World Models', 'Video Generation', 'Vision-Language-Action Models', 'Humanoid Robots'],
             }),
           }}
@@ -137,274 +149,209 @@ export default function HomePage({ papers, notes }: { papers: PaperSummary[]; no
 
       <main className="flex-grow">
         {/* HERO */}
-        <section className="mx-auto flex min-h-svh w-full max-w-5xl flex-col justify-center px-6 pb-16 pt-14">
-          <div className="grid items-center gap-12 md:grid-cols-[1.05fr_0.95fr] md:gap-16">
-            <motion.div initial="hidden" animate="visible" variants={fadeUp}>
+        <section className="mx-auto flex min-h-svh w-full max-w-5xl flex-col justify-center px-6 pb-16 pt-24 md:pt-14">
+          <div className="grid items-center gap-6 md:grid-cols-[1.1fr_0.9fr] md:gap-10">
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: 'easeOut' }}
+            >
               <p className="text-sm text-muted dark:text-dmuted">
-                B.S. Candidate — Computer Science &amp; Materials Science
+                B.S. Candidate in Computer Science &amp; Materials Science
               </p>
-              <h1 className="mt-5 font-serif text-5xl font-medium leading-[1.08] md:text-[64px]">
+              <h1 className="mt-6 font-serif text-[56px] font-normal leading-[1.0] sm:text-7xl md:text-[84px]">
                 Tianshan Zhang
-                <span className="ml-4 align-middle font-serif text-2xl text-muted dark:text-dmuted md:text-3xl">
-                  张天山
-                </span>
               </h1>
-              <p className="mt-6 max-w-md text-[17px] leading-relaxed text-muted dark:text-dmuted">
+              <p className="mt-4 font-serif text-2xl text-muted dark:text-dmuted md:text-[28px]">
+                张天山
+              </p>
+              <p className="mt-8 max-w-md text-[17px] leading-relaxed text-muted dark:text-dmuted">
                 I work on generative models of the world — video generation and world models — and
                 on bringing them to robots that perceive, reason, and act in the physical world.
               </p>
-              <nav className="mt-9 flex flex-wrap items-center gap-x-7 gap-y-3">
+              <nav className="mt-10 flex flex-wrap items-center gap-x-7 gap-y-3 text-[15px]">
                 {indexLinks.map(({ href, title }) => (
                   <Link
                     key={href}
                     href={href}
-                    className="group inline-flex items-center gap-1.5 text-[15px] text-ink no-underline transition-colors duration-300 hover:text-coral dark:text-dink dark:hover:text-coral"
+                    className="group inline-flex items-center gap-1.5 text-ink dark:text-dink"
                   >
-                    {title}
+                    <span className="link-title">{title}</span>
                     <ArrowRight
                       size={15}
                       className="text-faint transition-all duration-300 group-hover:translate-x-0.5 group-hover:text-coral dark:text-dfaint"
                     />
                   </Link>
                 ))}
-                <a
-                  href={GITHUB_URL}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="group inline-flex items-center gap-1.5 text-[15px] text-ink transition-colors duration-300 hover:text-coral dark:text-dink dark:hover:text-coral"
-                >
-                  GitHub
-                  <ArrowUpRight
-                    size={15}
-                    className="text-faint transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-coral dark:text-dfaint"
-                  />
-                </a>
+                <span aria-hidden className="hidden h-4 w-px bg-line dark:bg-dline sm:block" />
+                {externalLinks.map(({ href, title }) => (
+                  <a
+                    key={href}
+                    href={href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="group inline-flex items-center gap-1 text-muted transition-colors duration-300 hover:text-ink dark:text-dmuted dark:hover:text-dink"
+                  >
+                    {title}
+                    <ArrowUpRight
+                      size={14}
+                      className="text-faint transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-coral dark:text-dfaint"
+                    />
+                  </a>
+                ))}
               </nav>
             </motion.div>
 
-            <motion.div
+            <motion.figure
+              className="order-first md:order-none"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 1, delay: 0.15 }}
+              transition={{ duration: 1.2, delay: 0.2 }}
             >
-              <div className="relative aspect-square w-full overflow-hidden rounded-2xl border border-line dark:border-dline">
+              <div className="mx-auto aspect-square w-full max-w-[260px] md:max-w-none">
                 <HomeHeroScene isDarkMode={isDarkMode} />
               </div>
-              <p className="mt-3 text-center text-xs text-faint dark:text-dfaint">
-                Stanford Bunny — an interactive point-cloud study
-              </p>
-            </motion.div>
+              <figcaption className="mt-1 hidden text-center font-serif text-sm italic text-faint dark:text-dfaint md:block">
+                Stanford Bunny, as a point cloud — hover to disturb it.
+              </figcaption>
+            </motion.figure>
           </div>
         </section>
 
         {/* RESEARCH */}
-        <motion.section
-          className="mx-auto mt-24 w-full max-w-5xl px-6 md:mt-32"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-          variants={fadeUp}
-        >
-          <div className="grid gap-10 border-t border-line pt-14 dark:border-dline md:grid-cols-[1fr_2fr] md:gap-16">
-            <h2 className="font-serif text-3xl font-medium md:text-4xl">Research</h2>
-            <div className="space-y-8 text-[17px] leading-relaxed text-muted dark:text-dmuted">
-              <p>
-                <strong className="font-serif font-medium italic text-ink dark:text-dink">
-                  Generative models and world models.
-                </strong>{' '}
-                I am interested in generative models that learn how the world looks and changes:
-                video generation, and world models that predict what happens next under an action.
-                A model that can imagine the future is a natural substrate for planning, simulation,
-                and learning without a real robot in the loop.
-              </p>
-              <p>
-                <strong className="font-serif font-medium italic text-ink dark:text-dink">
-                  Robot learning and embodied intelligence.
-                </strong>{' '}
-                On the robotics side I work on vision-language-action models and humanoid robots:
-                policies that ground language and vision in physical action, from dexterous
-                hand-object interaction to whole-body control.
-              </p>
-            </div>
+        <Section title="Research" className="!mt-0">
+          <div className="space-y-12">
+            {researchThemes.map(({ title, body }, index) => (
+              <div key={title} className="grid grid-cols-[2rem_1fr] gap-x-2">
+                <span className="pt-1 font-serif text-sm tabular-nums text-coral">
+                  {String(index + 1).padStart(2, '0')}
+                </span>
+                <div>
+                  <h3 className="font-serif text-2xl font-normal leading-snug">{title}</h3>
+                  <p className="mt-3 text-[17px] leading-relaxed text-muted dark:text-dmuted">{body}</p>
+                </div>
+              </div>
+            ))}
           </div>
-        </motion.section>
+        </Section>
 
         {/* PUBLICATIONS */}
         {papers.length > 0 && (
-          <motion.section
-            className="mx-auto mt-24 w-full max-w-5xl px-6 md:mt-32"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.15 }}
-            variants={fadeUp}
-          >
-            <div className="grid gap-10 border-t border-line pt-14 dark:border-dline md:grid-cols-[1fr_2fr] md:gap-16">
-              <div>
-                <h2 className="font-serif text-3xl font-medium md:text-4xl">Publications</h2>
-                <Link
-                  href="/papers"
-                  className="group mt-4 inline-flex items-center gap-1.5 text-sm text-muted transition-colors duration-300 hover:text-coral dark:text-dmuted"
+          <Section title="Publications" action={{ href: '/papers', label: 'All publications' }}>
+            {papers.map((paper) => {
+              const href = paper.url || paper.arxiv_url || paper.github_url;
+              return (
+                <article
+                  key={paper.id}
+                  className="grid gap-5 border-b border-line py-8 first:pt-0 last:border-b-0 dark:border-dline sm:grid-cols-[200px_1fr] sm:gap-8"
                 >
-                  All publications
-                  <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-0.5" />
-                </Link>
-              </div>
-              <div>
-                {papers.map((paper) => {
-                  const href = paper.url || paper.arxiv_url || paper.github_url;
-                  return (
-                    <article
-                      key={paper.id}
-                      className="grid gap-5 border-b border-line py-7 first:pt-0 last:border-b-0 dark:border-dline sm:grid-cols-[176px_1fr] sm:gap-7"
-                    >
-                      {(paper.video || paper.image) && (
-                        <div className="relative aspect-[16/10] w-full overflow-hidden rounded-lg border border-line bg-white dark:border-dline">
-                          {paper.video ? (
-                            <video
-                              className="h-full w-full object-cover"
-                              src={withBasePath(paper.video)}
-                              poster={paper.image ? withBasePath(paper.image) : undefined}
-                              muted
-                              loop
-                              playsInline
-                              autoPlay
-                              preload="metadata"
-                            />
-                          ) : (
-                            <Image
-                              src={withBasePath(paper.image as string)}
-                              alt=""
-                              fill
-                              className="object-cover"
-                              sizes="176px"
-                            />
-                          )}
-                        </div>
+                  {(paper.video || paper.image) && (
+                    <div className="relative aspect-[16/10] w-full overflow-hidden rounded-lg bg-white dark:brightness-[0.88]">
+                      {paper.video ? (
+                        <video
+                          className="h-full w-full object-cover"
+                          src={withBasePath(paper.video)}
+                          poster={paper.image ? withBasePath(paper.image) : undefined}
+                          muted
+                          loop
+                          playsInline
+                          autoPlay
+                          preload="metadata"
+                        />
+                      ) : (
+                        <Image
+                          src={withBasePath(paper.image as string)}
+                          alt=""
+                          fill
+                          className="object-cover"
+                          sizes="200px"
+                        />
                       )}
-                      <div className="min-w-0">
-                        <p className="text-sm text-faint dark:text-dfaint">{paper.venue}</p>
-                        <h3 className="mt-1.5 font-serif text-xl font-medium leading-snug">
-                          {href ? (
-                            <a
-                              href={href}
-                              target="_blank"
-                              rel="noreferrer"
-                              className="text-ink transition-colors duration-300 hover:text-coral dark:text-dink"
-                            >
-                              {paper.title}
-                            </a>
-                          ) : (
-                            paper.title
+                    </div>
+                  )}
+                  <div className="min-w-0">
+                    <p className="text-sm text-faint dark:text-dfaint">{paper.venue}</p>
+                    <h3 className="mt-1.5 font-serif text-[22px] font-normal leading-snug">
+                      {href ? (
+                        <a href={href} target="_blank" rel="noreferrer" className="link-title text-ink dark:text-dink">
+                          {paper.title}
+                        </a>
+                      ) : (
+                        paper.title
+                      )}
+                    </h3>
+                    <p className="mt-2 font-serif text-base italic leading-relaxed text-muted dark:text-dmuted">
+                      {paper.authors.split(MY_NAME).map((part, idx, parts) => (
+                        <span key={idx}>
+                          {part}
+                          {idx < parts.length - 1 && (
+                            <span className="not-italic text-ink dark:text-dink">{MY_NAME}</span>
                           )}
-                        </h3>
-                        <p className="mt-2 font-serif text-[15px] italic leading-relaxed text-muted dark:text-dmuted">
-                          {paper.authors.split(MY_NAME).map((part, idx, parts) => (
-                            <span key={idx}>
-                              {part}
-                              {idx < parts.length - 1 && (
-                                <span className="not-italic font-medium text-ink dark:text-dink">{MY_NAME}</span>
-                              )}
-                            </span>
-                          ))}
-                        </p>
-                      </div>
-                    </article>
-                  );
-                })}
-              </div>
-            </div>
-          </motion.section>
+                        </span>
+                      ))}
+                    </p>
+                  </div>
+                </article>
+              );
+            })}
+          </Section>
         )}
 
         {/* EXPERIENCE */}
-        <motion.section
-          className="mx-auto mt-24 w-full max-w-5xl px-6 md:mt-32"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.15 }}
-          variants={fadeUp}
-        >
-          <div className="grid gap-10 border-t border-line pt-14 dark:border-dline md:grid-cols-[1fr_2fr] md:gap-16">
-            <h2 className="font-serif text-3xl font-medium md:text-4xl">Experience</h2>
-            <div>
-              {researchExperience.map((experience) => (
-                <article
-                  key={`${experience.institution}-${experience.period}`}
-                  className="flex items-center justify-between gap-6 border-b border-line py-6 first:pt-0 last:border-b-0 dark:border-dline"
-                >
-                  <div className="flex min-w-0 items-center gap-5">
-                    <div className="flex h-10 w-14 shrink-0 items-center justify-center">
-                      <Image
-                        src={withBasePath(experience.logo)}
-                        alt={`${experience.institution} logo`}
-                        width={experience.logoWidth}
-                        height={experience.logoHeight}
-                        className={`max-h-full w-auto object-contain ${
-                          experience.invertInDarkMode ? 'dark:invert' : ''
-                        }`}
-                      />
-                    </div>
-                    <div className="min-w-0">
-                      <h3 className="font-serif text-xl font-medium leading-snug">
-                        {experience.institution}
-                      </h3>
-                      <p className="mt-1.5 text-[15px] text-ink/80 dark:text-dink/80">
-                        {experience.focus}
-                      </p>
-                    </div>
-                  </div>
-                  <p className="shrink-0 text-sm text-faint dark:text-dfaint">
-                    {experience.period}
-                  </p>
-                </article>
-              ))}
-            </div>
-          </div>
-        </motion.section>
+        <Section title="Experience">
+          {researchExperience.map((experience) => (
+            <article
+              key={`${experience.institution}-${experience.period}`}
+              className="group flex items-center justify-between gap-6 border-b border-line py-6 first:pt-0 last:border-b-0 dark:border-dline"
+            >
+              <div className="flex min-w-0 items-center gap-5">
+                <div className="flex h-10 w-14 shrink-0 items-center justify-center">
+                  <Image
+                    src={withBasePath(experience.logo)}
+                    alt={`${experience.institution} logo`}
+                    width={experience.logoWidth}
+                    height={experience.logoHeight}
+                    className={`max-h-full w-auto object-contain opacity-70 grayscale transition duration-500 group-hover:opacity-100 group-hover:grayscale-0 ${
+                      experience.invertInDarkMode ? 'dark:invert' : ''
+                    }`}
+                  />
+                </div>
+                <div className="min-w-0">
+                  <h3 className="font-serif text-[22px] font-normal leading-snug">
+                    {experience.institution}
+                  </h3>
+                  <p className="mt-1 text-[15px] text-muted dark:text-dmuted">{experience.focus}</p>
+                </div>
+              </div>
+              <p className="shrink-0 text-sm tabular-nums text-faint dark:text-dfaint">
+                {experience.period}
+              </p>
+            </article>
+          ))}
+        </Section>
 
         {/* LATEST NOTES */}
         {notes.length > 0 && (
-          <motion.section
-            className="mx-auto mb-28 mt-24 w-full max-w-5xl px-6 md:mt-32"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.15 }}
-            variants={fadeUp}
-          >
-            <div className="grid gap-10 border-t border-line pt-14 dark:border-dline md:grid-cols-[1fr_2fr] md:gap-16">
-              <div>
-                <h2 className="font-serif text-3xl font-medium md:text-4xl">Notes</h2>
-                <Link
-                  href="/notes"
-                  className="group mt-4 inline-flex items-center gap-1.5 text-sm text-muted transition-colors duration-300 hover:text-coral dark:text-dmuted"
-                >
-                  All notes
-                  <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-0.5" />
-                </Link>
-              </div>
-              <div>
-                {notes.map((note) => (
-                  <Link
-                    key={note.id}
-                    href={`/notes/${note.id}`}
-                    className="group block border-b border-line py-6 first:pt-0 last:border-b-0 dark:border-dline"
-                  >
-                    <div className="flex items-baseline justify-between gap-6">
-                      <h3 className="font-serif text-xl font-medium leading-snug text-ink transition-colors duration-300 group-hover:text-coral dark:text-dink">
-                        {note.title}
-                      </h3>
-                      <time className="shrink-0 text-sm text-faint dark:text-dfaint">{note.date}</time>
-                    </div>
-                    <p className="mt-2 line-clamp-2 text-[15px] leading-relaxed text-muted dark:text-dmuted">
-                      {note.summary}
-                    </p>
-                  </Link>
-                ))}
-              </div>
-            </div>
-          </motion.section>
+          <Section title="Notes" action={{ href: '/notes', label: 'All notes' }} className="mb-28">
+            {notes.map((note) => (
+              <Link
+                key={note.id}
+                href={`/notes/${note.id}`}
+                className="group block border-b border-line py-6 first:pt-0 last:border-b-0 dark:border-dline"
+              >
+                <div className="flex items-baseline justify-between gap-6">
+                  <h3 className="font-serif text-[22px] font-normal leading-snug text-ink dark:text-dink">
+                    <span className="link-title">{note.title}</span>
+                  </h3>
+                  <time className="shrink-0 text-sm tabular-nums text-faint dark:text-dfaint">{note.date}</time>
+                </div>
+                <p className="mt-2 line-clamp-2 text-[15px] leading-relaxed text-muted dark:text-dmuted">
+                  {note.summary}
+                </p>
+              </Link>
+            ))}
+          </Section>
         )}
-
       </main>
 
       <Footer />

@@ -19,6 +19,27 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Newsreader has an optical-size axis: let the browser pick the cut that matches the
+   rendered size, so display headings get the fine high-contrast cut automatically. */
+.font-serif,
+.note-prose {
+  font-optical-sizing: auto;
+}
+
+/* Title links: text stays ink, a coral hairline underline fades in on hover. */
+.link-title {
+  text-decoration-line: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+  transition: text-decoration-color 0.3s ease;
+}
+
+.group:hover .link-title,
+.link-title:hover {
+  text-decoration-color: #CC785C;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
@@ -82,12 +103,12 @@ a {
 /* Long-form note bodies read in the same serif as the site headings;
    code/pre keep Tailwind preflight's monospace, KaTeX keeps its own fonts. */
 .note-prose {
-  font-family: "IBM Plex Serif", "Noto Serif SC", Georgia, serif;
+  font-family: Newsreader, "Noto Serif SC", Georgia, serif;
 }
 
 .note-prose :where(h1, h2, h3, h4) {
-  font-family: "IBM Plex Serif", "Noto Serif SC", Georgia, serif;
-  font-weight: 500;
+  font-family: Newsreader, "Noto Serif SC", Georgia, serif;
+  font-weight: 450;
   letter-spacing: 0;
 }
 
@@ -153,4 +174,9 @@ a {
 
 .scrollbar-none::-webkit-scrollbar {
   display: none;
+}
+
+/* Anchored headings land below the fixed header. */
+.note-prose :where(h1, h2, h3, h4) {
+  scroll-margin-top: 6rem;
 }
