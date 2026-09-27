@@ -63,6 +63,8 @@ const researchExperience = [
   {
     institution: 'Peking University',
     logo: '/logos/research/pku.png',
+    // Deep seal red nearly vanishes on the dark paper; lift it in dark mode only.
+    logoDarkClass: 'dark:brightness-[1.7] dark:saturate-[0.85]',
     period: '2025 – Present',
     focus: 'Vision-Language-Action Models, Generative Models, Robotic Manipulation',
   },
@@ -292,15 +294,13 @@ export default function HomePage({ papers, notes }: { papers: PaperSummary[]; no
               className="group flex items-center justify-between gap-6 border-b border-line py-6 first:pt-0 last:border-b-0 dark:border-dline"
             >
               <div className="flex min-w-0 items-center gap-5">
-                {/* Logos sit on identical white tiles so three very different marks (seal,
-                    symbol, emblem) read as one set, and stay legible in dark mode. */}
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-line bg-white p-1.5 dark:border-dline">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center">
                   <Image
                     src={withBasePath(experience.logo)}
                     alt={`${experience.institution} logo`}
                     width={64}
                     height={64}
-                    className="h-full w-full object-contain"
+                    className={`h-full w-full object-contain ${'logoDarkClass' in experience ? experience.logoDarkClass : ''}`}
                   />
                 </span>
                 <div className="min-w-0">
