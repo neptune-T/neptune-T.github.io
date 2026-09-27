@@ -205,10 +205,12 @@ export default function About({ travelData, honorsData }: AboutProps) {
             <h1 className="font-serif text-5xl font-medium leading-[1.08] md:text-6xl">About</h1>
             <div>
               <p className="text-[17px] leading-relaxed text-muted dark:text-dmuted">
-                I study computer science and materials science, and my research sits where
-                generative models meet robots: vision-language-action systems that turn what a
-                machine sees and is told into physical action. I have also worked on generative models
-                at the Institute of Automation, CAS, and on mathematical reasoning at Zhipu AI.
+                I study computer science and materials science. My research has two halves that
+                keep meeting in the middle: generative models of the world — video generation and
+                world models that predict how a scene evolves — and robots that act in it, through
+                vision-language-action models and humanoid platforms. I have also worked on
+                generative models at the Institute of Automation, CAS, and on mathematical
+                reasoning at Zhipu AI.
               </p>
               <p className="mt-5 text-[17px] leading-relaxed text-muted dark:text-dmuted">
                 Outside research I write long-form notes on physics and mathematics, and keep a

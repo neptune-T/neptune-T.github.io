@@ -18,7 +18,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta
           key="description"
           name="description"
-          content="Tianshan Zhang's academic homepage, featuring research in 3D vision, generative AI, computer graphics, and physically plausible interaction."
+          content="Tianshan Zhang's academic homepage, featuring research on generative models, world models, and robot learning."
         />
         <meta name="author" content="Tianshan Zhang" />
         <meta name="robots" content="index,follow,max-image-preview:large" />

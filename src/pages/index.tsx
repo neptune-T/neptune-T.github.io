@@ -113,7 +113,7 @@ export default function HomePage({ papers, notes }: { papers: PaperSummary[]; no
         <meta
           key="description"
           name="description"
-          content="Tianshan Zhang's academic homepage, with research on 3D vision, generative AI, computer graphics, and physically plausible hand-object interaction."
+          content="Tianshan Zhang's academic homepage, with research on generative models, world models, video generation, vision-language-action models, and humanoid robots."
         />
         <meta key="og-title" property="og:title" content="Tianshan Zhang | 张天山" />
         <meta key="og-description" property="og:description" content="Research projects, publications, and technical notes by Tianshan Zhang." />
@@ -127,7 +127,7 @@ export default function HomePage({ papers, notes }: { papers: PaperSummary[]; no
               alternateName: '张天山',
               url: SITE_URL,
               sameAs: [GITHUB_URL],
-              knowsAbout: ['3D Vision', 'Generative AI', 'Computer Graphics', 'Physical Simulation'],
+              knowsAbout: ['Generative Models', 'World Models', 'Video Generation', 'Vision-Language-Action Models', 'Humanoid Robots'],
             }),
           }}
         />
@@ -150,8 +150,8 @@ export default function HomePage({ papers, notes }: { papers: PaperSummary[]; no
                 </span>
               </h1>
               <p className="mt-6 max-w-md text-[17px] leading-relaxed text-muted dark:text-dmuted">
-                I work on generative models and vision-language-action systems — toward machines
-                that can perceive, reason, and act in the physical world.
+                I work on generative models of the world — video generation and world models — and
+                on bringing them to robots that perceive, reason, and act in the physical world.
               </p>
               <nav className="mt-9 flex flex-wrap items-center gap-x-7 gap-y-3">
                 {indexLinks.map(({ href, title }) => (
@@ -210,19 +210,20 @@ export default function HomePage({ papers, notes }: { papers: PaperSummary[]; no
             <div className="space-y-8 text-[17px] leading-relaxed text-muted dark:text-dmuted">
               <p>
                 <strong className="font-serif font-medium italic text-ink dark:text-dink">
-                  Generative AI for embodied intelligence.
+                  Generative models and world models.
                 </strong>{' '}
-                I am interested in connecting generative AI with robotics, particularly through
-                vision-language-action models that integrate perception, reasoning, and physical
-                action.
+                I am interested in generative models that learn how the world looks and changes:
+                video generation, and world models that predict what happens next under an action.
+                A model that can imagine the future is a natural substrate for planning, simulation,
+                and learning without a real robot in the loop.
               </p>
               <p>
                 <strong className="font-serif font-medium italic text-ink dark:text-dink">
-                  Robot learning and manipulation.
+                  Robot learning and embodied intelligence.
                 </strong>{' '}
-                My work explores how multimodal representations and generative models can help
-                robots understand instructions, interact with their environment, and perform robust
-                manipulation tasks.
+                On the robotics side I work on vision-language-action models and humanoid robots:
+                policies that ground language and vision in physical action, from dexterous
+                hand-object interaction to whole-body control.
               </p>
             </div>
           </div>
