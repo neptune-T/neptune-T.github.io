@@ -4,10 +4,11 @@ import dynamic from 'next/dynamic';
 import { motion } from 'framer-motion';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { MapPin } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import { getTravelData } from '@/lib/travel';
 import { getHonorsData } from '@/lib/honors';
 import { withBasePath } from '@/lib/basePath';
+import { GITHUB_URL } from '@/lib/site';
 import { useTheme } from '@/context/ThemeContext';
 
 const ReactECharts = dynamic(() => import('echarts-for-react'), { ssr: false });
@@ -20,9 +21,9 @@ type TravelData = {
 };
 
 type Honor = {
-  title: string;
-  description: string;
-  date: string;
+  award: string;
+  event: string;
+  year: string | null;
 };
 
 type AboutProps = {
@@ -32,7 +33,18 @@ type AboutProps = {
 
 export async function getStaticProps() {
   const travelData = getTravelData();
-  const honorsData = getHonorsData();
+  // honors.json keeps the year at the end of the description ("CMO, 2021"); split it out
+  // so it can sit in its own column.
+  const honorsData: Honor[] = getHonorsData().map(
+    (honor: { title: string; description: string }) => {
+      const match = honor.description.match(/^(.*?),\s*(\d{4})$/);
+      return {
+        award: honor.title,
+        event: match ? match[1] : honor.description,
+        year: match ? match[2] : null,
+      };
+    },
+  );
   return {
     props: { travelData, honorsData },
   };
@@ -167,9 +179,10 @@ export default function About({ travelData, honorsData }: AboutProps) {
     };
   };
 
-  const totalPlaces = Object.keys(
-    travelData.details[mapScope === 'world' ? 'world' : 'china'],
-  ).length;
+  const placeCounts = {
+    world: Object.keys(travelData.details.world).length,
+    china: Object.keys(travelData.details.china).length,
+  };
 
   return (
     <>
@@ -184,100 +197,139 @@ export default function About({ travelData, honorsData }: AboutProps) {
         <main className="mx-auto w-full max-w-5xl flex-grow px-6 pb-24 pt-28 md:pt-36">
           {/* Intro */}
           <motion.header
-            className="mb-20 max-w-2xl"
+            className="mb-24 grid gap-10 md:grid-cols-[1fr_2fr] md:gap-16"
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: 'easeOut' }}
           >
             <h1 className="font-serif text-5xl font-medium leading-[1.08] md:text-6xl">About</h1>
-            <p className="mt-6 text-[17px] leading-relaxed text-muted dark:text-dmuted">
-              I am a researcher and developer navigating the spaces between generative AI,
-              cognitive science, and interactive design. This page chronicles my journey — both
-              geographical and academic.
-            </p>
+            <div>
+              <p className="text-[17px] leading-relaxed text-muted dark:text-dmuted">
+                I study computer science and materials science, and my research sits where
+                generative models meet robots: vision-language-action systems that turn what a
+                machine sees and is told into physical action. I have also worked on generative models
+                at the Institute of Automation, CAS, and on mathematical reasoning at Zhipu AI.
+              </p>
+              <p className="mt-5 text-[17px] leading-relaxed text-muted dark:text-dmuted">
+                Outside research I write long-form notes on physics and mathematics, and keep a
+                record of the places I have been.
+              </p>
+              <dl className="mt-10 grid grid-cols-2 gap-x-8 gap-y-6 border-t border-line pt-8 text-sm dark:border-dline sm:grid-cols-3">
+                <div>
+                  <dt className="text-faint dark:text-dfaint">Currently</dt>
+                  <dd className="mt-1 text-ink dark:text-dink">Peking University</dd>
+                </div>
+                <div>
+                  <dt className="text-faint dark:text-dfaint">Studying</dt>
+                  <dd className="mt-1 text-ink dark:text-dink">CS &amp; Materials Science</dd>
+                </div>
+                <div>
+                  <dt className="text-faint dark:text-dfaint">Elsewhere</dt>
+                  <dd className="mt-1">
+                    <a
+                      href={GITHUB_URL}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="group inline-flex items-center gap-1 text-ink transition-colors duration-300 hover:text-coral dark:text-dink"
+                    >
+                      GitHub
+                      <ArrowUpRight
+                        size={14}
+                        className="text-faint transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-coral dark:text-dfaint"
+                      />
+                    </a>
+                  </dd>
+                </div>
+              </dl>
+            </div>
           </motion.header>
 
-          {/* Footprints */}
+          {/* Honors */}
           <motion.section
+            id="honors"
             className="mb-24"
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.7, ease: 'easeOut' }}
           >
-            <div className="mb-8 flex flex-wrap items-baseline justify-between gap-4">
-              <h2 className="font-serif text-3xl font-medium md:text-4xl">Footprints</h2>
-              <div className="flex gap-2">
-                {(['world', 'china'] as const).map((scope) => (
-                  <button
-                    key={scope}
-                    onClick={() => setMapScope(scope)}
-                    className={`rounded-full border px-4 py-1.5 text-[13px] transition-all duration-300 ${
-                      mapScope === scope
-                        ? 'border-ink bg-ink text-paper dark:border-dink dark:bg-dink dark:text-dpaper'
-                        : 'border-line text-muted hover:border-ink/30 hover:text-ink dark:border-dline dark:text-dmuted dark:hover:border-dink/30 dark:hover:text-dink'
-                    }`}
+            <div className="grid gap-10 border-t border-line pt-14 dark:border-dline md:grid-cols-[1fr_2fr] md:gap-16">
+              <h2 className="font-serif text-3xl font-medium md:text-4xl">Honors</h2>
+              <div>
+                {honorsData.map((honor) => (
+                  <div
+                    key={`${honor.event}-${honor.award}`}
+                    className="flex items-baseline justify-between gap-6 border-b border-line py-6 first:pt-0 last:border-b-0 dark:border-dline"
                   >
-                    {scope === 'world' ? 'World' : 'China'}
-                  </button>
+                    <div className="min-w-0">
+                      <h3 className="font-serif text-xl font-medium leading-snug">{honor.event}</h3>
+                      <p className="mt-1.5 text-[15px] text-muted dark:text-dmuted">{honor.award}</p>
+                    </div>
+                    {honor.year && (
+                      <p className="shrink-0 text-sm text-faint dark:text-dfaint">{honor.year}</p>
+                    )}
+                  </div>
                 ))}
               </div>
             </div>
-
-            <div className="relative h-[480px] w-full overflow-hidden rounded-2xl border border-line dark:border-dline">
-              {mapLoaded ? (
-                <ReactECharts
-                  option={getOption()}
-                  style={{ height: '100%', width: '100%' }}
-                  opts={{ renderer: 'svg' }}
-                  notMerge={true}
-                  lazyUpdate={true}
-                />
-              ) : (
-                <div className="flex h-full items-center justify-center text-sm text-faint dark:text-dfaint">
-                  Loading map…
-                </div>
-              )}
-            </div>
-
-            <div className="mt-4 flex items-center justify-between px-1">
-              <div className="flex items-center gap-2 text-sm text-faint dark:text-dfaint">
-                <MapPin size={14} />
-                <span>Total locations</span>
-              </div>
-              <p className="text-sm text-muted dark:text-dmuted">
-                <span className="font-serif text-lg text-ink dark:text-dink">{totalPlaces}</span>{' '}
-                visited
-              </p>
-            </div>
           </motion.section>
 
-          {/* Honors */}
+          {/* Footprints */}
           <motion.section
-            id="honors"
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
+            viewport={{ once: true, amount: 0.15 }}
             transition={{ duration: 0.7, ease: 'easeOut' }}
           >
-            <h2 className="mb-8 font-serif text-3xl font-medium md:text-4xl">Honors &amp; Awards</h2>
-            <div className="border-t border-line dark:border-dline">
-              {honorsData.map((honor, index) => (
-                <div
-                  key={index}
-                  className="flex items-baseline justify-between gap-6 border-b border-line py-6 dark:border-dline"
-                >
-                  <div className="min-w-0">
-                    <h3 className="font-serif text-lg font-medium leading-snug">{honor.title}</h3>
-                    <p className="mt-1 text-sm leading-relaxed text-muted dark:text-dmuted">
-                      {honor.description}
-                    </p>
-                  </div>
-                  {honor.date && (
-                    <p className="shrink-0 text-sm text-faint dark:text-dfaint">{honor.date}</p>
-                  )}
+            <div className="border-t border-line pt-14 dark:border-dline">
+              <div className="mb-8 flex flex-wrap items-end justify-between gap-6">
+                <div>
+                  <h2 className="font-serif text-3xl font-medium md:text-4xl">Footprints</h2>
+                  <p className="mt-3 text-[15px] text-muted dark:text-dmuted">
+                    <span className="font-serif text-ink dark:text-dink">{placeCounts.world}</span>{' '}
+                    countries ·{' '}
+                    <span className="font-serif text-ink dark:text-dink">{placeCounts.china}</span>{' '}
+                    provinces in China. Drag to pan, scroll to zoom.
+                  </p>
                 </div>
-              ))}
+                <div
+                  role="tablist"
+                  aria-label="Map scope"
+                  className="flex gap-1 rounded-full border border-line p-1 dark:border-dline"
+                >
+                  {(['world', 'china'] as const).map((scope) => (
+                    <button
+                      key={scope}
+                      role="tab"
+                      aria-selected={mapScope === scope}
+                      onClick={() => setMapScope(scope)}
+                      className={`rounded-full px-4 py-1 text-[13px] transition-colors duration-300 ${
+                        mapScope === scope
+                          ? 'bg-ink text-paper dark:bg-dink dark:text-dpaper'
+                          : 'text-muted hover:text-ink dark:text-dmuted dark:hover:text-dink'
+                      }`}
+                    >
+                      {scope === 'world' ? 'World' : 'China'}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="relative h-[340px] w-full overflow-hidden rounded-2xl border border-line dark:border-dline sm:h-[420px] md:h-[500px]">
+                {mapLoaded ? (
+                  <ReactECharts
+                    option={getOption()}
+                    style={{ height: '100%', width: '100%' }}
+                    opts={{ renderer: 'svg' }}
+                    notMerge={true}
+                    lazyUpdate={true}
+                  />
+                ) : (
+                  <div className="flex h-full items-center justify-center text-sm text-faint dark:text-dfaint">
+                    Loading map…
+                  </div>
+                )}
+              </div>
             </div>
           </motion.section>
         </main>
