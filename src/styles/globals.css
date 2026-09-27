@@ -180,3 +180,8 @@ a {
 .note-prose :where(h1, h2, h3, h4) {
   scroll-margin-top: 6rem;
 }
+
+/* Images carry intrinsic width/height for layout stability; let them scale to the column. */
+.note-prose :where(img) {
+  height: auto;
+}

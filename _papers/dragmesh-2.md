@@ -11,4 +11,5 @@ daily_paper_url: https://huggingface.co/papers/2606.15133
 daily_paper_rank: 2
 url: https://aigeeksgroup.github.io/DragMesh-2
 video: /videos/papers/dragmesh-2/dragmesh-2.mp4
+image: /videos/papers/dragmesh-2/poster.webp
 ---

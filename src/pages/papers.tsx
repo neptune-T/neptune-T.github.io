@@ -6,6 +6,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { FileText, Github, Globe, Link as LinkIcon, Trophy } from 'lucide-react';
 import { withBasePath } from '@/lib/basePath';
+import LazyVideo from '@/components/LazyVideo';
 
 type Paper = {
   id: string;
@@ -114,15 +115,10 @@ export default function Papers({ allPapersData }: { allPapersData: Paper[] }) {
                   {(paper.video || paper.image) && (
                     <div className="relative aspect-[16/10] w-full self-start overflow-hidden rounded-xl border border-line bg-white dark:border-dline dark:brightness-[0.88]">
                       {paper.video ? (
-                        <video
+                        <LazyVideo
                           className="h-full w-full object-cover"
                           src={withBasePath(paper.video)}
                           poster={paper.image ? withBasePath(paper.image) : undefined}
-                          muted
-                          loop
-                          playsInline
-                          autoPlay
-                          preload="metadata"
                         />
                       ) : (
                         <Image

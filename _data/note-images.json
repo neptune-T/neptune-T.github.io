@@ -1,0 +1,62 @@
+{
+  "https://raw.githubusercontent.com/neptune-t/aca-web-html/main/public/img/3dgs/1.png": {
+    "src": "/notes/images/img/3dgs/1.webp",
+    "width": 873,
+    "height": 643
+  },
+  "https://raw.githubusercontent.com/neptune-t/aca-web-html/main/public/img/hoi/1.png": {
+    "src": "/notes/images/img/hoi/1.webp",
+    "width": 1600,
+    "height": 845
+  },
+  "https://raw.githubusercontent.com/neptune-t/aca-web-html/main/public/img/hamiltonians/hamiltonians.png": {
+    "src": "/notes/images/img/hamiltonians/hamiltonians.webp",
+    "width": 1600,
+    "height": 900
+  },
+  "https://raw.githubusercontent.com/neptune-t/aca-web-html/main/public/img/Theory/bounds.png": {
+    "src": "/notes/images/img/Theory/bounds.webp",
+    "width": 1600,
+    "height": 893
+  },
+  "https://raw.githubusercontent.com/neptune-t/aca-web-html/main/public/img/ComputerGraphics/Quaternions.png": {
+    "src": "/notes/images/img/ComputerGraphics/Quaternions.webp",
+    "width": 1600,
+    "height": 893
+  },
+  "https://raw.githubusercontent.com/neptune-t/aca-web-html/main/public/img/llm/LLM.png": {
+    "src": "/notes/images/img/llm/LLM.webp",
+    "width": 1600,
+    "height": 900
+  },
+  "https://raw.githubusercontent.com/neptune-t/aca-web-html/main/public/img/Theory/thermodynamics.png": {
+    "src": "/notes/images/img/Theory/thermodynamics.webp",
+    "width": 1600,
+    "height": 873
+  },
+  "https://raw.githubusercontent.com/neptune-t/aca-web-html/main/public/img/vla/vla.png": {
+    "src": "/notes/images/img/vla/vla.webp",
+    "width": 1600,
+    "height": 900
+  },
+  "https://raw.githubusercontent.com/neptune-t/aca-web-html/main/public/img/vae/G0KzGbIbYAATcix.jpg": {
+    "src": "/notes/images/img/vae/G0KzGbIbYAATcix.webp",
+    "width": 900,
+    "height": 506
+  },
+  "https://raw.githubusercontent.com/neptune-t/aca-web-html/main/public/img/vae/vae.png": {
+    "src": "/notes/images/img/vae/vae.webp",
+    "width": 744,
+    "height": 879
+  },
+  "https://raw.githubusercontent.com/neptune-t/aca-web-html/main/public//img/vae/epsilon.png": {
+    "src": "/notes/images/img/vae/epsilon.webp",
+    "width": 987,
+    "height": 566
+  },
+  "/img/vae/ELBO_in_VAE.png": {
+    "src": "/notes/images/img/vae/ELBO_in_VAE.webp",
+    "width": 1089,
+    "height": 1024
+  }
+}

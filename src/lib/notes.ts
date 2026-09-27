@@ -46,6 +46,39 @@ const rehypeCollectHeadings = (toc: TocItem[]) => () => (tree: HastNode) => {
   walk(tree);
 };
 
+type NoteImage = { src: string; width: number; height: number };
+
+// Written by scripts/generate-note-thumbs.mjs (prebuild): original image URL in a note ->
+// locally served, resized WebP.
+const loadImageManifest = (): Record<string, NoteImage> => {
+  const manifestPath = path.join(process.cwd(), '_data', 'note-images.json');
+  return fs.existsSync(manifestPath) ? JSON.parse(fs.readFileSync(manifestPath, 'utf8')) : {};
+};
+
+// Points note images at their optimized copies and adds intrinsic size (no layout shift).
+// The first image is the note's lead figure and loads eagerly; the rest load lazily.
+const rehypeNoteImages = (manifest: Record<string, NoteImage>) => () => (tree: HastNode) => {
+  let seen = 0;
+  const walk = (node: HastNode) => {
+    if (node.type === 'element' && node.tagName === 'img') {
+      const original = String(node.properties?.src ?? '');
+      const local = manifest[original];
+      const first = seen === 0;
+      seen += 1;
+      node.properties = {
+        ...node.properties,
+        ...(local && { src: local.src, width: local.width, height: local.height }),
+        loading: first ? 'eager' : 'lazy',
+        decoding: 'async',
+        ...(first && { fetchPriority: 'high' }),
+      };
+      return;
+    }
+    node.children?.forEach(walk);
+  };
+  walk(tree);
+};
+
 const cleanTags = (tags: unknown): string[] =>
   Array.isArray(tags) ? tags.map((t) => String(t).trim()).filter(Boolean) : [];
 
@@ -141,6 +174,7 @@ export async function getNoteData(id: string) {
     .use(remarkMath)
     .use(remarkRehype)
     .use(rehypeCollectHeadings(headings))
+    .use(rehypeNoteImages(loadImageManifest()))
     .use(rehypeKatex)
     .use(rehypeStringify)
     .process(matterResult.content);

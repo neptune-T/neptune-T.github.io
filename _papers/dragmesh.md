@@ -9,4 +9,5 @@ github_url: https://github.com/AIGeeksGroup/DragMesh
 huggingface_url: https://huggingface.co/AIGeeksGroup/DragMesh
 url: https://aigeeksgroup.github.io/DragMesh/
 video: /videos/papers/dragmesh/dragmesh.mp4
+image: /videos/papers/dragmesh/poster.webp
 ---

@@ -10,6 +10,13 @@ const thumbsDirectory = path.join(publicDirectory, 'notes', 'thumbs');
 
 const THUMB_WIDTH = 480; // ~2x the largest display size (160px)
 
+// Full-size note images are served as WebP from this site instead of the raw PNG on
+// raw.githubusercontent.com (slow, uncached, often unreachable). 1600px covers the 720px
+// reading column at 2x.
+const IMAGE_WIDTH = 1600;
+const imagesDirectory = path.join(publicDirectory, 'notes', 'images');
+const imageManifestPath = path.join(projectRoot, '_data', 'note-images.json');
+
 // Map an image URL found in a note to a local file under public/, if possible.
 // Handles raw.githubusercontent.com URLs that point into this repo's public/.
 function localizeImageUrl(url) {
@@ -70,3 +77,48 @@ for (const fileName of fs.readdirSync(thumbsDirectory)) {
 console.log(
   `Note thumbnails: ${generated} generated, ${skipped} up to date, at ${thumbsDirectory}`,
 );
+
+// --- Optimized full-size images for every image referenced by a note -----------------
+// Manifest: original URL as written in the note -> { src, width, height } of the WebP.
+const manifest = {};
+const keptImages = new Set();
+let optimized = 0;
+
+for (const fileName of fs.readdirSync(notesDirectory)) {
+  if (!fileName.endsWith('.md')) continue;
+  const content = fs.readFileSync(path.join(notesDirectory, fileName), 'utf8');
+  for (const [, rawUrl] of content.matchAll(/!\[[^\]]*\]\(\s*([^)\s]+)[^)]*\)/g)) {
+    const url = rawUrl.trim();
+    const sourcePath = localizeImageUrl(url);
+    if (!sourcePath || !fs.existsSync(sourcePath) || /\.(gif|svg)$/i.test(sourcePath)) continue;
+
+    const relative = path.relative(publicDirectory, sourcePath).replace(/\.[^.]+$/, '.webp');
+    const outPath = path.join(imagesDirectory, relative);
+    keptImages.add(outPath);
+
+    if (!fs.existsSync(outPath) || fs.statSync(outPath).mtimeMs < fs.statSync(sourcePath).mtimeMs) {
+      fs.mkdirSync(path.dirname(outPath), { recursive: true });
+      await sharp(sourcePath)
+        .resize({ width: IMAGE_WIDTH, withoutEnlargement: true })
+        .webp({ quality: 82 })
+        .toFile(outPath);
+      optimized += 1;
+    }
+    const { width, height } = await sharp(outPath).metadata();
+    manifest[url] = { src: `/${path.relative(publicDirectory, outPath).split(path.sep).join('/')}`, width, height };
+  }
+}
+
+// Drop optimized images no note references any more.
+const walk = (dir) =>
+  fs.existsSync(dir)
+    ? fs.readdirSync(dir, { withFileTypes: true }).flatMap((e) =>
+        e.isDirectory() ? walk(path.join(dir, e.name)) : [path.join(dir, e.name)],
+      )
+    : [];
+for (const file of walk(imagesDirectory)) {
+  if (!keptImages.has(file)) fs.rmSync(file);
+}
+
+fs.writeFileSync(imageManifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
+console.log(`Note images: ${optimized} optimized, ${Object.keys(manifest).length} total, at ${imagesDirectory}`);

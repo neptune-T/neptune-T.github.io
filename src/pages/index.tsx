@@ -12,6 +12,7 @@ import { useTheme } from '@/context/ThemeContext';
 import { withBasePath } from '@/lib/basePath';
 import { GITHUB_URL, SITE_URL, X_URL } from '@/lib/site';
 import Section from '@/components/Section';
+import LazyVideo from '@/components/LazyVideo';
 import { getSortedPapersData } from '@/lib/papers';
 import { getSortedNotesData } from '@/lib/notes';
 
@@ -248,15 +249,10 @@ export default function HomePage({ papers, notes }: { papers: PaperSummary[]; no
                   {(paper.video || paper.image) && (
                     <div className="relative aspect-[16/10] w-full overflow-hidden rounded-lg bg-white dark:brightness-[0.88]">
                       {paper.video ? (
-                        <video
+                        <LazyVideo
                           className="h-full w-full object-cover"
                           src={withBasePath(paper.video)}
                           poster={paper.image ? withBasePath(paper.image) : undefined}
-                          muted
-                          loop
-                          playsInline
-                          autoPlay
-                          preload="metadata"
                         />
                       ) : (
                         <Image
