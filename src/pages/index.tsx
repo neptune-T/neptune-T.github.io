@@ -62,24 +62,21 @@ const MY_NAME = 'Tianshan Zhang';
 const researchExperience = [
   {
     institution: 'Peking University',
-    mark: '北',
+    logo: '/logos/research/pku.png',
     period: '2025 – Present',
     focus: 'Vision-Language-Action Models, Generative Models, Robotic Manipulation',
-    current: true,
   },
   {
     institution: 'Zhipu AI',
-    mark: '智',
+    logo: '/logos/research/zhipu.svg',
     period: '2025 – 2026',
     focus: 'Mathematical Reasoning, LLM Inference',
-    current: false,
   },
   {
     institution: 'Institute of Automation, CAS',
-    mark: '自',
+    logo: '/logos/research/casia.png',
     period: '2024 – 2025',
     focus: 'Generative Models',
-    current: false,
   },
 ];
 
@@ -295,17 +292,16 @@ export default function HomePage({ papers, notes }: { papers: PaperSummary[]; no
               className="group flex items-center justify-between gap-6 border-b border-line py-6 first:pt-0 last:border-b-0 dark:border-dline"
             >
               <div className="flex min-w-0 items-center gap-5">
-                {/* Seal-style mark: one serif character in a hairline square, drawn in code so
-                    all three institutions share one visual language. Coral marks the current one. */}
-                <span
-                  aria-hidden
-                  className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-[3px] border font-serif text-[21px] leading-none transition-colors duration-500 ${
-                    experience.current
-                      ? 'border-coral/70 text-coral'
-                      : 'border-line text-muted group-hover:border-ink/30 group-hover:text-ink dark:border-dline dark:text-dmuted dark:group-hover:border-dink/30 dark:group-hover:text-dink'
-                  }`}
-                >
-                  {experience.mark}
+                {/* Logos sit on identical white tiles so three very different marks (seal,
+                    symbol, emblem) read as one set, and stay legible in dark mode. */}
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-line bg-white p-1.5 dark:border-dline">
+                  <Image
+                    src={withBasePath(experience.logo)}
+                    alt={`${experience.institution} logo`}
+                    width={64}
+                    height={64}
+                    className="h-full w-full object-contain"
+                  />
                 </span>
                 <div className="min-w-0">
                   <h3 className="font-serif text-[22px] font-normal leading-snug">
