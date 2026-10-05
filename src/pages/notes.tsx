@@ -1,6 +1,6 @@
 import { getSortedNotesData } from '@/lib/notes';
 import Link from 'next/link';
-import Image from 'next/image';
+import FadeImage from '@/components/FadeImage';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import Head from 'next/head';
@@ -24,6 +24,7 @@ type Note = {
   summary: string;
   tags?: string[];
   coverImage?: string;
+  coverPlaceholder?: string;
 };
 
 export default function Notes({ allNotesData }: { allNotesData: Note[] }) {
@@ -136,7 +137,7 @@ export default function Notes({ allNotesData }: { allNotesData: Note[] }) {
             {notesByYear.map(([year, notes]) => (
               <section key={year} className="border-t border-line dark:border-dline">
                 <h2 className="pt-8 font-serif text-lg tabular-nums text-coral">{year}</h2>
-                {notes.map(({ id, date, title, summary, tags, coverImage }) => (
+                {notes.map(({ id, date, title, summary, tags, coverImage, coverPlaceholder }) => (
                   <Link
                     key={id}
                     href={`/notes/${id}`}
@@ -168,8 +169,9 @@ export default function Notes({ allNotesData }: { allNotesData: Note[] }) {
                       </div>
                       {coverImage && (
                         <div className="relative mt-1 aspect-[4/3] w-24 shrink-0 overflow-hidden rounded-lg border border-line dark:border-dline sm:w-40">
-                          <Image
+                          <FadeImage
                             src={coverImage}
+                            placeholder={coverPlaceholder}
                             alt=""
                             fill
                             className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"

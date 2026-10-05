@@ -62,35 +62,59 @@ const rehypeCollectHeadings = (toc: TocItem[]) => () => (tree: HastNode) => {
   walk(tree);
 };
 
-type NoteImage = { src: string; width: number; height: number };
+type NoteImage = { src: string; width: number; height: number; placeholder?: string };
 
 // Written by scripts/generate-note-thumbs.mjs (prebuild): original image URL in a note ->
-// locally served, resized WebP.
+// locally served, resized WebP plus an inline blurred placeholder.
 const loadImageManifest = (): Record<string, NoteImage> => {
   const manifestPath = path.join(process.cwd(), '_data', 'note-images.json');
   return fs.existsSync(manifestPath) ? JSON.parse(fs.readFileSync(manifestPath, 'utf8')) : {};
 };
 
 // Points note images at their optimized copies and adds intrinsic size (no layout shift).
-// The first image is the note's lead figure and loads eagerly; the rest load lazily.
+// Each known image is wrapped in a .note-figure whose background is the blurred
+// placeholder; the image fades in once loaded and stays hidden if it fails, so a slow
+// network shows a soft preview instead of a broken-image icon. The handlers are inline
+// attributes so they work before React hydrates. The first image is the note's lead
+// figure and loads eagerly; the rest load lazily.
 const rehypeNoteImages = (manifest: Record<string, NoteImage>) => () => (tree: HastNode) => {
   let seen = 0;
   const walk = (node: HastNode) => {
-    if (node.type === 'element' && node.tagName === 'img') {
-      const original = String(node.properties?.src ?? '');
-      const local = manifest[original];
+    node.children = node.children?.map((child) => {
+      if (child.type !== 'element' || child.tagName !== 'img') {
+        walk(child);
+        return child;
+      }
+      const local = manifest[String(child.properties?.src ?? '')];
       const first = seen === 0;
       seen += 1;
-      node.properties = {
-        ...node.properties,
-        ...(local && { src: local.src, width: local.width, height: local.height }),
-        loading: first ? 'eager' : 'lazy',
-        decoding: 'async',
-        ...(first && { fetchPriority: 'high' }),
+      const img: HastNode = {
+        ...child,
+        properties: {
+          ...child.properties,
+          ...(local && { src: local.src, width: local.width, height: local.height }),
+          loading: first ? 'eager' : 'lazy',
+          decoding: 'async',
+          ...(first && { fetchPriority: 'high' }),
+          ...(local && {
+            onLoad: "this.dataset.state='loaded'",
+            onError: "this.dataset.state='failed'",
+          }),
+        },
       };
-      return;
-    }
-    node.children?.forEach(walk);
+      if (!local) return img;
+      return {
+        type: 'element',
+        tagName: 'span',
+        properties: {
+          className: ['note-figure'],
+          style: `aspect-ratio:${local.width}/${local.height};${
+            local.placeholder ? `background-image:url(${local.placeholder})` : ''
+          }`,
+        },
+        children: [img],
+      };
+    });
   };
   walk(tree);
 };
@@ -117,6 +141,10 @@ export function getSortedNotesData() {
   }
 
   const fileNames = fs.readdirSync(notesDirectory);
+  const thumbPlaceholdersPath = path.join(process.cwd(), '_data', 'note-thumbs.json');
+  const thumbPlaceholders: Record<string, string> = fs.existsSync(thumbPlaceholdersPath)
+    ? JSON.parse(fs.readFileSync(thumbPlaceholdersPath, 'utf8'))
+    : {};
   const allNotesData = fileNames
     .filter((fileName) => fileName.endsWith('.md')) // Ensure we only process markdown files
     .map((fileName) => {
@@ -140,6 +168,7 @@ export function getSortedNotesData() {
       return {
         id,
         coverImage,
+        coverPlaceholder: thumbPlaceholders[id] ?? '',
         ...(matterResult.data as { title: string; date: string; summary: string }),
         tags: cleanTags(matterResult.data.tags),
       };

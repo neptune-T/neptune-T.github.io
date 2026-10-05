@@ -1,3 +1,5 @@
+import fs from 'fs';
+import path from 'path';
 import React from 'react';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -54,7 +56,16 @@ export async function getStaticProps() {
     .slice(0, 3)
     .map(({ id, title, date, summary }) => ({ id, title, date, summary }));
 
-  return { props: { papers, notes } };
+  // The three logos are tiny (~15 KB total), so they are inlined as data URIs: they
+  // render with the HTML and can never show a broken-image icon on a flaky connection.
+  const logos: Record<string, string> = {};
+  for (const { logo } of researchExperience) {
+    const file = fs.readFileSync(path.join(process.cwd(), 'public', logo));
+    const type = logo.endsWith('.svg') ? 'image/svg+xml' : 'image/webp';
+    logos[logo] = `data:${type};base64,${file.toString('base64')}`;
+  }
+
+  return { props: { papers, notes, logos } };
 }
 
 const MY_NAME = 'Tianshan Zhang';
@@ -62,7 +73,7 @@ const MY_NAME = 'Tianshan Zhang';
 const researchExperience = [
   {
     institution: 'Peking University',
-    logo: '/logos/research/pku.png',
+    logo: '/logos/research/pku.webp',
     // Deep seal red nearly vanishes on the dark paper; lift it in dark mode only.
     logoDarkClass: 'dark:brightness-[1.7] dark:saturate-[0.85]',
     period: '2025 – Present',
@@ -76,7 +87,7 @@ const researchExperience = [
   },
   {
     institution: 'Institute of Automation, CAS',
-    logo: '/logos/research/casia.png',
+    logo: '/logos/research/casia.webp',
     period: '2024 – 2025',
     focus: 'Generative Models',
   },
@@ -109,7 +120,15 @@ const HomeHeroScene = dynamic(() => import('@/components/HomeHeroScene'), {
   loading: () => null,
 });
 
-export default function HomePage({ papers, notes }: { papers: PaperSummary[]; notes: NoteSummary[] }) {
+export default function HomePage({
+  papers,
+  notes,
+  logos,
+}: {
+  papers: PaperSummary[];
+  notes: NoteSummary[];
+  logos: Record<string, string>;
+}) {
   const { isDarkMode } = useTheme();
 
   return (
@@ -297,11 +316,12 @@ export default function HomePage({ papers, notes }: { papers: PaperSummary[]; no
             >
               <div className="flex min-w-0 items-center gap-5">
                 <span className="flex h-11 w-11 shrink-0 items-center justify-center">
-                  <Image
-                    src={withBasePath(experience.logo)}
+                  {/* eslint-disable-next-line @next/next/no-img-element -- inline data URI */}
+                  <img
+                    src={logos[experience.logo]}
                     alt={`${experience.institution} logo`}
-                    width={64}
-                    height={64}
+                    width={44}
+                    height={44}
                     className={`h-full w-full object-contain ${'logoDarkClass' in experience ? experience.logoDarkClass : ''}`}
                   />
                 </span>

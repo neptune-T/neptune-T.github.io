@@ -185,3 +185,33 @@ a {
 .note-prose :where(img) {
   height: auto;
 }
+
+/* Note images: blurred inline placeholder underneath, real image fades in on load and
+   stays hidden on error (no broken-image icon). See rehypeNoteImages in lib/notes.ts. */
+.note-prose .note-figure {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  margin: 2em 0;
+  background-size: cover;
+  background-position: center;
+  background-color: rgba(35, 33, 28, 0.06);
+}
+
+html.dark .note-prose .note-figure {
+  background-color: rgba(243, 232, 220, 0.06);
+}
+
+.note-prose .note-figure img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.note-prose .note-figure img[data-state='loaded'] {
+  opacity: 1;
+}

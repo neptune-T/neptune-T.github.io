@@ -2,61 +2,73 @@
   "https://raw.githubusercontent.com/neptune-t/aca-web-html/main/public/img/3dgs/1.png": {
     "src": "/notes/images/img/3dgs/1.webp",
     "width": 873,
-    "height": 643
+    "height": 643,
+    "placeholder": "data:image/webp;base64,UklGRkgAAABXRUJQVlA4IDwAAADwAgCdASoUAA8APu1iqU2ppaOiMAgBMB2JaQAAetCIAAD+8IB7yfw9tWy4lJ1QGEVZxrmgSUprzpQAAAA="
   },
   "https://raw.githubusercontent.com/neptune-t/aca-web-html/main/public/img/hoi/1.png": {
     "src": "/notes/images/img/hoi/1.webp",
     "width": 1600,
-    "height": 845
+    "height": 845,
+    "placeholder": "data:image/webp;base64,UklGRmYAAABXRUJQVlA4IFoAAADwAwCdASoUAAsAPu1kqU2ppaQiMAgBMB2JZwAAW/EpFvUSzXDWcFQAAP7undDeWV263uzCFbDMmUhtQOmseT0X2piRm7VixUhuzMwdH1xCT6eYJEc2mC8AAAA="
   },
   "https://raw.githubusercontent.com/neptune-t/aca-web-html/main/public/img/hamiltonians/hamiltonians.png": {
     "src": "/notes/images/img/hamiltonians/hamiltonians.webp",
     "width": 1600,
-    "height": 900
+    "height": 900,
+    "placeholder": "data:image/webp;base64,UklGRj4AAABXRUJQVlA4IDIAAADQAgCdASoUAAsAPu1iqU2ppaQiMAgBMB2JZwAAifQAAP7wE+7fOzw0wRm9WVBSTwwAAA=="
   },
   "https://raw.githubusercontent.com/neptune-t/aca-web-html/main/public/img/Theory/bounds.png": {
     "src": "/notes/images/img/Theory/bounds.webp",
     "width": 1600,
-    "height": 893
+    "height": 893,
+    "placeholder": "data:image/webp;base64,UklGRk4AAABXRUJQVlA4IEIAAABwAwCdASoUAAsAPu1iqk4ppaQiMAgBMB2JaV2AADcfuIkAeAAA/u/Yo2WrGICX5B7Xglo3pzSgC0HK3qW7irKtHAA="
   },
   "https://raw.githubusercontent.com/neptune-t/aca-web-html/main/public/img/ComputerGraphics/Quaternions.png": {
     "src": "/notes/images/img/ComputerGraphics/Quaternions.webp",
     "width": 1600,
-    "height": 893
+    "height": 893,
+    "placeholder": "data:image/webp;base64,UklGRjgAAABXRUJQVlA4ICwAAACwAgCdASoUAAsAPu1iqU2ppaOiMAgBMB2JaQAAeyAA/u725tF+pIebCAAAAA=="
   },
   "https://raw.githubusercontent.com/neptune-t/aca-web-html/main/public/img/llm/LLM.png": {
     "src": "/notes/images/img/llm/LLM.webp",
     "width": 1600,
-    "height": 900
+    "height": 900,
+    "placeholder": "data:image/webp;base64,UklGRjwAAABXRUJQVlA4IDAAAAAQAwCdASoUAAsAPu1iqk2ppaQiMAgBMB2JaQAAetED0gAA/vDQhzszhYV+BrAAAAA="
   },
   "https://raw.githubusercontent.com/neptune-t/aca-web-html/main/public/img/Theory/thermodynamics.png": {
     "src": "/notes/images/img/Theory/thermodynamics.webp",
     "width": 1600,
-    "height": 873
+    "height": 873,
+    "placeholder": "data:image/webp;base64,UklGRloAAABXRUJQVlA4IE4AAABQAwCdASoUAAsAPu1kqU2ppaOiMAgBMB2JaVefADc6L5LXgAD+8EnybyJ3eHMb/2oi8JcHzvXaIo+HlgmsqYdFUBjgB3nMSV/wBJkgAAA="
   },
   "https://raw.githubusercontent.com/neptune-t/aca-web-html/main/public/img/vla/vla.png": {
     "src": "/notes/images/img/vla/vla.webp",
     "width": 1600,
-    "height": 900
+    "height": 900,
+    "placeholder": "data:image/webp;base64,UklGRmYAAABXRUJQVlA4IFoAAACQAwCdASoUAAsAPu1iqU2ppaOiMAgBMB2JZwCw7B6VjnpWWsAAAP61ZGN3RjV8nhJdX+feliYL7Cnd00p6Zgd5+EC7V23q1+jOAs4bNmQuv3FUCLyZIX25wAA="
   },
   "https://raw.githubusercontent.com/neptune-t/aca-web-html/main/public/img/vae/G0KzGbIbYAATcix.jpg": {
     "src": "/notes/images/img/vae/G0KzGbIbYAATcix.webp",
     "width": 900,
-    "height": 506
+    "height": 506,
+    "placeholder": "data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAAAwAwCdASoUAAsAPu1iqU2ppaOiMAgBMB2JaQAAetHQje6AAP7v9ylp+Ubl4t6WGec6aL/DtcW8y+MeYpddbXJxFhbh8GIaAAA="
   },
   "https://raw.githubusercontent.com/neptune-t/aca-web-html/main/public/img/vae/vae.png": {
     "src": "/notes/images/img/vae/vae.webp",
     "width": 744,
-    "height": 879
+    "height": 879,
+    "placeholder": "data:image/webp;base64,UklGRmgAAABXRUJQVlA4IFwAAABQBACdASoUABgAPu1mqk+ppSOiMBgIATAdiWkAACxpVMWzIGrSw0L431QAAP7zgs10bO+hQIjPJRNenBQjijW+li9zFK2+jdyOIugBaAU+7w7jCoHAZGK44U4AAA=="
   },
   "https://raw.githubusercontent.com/neptune-t/aca-web-html/main/public//img/vae/epsilon.png": {
     "src": "/notes/images/img/vae/epsilon.webp",
     "width": 987,
-    "height": 566
+    "height": 566,
+    "placeholder": "data:image/webp;base64,UklGRjwAAABXRUJQVlA4IDAAAACwAgCdASoUAAsAPu1iqU2ppaQiMAgBMB2JaQAAeyAA/vCnvVgluNuKCQ2bWvJAAAA="
   },
   "/img/vae/ELBO_in_VAE.png": {
     "src": "/notes/images/img/vae/ELBO_in_VAE.webp",
     "width": 1089,
-    "height": 1024
+    "height": 1024,
+    "placeholder": "data:image/webp;base64,UklGRlwAAABXRUJQVlA4IFAAAAAQAwCdASoUABMAPu1irFAppSQisBgIATAdiWkAADqwVgAA/vBHgF3v8BnU7x8vG7iH2kldf+SYc35wErw1dPqjhe1iH/DuztEPf0CYfAAAAA=="
   }
 }

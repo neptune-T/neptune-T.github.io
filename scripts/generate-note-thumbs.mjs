@@ -17,6 +17,14 @@ const IMAGE_WIDTH = 1600;
 const imagesDirectory = path.join(publicDirectory, 'notes', 'images');
 const imageManifestPath = path.join(projectRoot, '_data', 'note-images.json');
 
+// A ~20px blurred preview inlined into the page as a data URI, so something sensible is
+// visible immediately on slow connections (and stays, instead of a broken-image icon, if
+// the real image never arrives).
+const placeholderOf = async (file) => {
+  const buffer = await sharp(file).resize({ width: 20 }).webp({ quality: 40 }).toBuffer();
+  return `data:image/webp;base64,${buffer.toString('base64')}`;
+};
+
 // Map an image URL found in a note to a local file under public/, if possible.
 // Handles raw.githubusercontent.com URLs that point into this repo's public/.
 function localizeImageUrl(url) {
@@ -105,7 +113,12 @@ for (const fileName of fs.readdirSync(notesDirectory)) {
       optimized += 1;
     }
     const { width, height } = await sharp(outPath).metadata();
-    manifest[url] = { src: `/${path.relative(publicDirectory, outPath).split(path.sep).join('/')}`, width, height };
+    manifest[url] = {
+      src: `/${path.relative(publicDirectory, outPath).split(path.sep).join('/')}`,
+      width,
+      height,
+      placeholder: await placeholderOf(outPath),
+    };
   }
 }
 
@@ -121,4 +134,15 @@ for (const file of walk(imagesDirectory)) {
 }
 
 fs.writeFileSync(imageManifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
+
+// Placeholders for the notes-list thumbnails, keyed by note id.
+const thumbPlaceholders = {};
+for (const id of noteIds) {
+  const thumbPath = path.join(thumbsDirectory, `${id}.webp`);
+  if (fs.existsSync(thumbPath)) thumbPlaceholders[id] = await placeholderOf(thumbPath);
+}
+fs.writeFileSync(
+  path.join(projectRoot, '_data', 'note-thumbs.json'),
+  `${JSON.stringify(thumbPlaceholders, null, 2)}\n`,
+);
 console.log(`Note images: ${optimized} optimized, ${Object.keys(manifest).length} total, at ${imagesDirectory}`);
