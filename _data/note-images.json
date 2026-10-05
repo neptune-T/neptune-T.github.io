@@ -1,16 +1,4 @@
 {
-  "https://raw.githubusercontent.com/neptune-t/aca-web-html/main/public/img/3dgs/1.png": {
-    "src": "/notes/images/img/3dgs/1.webp",
-    "width": 873,
-    "height": 643,
-    "placeholder": "data:image/webp;base64,UklGRkgAAABXRUJQVlA4IDwAAADwAgCdASoUAA8APu1iqU2ppaOiMAgBMB2JaQAAetCIAAD+8IB7yfw9tWy4lJ1QGEVZxrmgSUprzpQAAAA="
-  },
-  "https://raw.githubusercontent.com/neptune-t/aca-web-html/main/public/img/hoi/1.png": {
-    "src": "/notes/images/img/hoi/1.webp",
-    "width": 1600,
-    "height": 845,
-    "placeholder": "data:image/webp;base64,UklGRmYAAABXRUJQVlA4IFoAAADwAwCdASoUAAsAPu1kqU2ppaQiMAgBMB2JZwAAW/EpFvUSzXDWcFQAAP7undDeWV263uzCFbDMmUhtQOmseT0X2piRm7VixUhuzMwdH1xCT6eYJEc2mC8AAAA="
-  },
   "https://raw.githubusercontent.com/neptune-t/aca-web-html/main/public/img/hamiltonians/hamiltonians.png": {
     "src": "/notes/images/img/hamiltonians/hamiltonians.webp",
     "width": 1600,
@@ -22,18 +10,6 @@
     "width": 1600,
     "height": 893,
     "placeholder": "data:image/webp;base64,UklGRk4AAABXRUJQVlA4IEIAAABwAwCdASoUAAsAPu1iqk4ppaQiMAgBMB2JaV2AADcfuIkAeAAA/u/Yo2WrGICX5B7Xglo3pzSgC0HK3qW7irKtHAA="
-  },
-  "https://raw.githubusercontent.com/neptune-t/aca-web-html/main/public/img/ComputerGraphics/Quaternions.png": {
-    "src": "/notes/images/img/ComputerGraphics/Quaternions.webp",
-    "width": 1600,
-    "height": 893,
-    "placeholder": "data:image/webp;base64,UklGRjgAAABXRUJQVlA4ICwAAACwAgCdASoUAAsAPu1iqU2ppaOiMAgBMB2JaQAAeyAA/u725tF+pIebCAAAAA=="
-  },
-  "https://raw.githubusercontent.com/neptune-t/aca-web-html/main/public/img/llm/LLM.png": {
-    "src": "/notes/images/img/llm/LLM.webp",
-    "width": 1600,
-    "height": 900,
-    "placeholder": "data:image/webp;base64,UklGRjwAAABXRUJQVlA4IDAAAAAQAwCdASoUAAsAPu1iqk2ppaQiMAgBMB2JaQAAetED0gAA/vDQhzszhYV+BrAAAAA="
   },
   "https://raw.githubusercontent.com/neptune-t/aca-web-html/main/public/img/Theory/thermodynamics.png": {
     "src": "/notes/images/img/Theory/thermodynamics.webp",
