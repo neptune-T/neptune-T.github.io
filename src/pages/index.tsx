@@ -259,7 +259,9 @@ export default function HomePage({ papers, notes }: { papers: PaperSummary[]; no
                     </div>
                   )}
                   <div className="min-w-0">
-                    <p className="text-sm text-faint dark:text-dfaint">{paper.venue}</p>
+                    <p className={`text-sm ${/arxiv/i.test(paper.venue) ? 'text-faint dark:text-dfaint' : 'text-coral'}`}>
+                      {paper.venue}
+                    </p>
                     <h3 className="mt-1.5 font-serif text-[22px] font-normal leading-snug">
                       {href ? (
                         <a href={href} target="_blank" rel="noreferrer" className="link-title text-ink dark:text-dink">

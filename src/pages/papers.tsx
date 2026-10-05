@@ -43,6 +43,8 @@ export async function getStaticProps() {
 
 const MY_NAME = 'Tianshan Zhang';
 
+const isPreprint = (venue: string) => /arxiv/i.test(venue);
+
 const renderAuthors = (authors: string) => {
   if (!authors || !authors.includes(MY_NAME)) {
     return <span className="font-serif italic">{authors}</span>;
@@ -134,7 +136,8 @@ export default function Papers({ allPapersData }: { allPapersData: Paper[] }) {
 
                   <div className="flex min-w-0 flex-col">
                     <p className="text-sm text-faint dark:text-dfaint">
-                      {paper.venue}
+                      {/* Peer-reviewed venues get the accent; preprints stay quiet. */}
+                      <span className={isPreprint(paper.venue) ? '' : 'text-coral'}>{paper.venue}</span>
                       <span className="mx-2" aria-hidden>·</span>
                       {paper.date.substring(0, 7)}
                     </p>
