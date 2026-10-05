@@ -2,7 +2,7 @@
 title: 'How Robots Learned to See, Understand, and Act'
 date: '2026-06'
 summary: 'Vision-Language-Action models are transforming robot learning from a collection of task-specific controllers into general-purpose embodied agents.  Rather than treating VLA as a single model architecture, we examine it as a sequence of responses to increasingly difficult questions: how robots understand tasks, how semantic knowledge becomes continuous action, how policies operate over long horizons, and how they improve beyond static demonstrations.'
-tags: ['Robot Learning','Probability Bounds','Generative Policy']
+tags: ['Robot Learning','Generative Policy','Reinforcement learning']
 ---
 
 
@@ -301,10 +301,10 @@ $$
 \begin{equation}
 y
 \in
-{
+\{
 y_{\mathrm{text}},
 y_{\mathrm{action}}
-}.
+\}.
 \end{equation}
 $$
 
@@ -1369,12 +1369,12 @@ $$
 \begin{equation}
 z_t
 \in
-{
+\{
 \text{navigation},
 \text{grasp},
 \text{transport},
 \text{place}
-}.
+\}.
 \end{equation}
 $$
 
@@ -1555,9 +1555,9 @@ $$
 \begin{equation}
 \mathcal D
 =
-{
+\{
 (I_t,s_t,l,a_t^\ast)
-},
+\},
 \end{equation}
 $$
 
@@ -1868,9 +1868,9 @@ $$
 \begin{equation}
 \mathcal B
 =
-{
+\{
 \tau_1,\tau_2,\ldots,\tau_N
-},
+\},
 \end{equation}
 $$
 
@@ -1880,11 +1880,11 @@ $$
 \begin{equation}
 \mathcal B^+
 =
-{
+\{
 \tau_i
 \mid
 R(\tau_i)>\delta
-},
+\},
 \end{equation}
 $$
 
@@ -2662,11 +2662,11 @@ $$
 \begin{equation}
 \mathcal B^+
 =
-{
+\{
 \tau_i
 \mid
 R(\tau_i)>\delta
-}.
+\}.
 \end{equation}
 $$
 
@@ -2693,9 +2693,9 @@ $$
 =
 \operatorname{TopK}
 \left(
-{
+\{
 \tau_i
-}_{i=1}^{N}
+\}_{i=1}^{N}
 \right).
 \end{equation}
 $$
@@ -2730,11 +2730,11 @@ $$
 \begin{equation}
 \mathcal B_k^+
 =
-{
+\{
 \tau_i^{(k)}
 \mid
 R_k(\tau_i^{(k)})>\delta_k
-}.
+\}.
 \end{equation}
 $$
 
@@ -3076,9 +3076,9 @@ $$
 =
 \operatorname{Select}
 \left(
-{
+\{
 (\tau_i,q_i)
-}_{i=1}^{N}
+\}_{i=1}^{N}
 \right).
 \end{equation}
 $$
