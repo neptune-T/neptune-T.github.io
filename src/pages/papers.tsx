@@ -23,6 +23,7 @@ type Paper = {
   huggingface_url?: string;
   daily_paper_url?: string;
   daily_paper_rank?: number;
+  accepted?: string;
 };
 
 export async function getStaticProps() {
@@ -32,6 +33,10 @@ export async function getStaticProps() {
   const allPapersData = rawData.map((paper: any) => ({
     ...paper,
     date: paper.date instanceof Date ? paper.date.toISOString() : String(paper.date),
+    ...(paper.accepted && {
+      accepted:
+        paper.accepted instanceof Date ? paper.accepted.toISOString() : String(paper.accepted),
+    }),
   }));
 
   return {
@@ -139,7 +144,7 @@ export default function Papers({ allPapersData }: { allPapersData: Paper[] }) {
                       {/* Peer-reviewed venues get the accent; preprints stay quiet. */}
                       <span className={isPreprint(paper.venue) ? '' : 'text-coral'}>{paper.venue}</span>
                       <span className="mx-2" aria-hidden>·</span>
-                      {paper.date.substring(0, 7)}
+                      {(paper.accepted ?? paper.date).substring(0, 7)}
                     </p>
 
                     <h2 className="mt-3 font-serif text-[26px] font-normal leading-snug md:text-[30px]">

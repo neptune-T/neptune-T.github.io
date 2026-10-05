@@ -20,6 +20,7 @@ interface Paper {
   huggingface_url?: string;
   daily_paper_url?: string;
   daily_paper_rank?: number;
+  accepted?: string; // acceptance date; shown instead of `date`, which keeps sorting by first release
   gifUrl?: string;
 }
 
