@@ -27,7 +27,12 @@ export function getTravelData() {
         "United Kingdom": {
           visits: 1,
           description: "London & Cambridge"
-        }
+        },
+        "Singapore": { visits: 1, description: "Singapore" },
+        "Malaysia": { visits: 1, description: "Malaysia" },
+        "New Zealand": { visits: 1, description: "New Zealand" },
+        "Spain": { visits: 1, description: "Barcelona" },
+        "Italy": { visits: 1, description: "Italy" }
         // 在这里添加更多国家: "Country Name": { ... }
       },
 
@@ -49,7 +54,7 @@ export function getTravelData() {
         "河北": { visits: 2, description: "唐山 / 石家庄 / 张家口 / 承德" },
         "新疆": { visits: 1, description: "伊犁" },
         "宁夏": { visits: 1, description: "中卫" },
-        "内蒙古": { visits: 1, description: "赤峰" },
+        "内蒙古": { visits: 2, description: "赤峰 / 兴安盟" },
         "山西": { visits: 1, description: "临汾" },
         "青海": { visits: 1, description: "西宁" },
         "四川": { visits: 1, description: "四川" },
@@ -58,6 +63,10 @@ export function getTravelData() {
         "贵州": { visits: 1, description: "贵州" },
         "湖南": { visits: 1, description: "湖南" },
         "湖北": { visits: 1, description: "湖北" },
+        "黑龙江": { visits: 1, description: "大兴安岭" },
+        "广东": { visits: 1, description: "广东" },
+        "香港": { visits: 1, description: "香港" },
+        "澳门": { visits: 1, description: "澳门" },
 
       }
     }

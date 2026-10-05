@@ -97,6 +97,11 @@ export default function About({ travelData, honorsData }: AboutProps) {
       'United States': ['美国'],
       Australia: ['澳大利亚'],
       'United Kingdom': ['英国'],
+      Singapore: ['新加坡'],
+      Malaysia: ['马来西亚'],
+      'New Zealand': ['新西兰'],
+      Spain: ['西班牙'],
+      Italy: ['意大利'],
     };
 
     const visitedItems =
