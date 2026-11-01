@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import React from 'react';
-import { ArrowRight, ArrowUpRight } from 'lucide-react';
+import { ArrowDown, ArrowRight, ArrowUpRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 import Header from '@/components/Header';
@@ -15,6 +15,7 @@ import { withBasePath } from '@/lib/basePath';
 import { GITHUB_URL, SITE_URL, X_URL } from '@/lib/site';
 import Section from '@/components/Section';
 import LazyVideo from '@/components/LazyVideo';
+import FadeImage from '@/components/FadeImage';
 import { getSortedPapersData } from '@/lib/papers';
 import { getSortedNotesData } from '@/lib/notes';
 
@@ -31,7 +32,7 @@ type PaperSummary = {
   github_url: string | null;
 };
 
-type NoteSummary = { id: string; title: string; date: string; summary: string };
+type NoteSummary = { id: string; title: string; date: string; summary: string; coverImage: string; coverPlaceholder: string };
 
 export async function getStaticProps() {
   // getStaticProps must return JSON: gray-matter parses YAML dates into Date objects,
@@ -54,7 +55,9 @@ export async function getStaticProps() {
 
   const notes: NoteSummary[] = getSortedNotesData()
     .slice(0, 3)
-    .map(({ id, title, date, summary }) => ({ id, title, date, summary }));
+    .map(({ id, title, date, summary, coverImage, coverPlaceholder }) => ({
+      id, title, date, summary, coverImage: coverImage || '', coverPlaceholder: coverPlaceholder || '',
+    }));
 
   // The three logos are tiny (~15 KB total), so they are inlined as data URIs: they
   // render with the HTML and can never show a broken-image icon on a flaky connection.
@@ -91,12 +94,6 @@ const researchExperience = [
     period: '2024 – 2025',
     focus: 'Generative Models',
   },
-];
-
-const indexLinks = [
-  { href: '/notes', title: 'Notes' },
-  { href: '/papers', title: 'Papers' },
-  { href: '/about', title: 'About' },
 ];
 
 const externalLinks = [
@@ -160,79 +157,71 @@ export default function HomePage({
 
       <Header />
 
-      <main className="flex-grow">
+      <main id="main-content" className="flex-grow" tabIndex={-1}>
         {/* HERO */}
-        <section className="mx-auto flex min-h-svh w-full max-w-5xl flex-col justify-center px-6 pb-16 pt-24 md:pt-14">
-          <div className="grid items-center gap-6 md:grid-cols-[1.1fr_0.9fr] md:gap-10">
+        <section className="mx-auto flex min-h-svh w-full max-w-5xl flex-col justify-center px-6 pb-8 pt-28 md:pt-14">
+          <div className="grid items-center gap-8 md:py-10 md:grid-cols-[1.1fr_0.9fr] md:gap-10">
             <motion.div
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease: 'easeOut' }}
             >
-              <p className="text-sm text-muted dark:text-dmuted">
+              <p className="flex items-start gap-3 text-sm text-muted dark:text-dmuted">
+                <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-coral" />
                 B.S. Candidate in Computer Science &amp; Materials Science
               </p>
               <h1 className="mt-6 font-serif text-[56px] font-normal leading-[1.0] sm:text-7xl md:text-[84px]">
-                Tianshan Zhang
+                Tianshan<br />Zhang<span className="text-coral">.</span>
               </h1>
               <p className="mt-4 font-serif text-2xl text-muted dark:text-dmuted md:text-[28px]">
                 张天山
               </p>
-              <p className="mt-8 max-w-md text-[17px] leading-relaxed text-muted dark:text-dmuted">
+              <p className="mt-6 max-w-md text-[17px] leading-relaxed text-muted dark:text-dmuted">
                 I work on generative models of the world — video generation and world models — and
                 on bringing them to robots that perceive, reason, and act in the physical world.
               </p>
-              <nav className="mt-10 flex flex-wrap items-center gap-x-7 gap-y-3 text-[15px]">
-                {indexLinks.map(({ href, title }) => (
-                  <Link
-                    key={href}
-                    href={href}
-                    className="group inline-flex items-center gap-1.5 text-ink dark:text-dink"
-                  >
-                    <span className="link-title">{title}</span>
-                    <ArrowRight
-                      size={15}
-                      className="text-faint transition-all duration-300 group-hover:translate-x-0.5 group-hover:text-coral dark:text-dfaint"
-                    />
-                  </Link>
-                ))}
-                <span aria-hidden className="hidden h-4 w-px bg-line dark:bg-dline sm:block" />
+              <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
+                <a href="#publications" className="group inline-flex min-h-11 items-center gap-3 rounded-full bg-ink px-5 py-2.5 text-sm text-paper transition-colors hover:bg-muted dark:bg-dink dark:text-dpaper dark:hover:bg-dmuted">
+                  Explore my research <ArrowDown size={15} aria-hidden="true" className="transition-transform group-hover:translate-y-0.5" />
+                </a>
+                <Link href="/about" className="inline-flex min-h-11 items-center gap-2 text-sm text-ink dark:text-dink">
+                  <span className="link-title">About me</span><ArrowRight size={15} aria-hidden="true" />
+                </Link>
+              </div>
+              <nav aria-label="Social profiles" className="mt-5 flex items-center gap-6 text-sm">
                 {externalLinks.map(({ href, title }) => (
-                  <a
-                    key={href}
-                    href={href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="group inline-flex items-center gap-1 text-muted transition-colors duration-300 hover:text-ink dark:text-dmuted dark:hover:text-dink"
-                  >
-                    {title}
-                    <ArrowUpRight
-                      size={14}
-                      className="text-faint transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-coral dark:text-dfaint"
-                    />
+                  <a key={href} href={href} target="_blank" rel="noreferrer" className="inline-flex min-h-11 items-center gap-1 text-muted hover:text-ink dark:text-dmuted dark:hover:text-dink">
+                    {title}<ArrowUpRight size={14} aria-hidden="true" />
                   </a>
                 ))}
               </nav>
             </motion.div>
 
             <motion.figure
-              className="order-first md:order-none"
+              className="min-w-0"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1.2, delay: 0.2 }}
             >
-              <div className="mx-auto aspect-square w-full max-w-[260px] md:max-w-none">
+              <div className="mx-auto aspect-square w-full max-w-[220px] sm:max-w-[300px] md:max-w-none">
                 <HomeHeroScene isDarkMode={isDarkMode} />
               </div>
-              <figcaption className="mt-1 hidden text-center font-serif text-sm italic text-faint dark:text-dfaint md:block">
-                Stanford Bunny, as a point cloud — hover to disturb it.
+              <figcaption className="mt-1 text-center font-serif text-sm italic text-muted dark:text-dmuted">
+                A small study in geometry.
+                <span className="mt-1 block font-sans text-xs not-italic">Stanford Bunny · Drag to rotate</span>
               </figcaption>
             </motion.figure>
           </div>
+          <nav aria-label="On this page" className="mt-12 flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-line pt-5 text-xs text-muted dark:border-dline dark:text-dmuted md:mt-16">
+            <span className="mr-auto font-serif text-sm italic">Learning to imagine. Learning to act.</span>
+            {[['research', 'Research'], ['publications', 'Publications'], ['experience', 'Experience'], ['notes', 'Notes']].map(([id, label]) => (
+              <a key={id} href={`#${id}`} className="link-title inline-flex min-h-11 items-center text-muted dark:text-dmuted">{label}</a>
+            ))}
+          </nav>
         </section>
 
         {/* RESEARCH */}
-        <Section title="Research" className="!mt-0">
+        <Section id="research" title="Research" className="!mt-0 scroll-mt-24">
           <div className="space-y-12">
             {researchThemes.map(({ title, body }, index) => (
               <div key={title} className="grid grid-cols-[2rem_1fr] gap-x-2">
@@ -250,16 +239,16 @@ export default function HomePage({
 
         {/* PUBLICATIONS */}
         {papers.length > 0 && (
-          <Section title="Publications" action={{ href: '/papers', label: 'All publications' }}>
+          <Section id="publications" className="scroll-mt-24" title="Publications" action={{ href: '/papers', label: 'All publications' }}>
             {papers.map((paper) => {
               const href = paper.url || paper.arxiv_url || paper.github_url;
               return (
                 <article
                   key={paper.id}
-                  className="grid gap-5 border-b border-line py-8 first:pt-0 last:border-b-0 dark:border-dline sm:grid-cols-[200px_1fr] sm:gap-8"
+                  className="grid gap-5 border-b border-line py-10 first:pt-0 last:border-b-0 dark:border-dline"
                 >
                   {(paper.video || paper.image) && (
-                    <div className="relative aspect-[16/10] w-full overflow-hidden rounded-lg bg-white dark:brightness-[0.88]">
+                    <div className="relative aspect-video w-full overflow-hidden rounded-sm bg-white dark:brightness-[0.88]">
                       {paper.video ? (
                         <LazyVideo
                           className="h-full w-full object-cover"
@@ -272,7 +261,7 @@ export default function HomePage({
                           alt=""
                           fill
                           className="object-cover"
-                          sizes="200px"
+                          sizes="(min-width: 1024px) 600px, (min-width: 768px) 60vw, 100vw"
                         />
                       )}
                     </div>
@@ -300,6 +289,13 @@ export default function HomePage({
                         </span>
                       ))}
                     </p>
+                    <div className="mt-3 flex flex-wrap gap-x-5 gap-y-1">
+                      {[{ href: paper.url, label: 'Project' }, { href: paper.arxiv_url, label: 'Paper' }, { href: paper.github_url, label: 'Code' }].filter((link) => link.href).map(({ href, label }) => (
+                        <a key={label} href={href!} target="_blank" rel="noreferrer" aria-label={`${label}: ${paper.title}`} className="inline-flex min-h-11 items-center gap-1 text-sm text-muted hover:text-ink dark:text-dmuted dark:hover:text-dink">
+                          <span className="link-title">{label}</span><ArrowUpRight size={14} aria-hidden="true" />
+                        </a>
+                      ))}
+                    </div>
                   </div>
                 </article>
               );
@@ -308,11 +304,11 @@ export default function HomePage({
         )}
 
         {/* EXPERIENCE */}
-        <Section title="Experience">
+        <Section id="experience" title="Experience" className="scroll-mt-24">
           {researchExperience.map((experience) => (
             <article
               key={`${experience.institution}-${experience.period}`}
-              className="group flex items-center justify-between gap-6 border-b border-line py-6 first:pt-0 last:border-b-0 dark:border-dline"
+              className="group flex flex-col gap-3 border-b sm:flex-row sm:items-center sm:justify-between sm:gap-6 border-line py-6 first:pt-0 last:border-b-0 dark:border-dline"
             >
               <div className="flex min-w-0 items-center gap-5">
                 <span className="flex h-11 w-11 shrink-0 items-center justify-center">
@@ -332,7 +328,7 @@ export default function HomePage({
                   <p className="mt-1 text-[15px] text-muted dark:text-dmuted">{experience.focus}</p>
                 </div>
               </div>
-              <p className="shrink-0 text-sm tabular-nums text-faint dark:text-dfaint">
+              <p className="pl-16 text-sm tabular-nums text-muted dark:text-dmuted sm:shrink-0 sm:pl-0">
                 {experience.period}
               </p>
             </article>
@@ -341,22 +337,29 @@ export default function HomePage({
 
         {/* LATEST NOTES */}
         {notes.length > 0 && (
-          <Section title="Notes" action={{ href: '/notes', label: 'All notes' }} className="mb-28">
+          <Section id="notes" title="Notes" action={{ href: '/notes', label: 'All notes' }} className="mb-28 scroll-mt-24">
             {notes.map((note) => (
               <Link
                 key={note.id}
                 href={`/notes/${note.id}`}
-                className="group block border-b border-line py-6 first:pt-0 last:border-b-0 dark:border-dline"
+                className="group flex items-start gap-5 border-b border-line py-7 first:pt-0 last:border-b-0 dark:border-dline"
               >
-                <div className="flex items-baseline justify-between gap-6">
+                <div className="min-w-0 flex-1">
+                <time className="text-xs tabular-nums text-muted dark:text-dmuted">{note.date}</time>
+                <div className="mt-2">
                   <h3 className="font-serif text-[22px] font-normal leading-snug text-ink dark:text-dink">
                     <span className="link-title">{note.title}</span>
                   </h3>
-                  <time className="shrink-0 text-sm tabular-nums text-faint dark:text-dfaint">{note.date}</time>
                 </div>
                 <p className="mt-2 line-clamp-2 text-[15px] leading-relaxed text-muted dark:text-dmuted">
                   {note.summary}
                 </p>
+                </div>
+                {note.coverImage && (
+                  <div className="relative mt-1 hidden h-24 w-28 shrink-0 overflow-hidden rounded-sm sm:block">
+                    <FadeImage src={note.coverImage} placeholder={note.coverPlaceholder} alt="" fill sizes="112px" className="object-cover" />
+                  </div>
+                )}
               </Link>
             ))}
           </Section>

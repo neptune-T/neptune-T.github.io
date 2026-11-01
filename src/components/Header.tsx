@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Sun, Moon, Menu, X } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -17,6 +17,19 @@ const Header: React.FC = () => {
   const { isDarkMode, toggleTheme } = useTheme();
   const { pathname } = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const menuButton = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setMobileOpen(false);
+        menuButton.current?.focus();
+      }
+    };
+    window.addEventListener('keydown', closeOnEscape);
+    return () => window.removeEventListener('keydown', closeOnEscape);
+  }, [mobileOpen]);
 
   useEffect(() => setMobileOpen(false), [pathname]);
 
@@ -56,15 +69,17 @@ const Header: React.FC = () => {
 
           <button
             onClick={toggleTheme}
-            className="flex h-9 w-9 items-center justify-center rounded-full text-muted transition-colors duration-300 hover:text-ink active:scale-95 dark:text-dmuted dark:hover:text-dink"
-            aria-label="Toggle dark mode"
+            className="flex h-11 w-11 items-center justify-center rounded-full text-muted transition-colors duration-300 hover:text-ink active:scale-95 dark:text-dmuted dark:hover:text-dink"
+            aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
           >
             {isDarkMode ? <Sun size={17} /> : <Moon size={17} />}
           </button>
 
           <button
+            ref={menuButton}
+            aria-controls="mobile-navigation"
             onClick={() => setMobileOpen((v) => !v)}
-            className="flex h-9 w-9 items-center justify-center rounded-full text-muted transition-colors duration-300 hover:text-ink active:scale-95 dark:text-dmuted dark:hover:text-dink md:hidden"
+            className="flex h-11 w-11 items-center justify-center rounded-full text-muted transition-colors duration-300 hover:text-ink active:scale-95 dark:text-dmuted dark:hover:text-dink md:hidden"
             aria-label="Toggle navigation menu"
             aria-expanded={mobileOpen}
           >
@@ -74,12 +89,13 @@ const Header: React.FC = () => {
       </div>
 
       {mobileOpen && (
-        <nav className="border-t border-line bg-paper dark:border-dline dark:bg-dpaper md:hidden">
+        <nav id="mobile-navigation" aria-label="Mobile navigation" className="border-t border-line bg-paper dark:border-dline dark:bg-dpaper md:hidden">
           <div className="mx-auto flex max-w-5xl flex-col px-6 py-2">
             {NAV_ITEMS.map(({ href, label }) => (
               <Link
                 key={href}
                 href={href}
+                aria-current={isActive(href) ? 'page' : undefined}
                 onClick={() => setMobileOpen(false)}
                 className={`border-b border-line py-3 text-sm no-underline last:border-b-0 dark:border-dline ${
                   isActive(href)
