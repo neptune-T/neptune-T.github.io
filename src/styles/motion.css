@@ -1,0 +1,70 @@
+/* Motion direction: nexu-io/motion-anything's kinetic-headline and stagger-list.
+   Adapted to the reading-room palette and existing typography. See licenses/.
+   CSS entrances work before hydration and finish quickly; no looping decoration. */
+.motion-title-line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.14em;
+  margin-bottom: -0.14em;
+}
+
+.motion-title-line > span {
+  display: block;
+  animation: editorial-title-rise 620ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.motion-title-line + .motion-title-line > span {
+  animation-delay: 70ms;
+}
+
+.motion-page-heading {
+  animation: editorial-arrive 420ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.motion-hero-figure {
+  animation: editorial-fade 500ms ease-out both;
+}
+
+.motion-menu-item {
+  animation: editorial-arrive 240ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.motion-menu-item:nth-child(2) { animation-delay: 40ms; }
+.motion-menu-item:nth-child(3) { animation-delay: 80ms; }
+.motion-menu-item:nth-child(4) { animation-delay: 120ms; }
+
+.motion-theme-icon {
+  display: inline-flex;
+  animation: editorial-turn 180ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes editorial-title-rise {
+  from { transform: translateY(105%); }
+  to { transform: translateY(0); }
+}
+
+@keyframes editorial-arrive {
+  from { opacity: 0.65; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes editorial-fade {
+  from { opacity: 0.65; }
+  to { opacity: 1; }
+}
+
+@keyframes editorial-turn {
+  from { opacity: 0.65; transform: rotate(-25deg) scale(0.9); }
+  to { opacity: 1; transform: rotate(0) scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .motion-title-line > span,
+  .motion-page-heading,
+  .motion-hero-figure,
+  .motion-menu-item,
+  .motion-theme-icon {
+    animation: none;
+  }
+}

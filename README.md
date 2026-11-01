@@ -20,6 +20,21 @@ npm run build
 
 The static site is exported to `out/`.
 
+## Motion
+
+The restrained motion direction draws on [motion-anything](https://github.com/nexu-io/motion-anything):
+[kinetic-headline](https://github.com/nexu-io/motion-anything/tree/main/recipes/web/kinetic-headline),
+[scroll-reveal](https://github.com/nexu-io/motion-anything/tree/main/recipes/web/scroll-reveal),
+[magnetic-button](https://github.com/nexu-io/motion-anything/tree/main/recipes/web/magnetic-button), and
+[stagger-list](https://github.com/nexu-io/motion-anything/tree/main/recipes/web/stagger-list).
+The local implementations use CSS, IntersectionObserver and the existing Framer Motion dependency;
+no external motion runtime is downloaded. Attribution and the upstream license are in
+`licenses/motion-anything.txt`.
+
+The name enters once, section/list items rise at most once per visit, and only the main research
+link follows the pointer (up to 4px). Static HTML remains readable before hydration. Reduced-motion
+preferences disable these entrances, magnetic travel and the bunny's automatic rotation.
+
 ## Content Management
 
 ### Add a Note

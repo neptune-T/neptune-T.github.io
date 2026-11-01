@@ -6,6 +6,7 @@ import { ContactShadows, OrbitControls, Center, Html } from '@react-three/drei';
 import * as THREE from 'three';
 import { PLYLoader } from 'three/examples/jsm/loaders/PLYLoader.js';
 import { withBasePath } from '@/lib/basePath';
+import { useReducedMotion } from 'framer-motion';
 
 const BUNNY_PLY_URL = withBasePath('/models/bunny.ply');
 
@@ -185,8 +186,10 @@ function LoadingBunny() {
 }
 
 export default function HomeHeroScene({ isDarkMode }: { isDarkMode: boolean }) {
+  const reducedMotion = useReducedMotion();
   return (
     <Canvas
+      frameloop={reducedMotion ? 'demand' : 'always'}
       style={{ width: '100%', height: '100%' }}
       camera={{ position: [0, 0.08, 3.15], fov: 35 }}
       dpr={[1, 2]}
@@ -211,7 +214,7 @@ export default function HomeHeroScene({ isDarkMode }: { isDarkMode: boolean }) {
         enablePan={false}
         enableDamping
         dampingFactor={0.07}
-        autoRotate
+        autoRotate={!reducedMotion}
         autoRotateSpeed={0.55}
         minPolarAngle={Math.PI * 0.32}
         maxPolarAngle={Math.PI * 0.68}

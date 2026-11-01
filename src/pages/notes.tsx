@@ -7,6 +7,7 @@ import Head from 'next/head';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { ArrowRight } from 'lucide-react';
+import { useScrollReveal } from '@/lib/useScrollReveal';
 
 export async function getStaticProps() {
   const allNotesData = getSortedNotesData();
@@ -30,6 +31,7 @@ type Note = {
 export default function Notes({ allNotesData }: { allNotesData: Note[] }) {
   const [selectedTag, setSelectedTag] = useState<string>('all');
   const [showAllTags, setShowAllTags] = useState(false);
+  const listRef = useScrollReveal<HTMLDivElement>(selectedTag);
 
   const tagCounts = new Map<string, number>();
   allNotesData.forEach((note) =>
@@ -71,25 +73,17 @@ export default function Notes({ allNotesData }: { allNotesData: Note[] }) {
         <Header />
 
         <main className="mx-auto w-full max-w-3xl flex-grow px-6 pb-24 pt-28 md:pt-36">
-          <motion.header
-            className="mb-14"
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: 'easeOut' }}
-          >
+          <header className="motion-page-heading mb-14">
             <h1 className="font-serif text-5xl font-normal leading-[1.05] md:text-[64px]">Notes</h1>
             <p className="mt-6 max-w-xl text-[17px] leading-relaxed text-muted dark:text-dmuted">
               Working notes on generative models, computer graphics, mathematics, and physics —
               written to think clearly.
             </p>
-          </motion.header>
+          </header>
 
           {/* Tag filter */}
-          <motion.div
+          <div
             className="scrollbar-none -mx-6 mb-6 flex gap-x-6 overflow-x-auto px-6 sm:mx-0 sm:flex-wrap sm:gap-y-3 sm:overflow-visible sm:px-0"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.15 }}
           >
             {uniqueTags.map((tag) => {
               const active = selectedTag === tag;
@@ -111,6 +105,7 @@ export default function Notes({ allNotesData }: { allNotesData: Note[] }) {
                   {active && (
                     <motion.span
                       layoutId="note-tag-underline"
+                      transition={{ type: 'spring', stiffness: 300, damping: 30 }}
                       className="absolute bottom-0 left-0 h-px w-full bg-coral"
                     />
                   )}
@@ -125,21 +120,17 @@ export default function Notes({ allNotesData }: { allNotesData: Note[] }) {
                 {showAllTags ? 'fewer' : `+${hiddenCount} more`}
               </button>
             )}
-          </motion.div>
+          </div>
 
           {/* Notes list, grouped by year */}
-          <motion.div
-            key={selectedTag}
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease: 'easeOut' }}
-          >
+          <div ref={listRef}>
             {notesByYear.map(([year, notes]) => (
               <section key={year} className="border-t border-line dark:border-dline">
                 <h2 className="pt-8 font-serif text-lg tabular-nums text-coral">{year}</h2>
                 {notes.map(({ id, date, title, summary, tags, coverImage, coverPlaceholder }) => (
                   <Link
                     key={id}
+                    data-reveal
                     href={`/notes/${id}`}
                     className="group block border-b border-line py-8 no-underline last:border-b-0 dark:border-dline"
                   >
@@ -184,7 +175,7 @@ export default function Notes({ allNotesData }: { allNotesData: Note[] }) {
                 ))}
               </section>
             ))}
-          </motion.div>
+          </div>
 
           {filteredNotes.length === 0 && (
             <div className="py-20 text-center">

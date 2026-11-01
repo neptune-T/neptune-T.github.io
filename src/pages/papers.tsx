@@ -1,7 +1,7 @@
 import { getSortedPapersData } from '@/lib/papers';
 import Head from 'next/head';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
+import { useScrollReveal } from '@/lib/useScrollReveal';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { FileText, Github, Globe, Link as LinkIcon, Trophy } from 'lucide-react';
@@ -76,6 +76,7 @@ type PaperLink = {
 };
 
 export default function Papers({ allPapersData }: { allPapersData: Paper[] }) {
+  const listRef = useScrollReveal<HTMLDivElement>();
   return (
     <>
       <Head>
@@ -87,12 +88,7 @@ export default function Papers({ allPapersData }: { allPapersData: Paper[] }) {
         <Header />
 
         <main className="mx-auto w-full max-w-5xl flex-grow px-6 pb-24 pt-28 md:pt-36">
-          <motion.header
-            className="mb-14"
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: 'easeOut' }}
-          >
+          <header className="motion-page-heading mb-14">
             <h1 className="font-serif text-5xl font-normal leading-[1.05] md:text-[64px]">
               Publications
             </h1>
@@ -100,10 +96,10 @@ export default function Papers({ allPapersData }: { allPapersData: Paper[] }) {
               Selected research papers, conference proceedings, and preprints in computer vision
               and generative AI.
             </p>
-          </motion.header>
+          </header>
 
-          <div className="border-t border-line dark:border-dline">
-            {allPapersData.map((paper, index) => {
+          <div ref={listRef} className="border-t border-line dark:border-dline">
+            {allPapersData.map((paper) => {
               const links: PaperLink[] = [
                 paper.arxiv_url && { href: paper.arxiv_url, label: 'arXiv', icon: <FileText size={13} /> },
                 paper.github_url && { href: paper.github_url, label: 'Code', icon: <Github size={13} /> },
@@ -112,11 +108,9 @@ export default function Papers({ allPapersData }: { allPapersData: Paper[] }) {
               ].filter(Boolean) as PaperLink[];
 
               return (
-                <motion.article
+                <article
                   key={paper.id}
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.08 + 0.15, ease: 'easeOut' }}
+                  data-reveal
                   className="grid min-w-0 gap-8 border-b border-line py-12 dark:border-dline md:grid-cols-[5fr_7fr] md:gap-12"
                 >
                   {(paper.video || paper.image) && (
@@ -189,7 +183,7 @@ export default function Papers({ allPapersData }: { allPapersData: Paper[] }) {
                       </div>
                     )}
                   </div>
-                </motion.article>
+                </article>
               );
             })}
           </div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { useScrollReveal } from '@/lib/useScrollReveal';
 
 type SectionProps = {
   title: string;
@@ -14,17 +14,15 @@ type SectionProps = {
 // Two-column editorial section: the heading sits in a narrow left column and stays
 // pinned while the right column scrolls past it on wide screens.
 export default function Section({ title, id, action, className = '', children }: SectionProps) {
+  const ref = useScrollReveal<HTMLElement>();
   return (
-    <motion.section
+    <section
+      ref={ref}
       id={id}
       className={`mx-auto mt-24 w-full max-w-5xl px-6 md:mt-32 ${className}`}
-      initial={{ opacity: 0, y: 16 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.12 }}
-      transition={{ duration: 0.7, ease: 'easeOut' }}
     >
       <div className="grid gap-10 border-t border-line pt-14 dark:border-dline md:grid-cols-[1fr_2fr] md:gap-16">
-        <div className="md:sticky md:top-28 md:self-start">
+        <div data-reveal className="md:sticky md:top-28 md:self-start">
           <h2 className="font-serif text-3xl font-normal leading-tight md:text-[40px]">{title}</h2>
           {action && (
             <Link
@@ -41,6 +39,6 @@ export default function Section({ title, id, action, className = '', children }:
         </div>
         <div className="min-w-0">{children}</div>
       </div>
-    </motion.section>
+    </section>
   );
 }

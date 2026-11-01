@@ -1,4 +1,5 @@
 import '@/styles/globals.css'
+import '@/styles/motion.css'
 import 'katex/dist/katex.min.css';
 import type { AppProps } from 'next/app'
 import Head from 'next/head';

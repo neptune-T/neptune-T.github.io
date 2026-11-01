@@ -72,7 +72,9 @@ const Header: React.FC = () => {
             className="flex h-11 w-11 items-center justify-center rounded-full text-muted transition-colors duration-300 hover:text-ink active:scale-95 dark:text-dmuted dark:hover:text-dink"
             aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
           >
-            {isDarkMode ? <Sun size={17} /> : <Moon size={17} />}
+            <span key={String(isDarkMode)} className="motion-theme-icon" aria-hidden="true">
+              {isDarkMode ? <Sun size={17} /> : <Moon size={17} />}
+            </span>
           </button>
 
           <button
@@ -97,7 +99,7 @@ const Header: React.FC = () => {
                 href={href}
                 aria-current={isActive(href) ? 'page' : undefined}
                 onClick={() => setMobileOpen(false)}
-                className={`border-b border-line py-3 text-sm no-underline last:border-b-0 dark:border-dline ${
+                className={`motion-menu-item border-b border-line py-3 text-sm no-underline last:border-b-0 dark:border-dline ${
                   isActive(href)
                     ? 'text-ink dark:text-dink'
                     : 'text-muted dark:text-dmuted'
