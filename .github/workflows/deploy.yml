@@ -29,9 +29,8 @@ jobs:
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
-        with:
-          # 让 GitHub Pages 以 Next.js 静态站点方式处理（含禁用 Jekyll 等默认行为）
-          static_site_generator: next
+        # next.config.ts owns static export, basePath and trailingSlash.
+        # Automatic injection only detects JS configs and would create a competing next.config.js.
           
       - name: Install dependencies
         run: npm install --legacy-peer-deps
@@ -39,22 +38,15 @@ jobs:
       - name: Build
         run: npm run build
         env:
-          # GitHub Pages:
-          # - 用户主页仓库：<owner>.github.io -> 根路径（空 basePath）
-          # - 项目仓库：/repoName -> 需要 basePath=/repoName
-          NEXT_PUBLIC_BASE_PATH: ${{ github.event.repository.name == format('{0}.github.io', github.repository_owner) && '' || format('/{0}', github.event.repository.name) }}
+          # This user site is hosted at the origin root. An `&& '' || ...`
+          # expression always falls through and incorrectly adds the repo name.
+          NEXT_PUBLIC_BASE_PATH: ''
 
       - name: Disable Jekyll (allow _next/)
         run: touch ./out/.nojekyll
 
-      - name: Verify export output (must include _next/)
-        run: |
-          echo "== out/.nojekyll ==" && ls -la ./out/.nojekyll
-          echo "== out root (top 50) ==" && ls -la ./out | head -n 50
-          echo "== out/models ==" && ls -la ./out/models || true
-          echo "== out/models/bunny.ply ==" && ls -la ./out/models/bunny.ply || true
-          echo "== out/_next/static (top) ==" && ls -la ./out/_next/static | head -n 50
-          echo "== out/_next/static/css (top) ==" && ls -la ./out/_next/static/css | head -n 50
+      - name: Verify exported routes and asset URLs
+        run: node scripts/verify-export.mjs
           
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
