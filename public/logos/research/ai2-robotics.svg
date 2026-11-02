@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 88 44" role="img" aria-labelledby="title">
+  <title>AI² Robotics</title>
+  <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 34 20 9l13 25M12 25h16" stroke-width="3.5"/>
+    <path d="M40 10v24" stroke-width="3.5"/>
+    <path d="M51 14c2.5-4 10-4.5 12.5-.5 4.5 7-11 9-12 17h13" stroke-width="3"/>
+    <path d="M73 12h8M77 8v8" stroke-width="2"/>
+  </g>
+</svg>

@@ -83,6 +83,13 @@ const researchExperience = [
     focus: 'Vision-Language-Action Models, Generative Models, Robotic Manipulation',
   },
   {
+    institution: 'AI² Robotics',
+    logo: '/logos/research/ai2-robotics.svg',
+    logoDarkClass: 'dark:invert',
+    period: '2026 – Present',
+    focus: 'Embodied Intelligence, VLA Deployment, Long-Horizon Mobile Manipulation',
+  },
+  {
     institution: 'Zhipu AI',
     logo: '/logos/research/zhipu.svg',
     period: '2025 – 2026',
@@ -187,7 +194,7 @@ export default function HomePage({
               </div>
               <nav aria-label="CV and social profiles" className="mt-5 flex flex-wrap items-center gap-6 text-sm">
                 <a href={withBasePath(CV_PATH)} target="_blank" rel="noreferrer" className="inline-flex min-h-11 items-center gap-1 text-muted hover:text-ink dark:text-dmuted dark:hover:text-dink">
-                  <span className="link-title">CV (PDF)</span><ArrowUpRight size={14} aria-hidden="true" />
+                  <span className="link-title">CV</span><ArrowUpRight size={14} aria-hidden="true" />
                 </a>
                 {externalLinks.map(({ href, title }) => (
                   <a key={href} href={href} target="_blank" rel="noreferrer" className="inline-flex min-h-11 items-center gap-1 text-muted hover:text-ink dark:text-dmuted dark:hover:text-dink">
