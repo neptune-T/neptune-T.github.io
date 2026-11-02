@@ -9,7 +9,7 @@ import { ArrowUpRight } from 'lucide-react';
 import { getTravelData } from '@/lib/travel';
 import { getHonorsData } from '@/lib/honors';
 import { withBasePath } from '@/lib/basePath';
-import { GITHUB_URL, X_URL } from '@/lib/site';
+import { CV_PATH, GITHUB_URL, X_URL } from '@/lib/site';
 import { useTheme } from '@/context/ThemeContext';
 
 const ReactECharts = dynamic(() => import('echarts-for-react'), { ssr: false });
@@ -218,6 +218,9 @@ export default function About({ travelData, honorsData }: AboutProps) {
                 generative models at the Institute of Automation, CAS, and on mathematical
                 reasoning at Zhipu AI.
               </p>
+              <a href={withBasePath(CV_PATH)} target="_blank" rel="noreferrer" className="mt-5 inline-flex min-h-11 items-center gap-2 text-sm text-ink dark:text-dink">
+                <span className="link-title">CV (PDF)</span><ArrowUpRight size={14} aria-hidden="true" />
+              </a>
               <dl className="mt-10 grid grid-cols-2 gap-x-8 gap-y-6 border-t border-line pt-8 text-sm dark:border-dline sm:grid-cols-3">
                 <div>
                   <dt className="text-faint dark:text-dfaint">Currently</dt>

@@ -11,7 +11,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useTheme } from '@/context/ThemeContext';
 import { withBasePath } from '@/lib/basePath';
-import { GITHUB_URL, SITE_URL, X_URL } from '@/lib/site';
+import { CV_PATH, GITHUB_URL, SITE_URL, X_URL } from '@/lib/site';
 import Section from '@/components/Section';
 import LazyVideo from '@/components/LazyVideo';
 import FadeImage from '@/components/FadeImage';
@@ -185,7 +185,10 @@ export default function HomePage({
                   <span className="link-title">About me</span><ArrowRight size={15} aria-hidden="true" />
                 </Link>
               </div>
-              <nav aria-label="Social profiles" className="mt-5 flex items-center gap-6 text-sm">
+              <nav aria-label="CV and social profiles" className="mt-5 flex flex-wrap items-center gap-6 text-sm">
+                <a href={withBasePath(CV_PATH)} target="_blank" rel="noreferrer" className="inline-flex min-h-11 items-center gap-1 text-muted hover:text-ink dark:text-dmuted dark:hover:text-dink">
+                  <span className="link-title">CV (PDF)</span><ArrowUpRight size={14} aria-hidden="true" />
+                </a>
                 {externalLinks.map(({ href, title }) => (
                   <a key={href} href={href} target="_blank" rel="noreferrer" className="inline-flex min-h-11 items-center gap-1 text-muted hover:text-ink dark:text-dmuted dark:hover:text-dink">
                     {title}<ArrowUpRight size={14} aria-hidden="true" />
